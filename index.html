@@ -3157,6 +3157,95 @@
       return '🤸';
     }
 
+    // Temas cromáticos por material (evitando Naranja y Morado, reservados para Cardio y Fuerza)
+    const MATERIAL_THEMES = {
+      mancuernas: {
+        key: 'mancuernas',
+        name: 'Mancuernas',
+        colorName: 'Azul',
+        emoji: '🏋️‍♀️',
+        bgClasses: 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800/70',
+        thumbBorder: 'border-blue-300 dark:border-blue-700',
+        badgeClasses: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
+      },
+      kettlebell: {
+        key: 'kettlebell',
+        name: 'Kettlebell',
+        colorName: 'Rojo',
+        emoji: '🏋️',
+        bgClasses: 'bg-red-50/90 dark:bg-red-950/40 border-red-200 dark:border-red-800/70',
+        thumbBorder: 'border-red-300 dark:border-red-700',
+        badgeClasses: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30'
+      },
+      goma: {
+        key: 'goma',
+        name: 'Goma',
+        colorName: 'Lima',
+        emoji: '🎗️',
+        bgClasses: 'bg-lime-50/90 dark:bg-lime-950/40 border-lime-200 dark:border-lime-800/70',
+        thumbBorder: 'border-lime-300 dark:border-lime-700',
+        badgeClasses: 'bg-lime-500/15 text-lime-800 dark:text-lime-300 border-lime-500/30'
+      },
+      aro: {
+        key: 'aro',
+        name: 'Aro',
+        colorName: 'Rosa',
+        emoji: '⭕',
+        bgClasses: 'bg-pink-50/90 dark:bg-pink-950/40 border-pink-200 dark:border-pink-800/70',
+        thumbBorder: 'border-pink-300 dark:border-pink-700',
+        badgeClasses: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30'
+      },
+      esterilla: {
+        key: 'esterilla',
+        name: 'Esterilla',
+        colorName: 'Esmeralda',
+        emoji: '🧘',
+        bgClasses: 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/70',
+        thumbBorder: 'border-emerald-300 dark:border-emerald-700',
+        badgeClasses: 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30'
+      },
+      silla: {
+        key: 'silla',
+        name: 'Silla',
+        colorName: 'Cian',
+        emoji: '🪑',
+        bgClasses: 'bg-cyan-50/90 dark:bg-cyan-950/40 border-cyan-200 dark:border-cyan-800/70',
+        thumbBorder: 'border-cyan-300 dark:border-cyan-700',
+        badgeClasses: 'bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30'
+      },
+      pared: {
+        key: 'pared',
+        name: 'Pared',
+        colorName: 'Pizarra',
+        emoji: '🧱',
+        bgClasses: 'bg-slate-100/90 dark:bg-slate-900/80 border-slate-300 dark:border-slate-700',
+        thumbBorder: 'border-slate-400 dark:border-slate-600',
+        badgeClasses: 'bg-slate-500/15 text-slate-700 dark:text-slate-300 border-slate-500/30'
+      },
+      corporal: {
+        key: 'corporal',
+        name: 'Corporal',
+        colorName: 'Turquesa',
+        emoji: '🤸',
+        bgClasses: 'bg-teal-50/90 dark:bg-teal-950/40 border-teal-200 dark:border-teal-800/70',
+        thumbBorder: 'border-teal-300 dark:border-teal-700',
+        badgeClasses: 'bg-teal-500/15 text-teal-800 dark:text-teal-300 border-teal-500/30'
+      }
+    };
+
+    function getMaterialTheme(materialKey, materialName) {
+      if (materialKey && MATERIAL_THEMES[materialKey]) return MATERIAL_THEMES[materialKey];
+      const name = (materialName || '').toLowerCase();
+      if (name.includes('mancuerna')) return MATERIAL_THEMES.mancuernas;
+      if (name.includes('kettle') || name.includes('pesa')) return MATERIAL_THEMES.kettlebell;
+      if (name.includes('goma') || name.includes('banda')) return MATERIAL_THEMES.goma;
+      if (name.includes('aro')) return MATERIAL_THEMES.aro;
+      if (name.includes('esterilla')) return MATERIAL_THEMES.esterilla;
+      if (name.includes('silla')) return MATERIAL_THEMES.silla;
+      if (name.includes('pared')) return MATERIAL_THEMES.pared;
+      return MATERIAL_THEMES.corporal;
+    }
+
     function renderActiveUI() {
       if (!activeStations.length) generateRandomWorkout(false);
       currentStationIdx = Math.max(0, Math.min(activeStations.length - 1, currentStationIdx));
@@ -3705,7 +3794,7 @@
         return;
       }
 
-      container.innerHTML = filtered.map(ex => {
+      container.innerHTML = filtered.map((ex, idx) => {
         const cData = counts[ex.id] || { count: 0, lastDate: null };
         const useCount = cData.count || 0;
         let dateStr = 'Sin realizar aún';
@@ -3717,25 +3806,35 @@
         }
 
         const isAero = ex.type === 'AERÓBICO';
+        const matTheme = getMaterialTheme(ex.materialKey, ex.material);
 
         return `
-          <div class="p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-start gap-3 shadow-sm">
-            <div class="w-16 h-16 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 shrink-0 bg-slate-100 dark:bg-slate-800 flex items-center justify-center shadow-inner">
-              ${getExerciseSVG(ex.id, ex.name, ex.materialKey)}
-            </div>
-            <div class="flex-1 min-w-0 space-y-1">
-              <div class="flex items-center justify-between gap-1">
-                <span class="text-[10px] font-mono font-black ${isAero ? 'text-orange-500' : 'text-purple-500'}">${ex.type} • ${getMaterialEmoji(ex.material)} ${ex.material}</span>
-                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${useCount > 0 ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-slate-200 dark:bg-slate-800 text-slate-500'}">
-                  📊 ${useCount} ${useCount === 1 ? 'vez' : 'veces'}
-                </span>
+          <div class="overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition hover:shadow-md flex flex-col">
+            <!-- Parte de arriba: Naranja (Cardio) o Morado (Fuerza) -->
+            <div class="${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-1.5 flex items-center justify-between gap-2 shadow-sm">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="w-5 h-5 rounded bg-black/25 text-white flex items-center justify-center font-mono font-black text-[10px] shrink-0">#${idx + 1}</span>
+                <span class="text-[11px] font-black uppercase tracking-wider">${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'}</span>
+                <span class="text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full backdrop-blur-sm truncate">${matTheme.emoji} ${matTheme.name}</span>
               </div>
-              <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">${ex.name}</h4>
-              <p class="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 font-medium">${ex.cue}</p>
-              ${ex.advanced ? `<p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold truncate">▲ ${ex.advanced}</p>` : ''}
-              <div class="text-[10px] text-slate-400 dark:text-slate-500 pt-0.5 flex items-center gap-1 font-semibold">
-                <span>📅 Última vez:</span>
-                <span class="${useCount > 0 ? 'text-slate-700 dark:text-slate-300 font-bold' : ''}">${dateStr}</span>
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/20 text-white/95 shrink-0">
+                📊 ${useCount} ${useCount === 1 ? 'vez' : 'veces'}
+              </span>
+            </div>
+
+            <!-- Cuerpo de la tarjeta con fondo del material -->
+            <div class="p-3 flex items-start gap-3">
+              <div class="w-16 h-16 rounded-xl overflow-hidden border ${matTheme.thumbBorder} shrink-0 bg-slate-900 flex items-center justify-center shadow-inner">
+                ${getExerciseSVG(ex.id, ex.name, ex.materialKey)}
+              </div>
+              <div class="flex-1 min-w-0 space-y-1">
+                <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">${ex.name}</h4>
+                <p class="text-[11px] text-slate-700 dark:text-slate-300 line-clamp-2 font-medium">${ex.cue}</p>
+                ${ex.advanced ? `<p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold truncate">▲ ${ex.advanced}</p>` : ''}
+                <div class="text-[10px] text-slate-500 dark:text-slate-400 pt-0.5 flex items-center gap-1 font-semibold">
+                  <span>📅 Última vez:</span>
+                  <span class="${useCount > 0 ? 'text-slate-800 dark:text-slate-200 font-bold' : ''}">${dateStr}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -3853,73 +3952,75 @@
         const isFree = !!st.isFree;
         const cData = counts[st.id] || { count: 0, lastDate: null };
         const useCount = cData.count || 0;
-
-        let matText = isFree ? 'LIBRE' : (st.material ? st.material.toUpperCase() : 'CORPORAL');
-        matText = matText.replace(/BANDA LARGA[^\w]*/gi, 'GOMA').replace(/BANDA DECATHLON/gi, 'GOMA').replace(/BANDA/gi, 'GOMA').replace(/\s*\d+KG/gi, '').trim();
-        if (matText === 'MANCUERNAS 2KG') matText = 'MANCUERNAS';
-        const typeBadge = st.type === 'AERÓBICO' 
-          ? '<span class="px-2 py-0.5 rounded-md bg-orange-500/20 text-orange-600 dark:text-orange-400 font-extrabold text-[10px]">CARDIO</span>'
-          : (st.type === 'FUERZA' ? '<span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-600 dark:text-purple-400 font-extrabold text-[10px]">FUERZA</span>' : '<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-extrabold text-[10px]">ESTACIÓN</span>');
+        const isAero = st.type === 'AERÓBICO';
+        const matTheme = isFree ? {
+          key: 'libre',
+          name: 'Libre',
+          emoji: '⏱️',
+          bgClasses: 'bg-slate-50/90 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800',
+          thumbBorder: 'border-slate-300 dark:border-slate-700'
+        } : getMaterialTheme(st.materialKey, st.material);
 
         const thumb = isFree 
-          ? (st.type === 'AERÓBICO'
+          ? (isAero
               ? `<div class="w-14 h-14 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-500 text-2xl font-black shrink-0">🏃‍♀️</div>`
               : (st.type === 'FUERZA'
                   ? `<div class="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-500 text-2xl font-black shrink-0">🏋️‍♀️</div>`
                   : `<div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl shrink-0">⏱️</div>`))
           : (st.customPhoto 
-              ? `<img src="${st.customPhoto}" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shrink-0">`
-              : `<div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center overflow-hidden p-1 shrink-0">${getExerciseSVG(st.id, st.name, st.materialKey)}</div>`);
+              ? `<img src="${st.customPhoto}" class="w-14 h-14 rounded-2xl object-cover border ${matTheme.thumbBorder} shrink-0">`
+              : `<div class="w-14 h-14 rounded-2xl bg-slate-900 border ${matTheme.thumbBorder} flex items-center justify-center overflow-hidden p-1 shrink-0 shadow-inner">${getExerciseSVG(st.id, st.name, st.materialKey)}</div>`);
 
-        const cueText = st.cue || (isFree ? (st.type === 'AERÓBICO' ? 'Estación cardiovascular libre a ritmo moderado/alto.' : 'Estación de tonificación y fuerza muscular libre.') : '');
+        const cueText = st.cue || (isFree ? (isAero ? 'Estación cardiovascular libre a ritmo moderado/alto.' : 'Estación de tonificación y fuerza muscular libre.') : '');
 
         return `
-          <div class="p-3.5 sm:p-4 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800/90 rounded-2xl shadow-sm space-y-3 transition-all hover:border-slate-400">
-            <!-- Cabecera de la estación: badges a la izquierda y botones reordenar/sustituir a la derecha -->
-            <div class="flex items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-2">
-              <div class="flex items-center gap-1.5 flex-wrap min-w-0">
-                <span class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-mono font-black text-xs shrink-0 border border-slate-200 dark:border-slate-700">${idx + 1}</span>
-                ${typeBadge}
-                ${!isFree ? `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">${matText}</span>` : `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">LIBRE</span>`}
-                ${!isFree ? `
-                  <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${useCount > 0 ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'}">
+          <div class="overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition-all hover:shadow-md">
+            <!-- Cabecera de la estación: Naranja (Cardio) o Morado (Fuerza) -->
+            <div class="${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-2 flex items-center justify-between gap-2 shadow-sm">
+              <div class="flex items-center gap-2 flex-wrap min-w-0">
+                <span class="w-6 h-6 rounded-lg bg-black/25 text-white flex items-center justify-center font-mono font-black text-xs shrink-0 shadow-inner">${idx + 1}</span>
+                <span class="font-black text-xs uppercase tracking-wider">${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'}</span>
+                <span class="text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full backdrop-blur-sm truncate">${matTheme.emoji} ${isFree ? 'LIBRE' : matTheme.name}</span>
+                ${!isFree && useCount > 0 ? `
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-black/20 text-white/95">
                     📊 ${useCount} ${useCount === 1 ? 'uso' : 'usos'}
                   </span>
                 ` : ''}
               </div>
 
               <div class="flex items-center gap-1.5 shrink-0">
-                <div class="flex items-center bg-slate-100 dark:bg-slate-800/80 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700">
-                  <button onclick="moveStation(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Subir posición">
+                <div class="flex items-center bg-black/25 rounded-xl p-0.5 backdrop-blur-sm">
+                  <button onclick="moveStation(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white/20 text-white active:scale-90"'} class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition" title="Subir posición">
                     ▲
                   </button>
-                  <button onclick="moveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Bajar posición">
+                  <button onclick="moveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white/20 text-white active:scale-90"'} class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition" title="Bajar posición">
                     ▼
                   </button>
                 </div>
 
-                <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm" title="Elegir o sustituir este ejercicio">
+                <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm backdrop-blur-sm" title="Elegir o sustituir este ejercicio">
                   <span>${isFree ? '✨' : '🔄'}</span>
                   <span>${isFree ? 'Elegir' : 'Sustituir'}</span>
                 </button>
               </div>
             </div>
 
-            <!-- Fila principal: Ilustración y Nombre completo con todo el ancho disponible sin compactar -->
-            <div class="flex items-center gap-3.5">
-              ${thumb}
-              <div class="min-w-0 flex-1">
-                <h4 class="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug tracking-tight">${st.name}</h4>
+            <!-- Cuerpo de la estación con fondo del material -->
+            <div class="p-3.5 sm:p-4 space-y-3">
+              <div class="flex items-center gap-3.5">
+                ${thumb}
+                <div class="min-w-0 flex-1">
+                  <h4 class="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug tracking-tight">${st.name}</h4>
+                </div>
               </div>
-            </div>
 
-            <!-- Explicación técnica y progresión -->
-            ${cueText ? `
-              <div class="pt-2 border-t border-slate-100 dark:border-slate-800/60">
-                <p class="text-xs text-slate-600 dark:text-slate-300 font-medium leading-relaxed">${cueText}</p>
-                ${st.advanced ? `<p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">▲ Progresión: ${st.advanced}</p>` : ''}
-              </div>
-            ` : ''}
+              ${cueText ? `
+                <div class="pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <p class="text-xs text-slate-700 dark:text-slate-300 font-medium leading-relaxed">${cueText}</p>
+                  ${st.advanced ? `<p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">▲ Progresión: ${st.advanced}</p>` : ''}
+                </div>
+              ` : ''}
+            </div>
           </div>
         `;
       }).join('');
@@ -3990,28 +4091,30 @@
       container.innerHTML = filtered.map(ex => {
         const cData = counts[ex.id] || { count: 0, lastDate: null };
         const useCount = cData.count || 0;
+        const isAero = ex.type === 'AERÓBICO';
+        const matTheme = getMaterialTheme(ex.materialKey, ex.material);
 
         return `
-          <div onclick="executeSwap('${ex.id}')" class="p-3 rounded-2xl border cursor-pointer flex flex-col gap-1.5 transition ${target && ex.name === target.name ? 'bg-emerald-500/15 border-emerald-500' : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:border-slate-400'}">
-            <div class="flex items-center justify-between gap-3">
-              <div class="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shrink-0 bg-slate-900 flex items-center justify-center p-0.5">
+          <div onclick="executeSwap('${ex.id}')" class="overflow-hidden rounded-2xl border cursor-pointer flex flex-col transition ${target && ex.name === target.name ? 'ring-2 ring-emerald-500 border-emerald-500' : ''} ${matTheme.bgClasses} hover:border-slate-400 shadow-sm">
+            <!-- Parte de arriba: Naranja (Cardio) o Morado (Fuerza) -->
+            <div class="${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-2.5 py-1 flex items-center justify-between text-[10px] font-black uppercase tracking-wider shadow-sm">
+              <span class="flex items-center gap-1">${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'} • ${matTheme.emoji} ${matTheme.name}</span>
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-bold bg-black/20 text-white/95 shrink-0">
+                📊 ${useCount} ${useCount === 1 ? 'uso' : 'usos'}
+              </span>
+            </div>
+
+            <!-- Cuerpo con fondo del material -->
+            <div class="p-2.5 flex items-center justify-between gap-3">
+              <div class="w-12 h-12 rounded-xl overflow-hidden border ${matTheme.thumbBorder} shrink-0 bg-slate-900 flex items-center justify-center p-0.5 shadow-inner">
                 ${getExerciseSVG(ex.id, ex.name, ex.materialKey)}
               </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between gap-1 mb-0.5">
-                  <div class="flex items-center gap-1.5 truncate">
-                    <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded ${ex.type === 'AERÓBICO' ? 'bg-orange-500/20 text-orange-400' : 'bg-purple-500/20 text-purple-400'}">${ex.type}</span>
-                    <span class="text-[10px] text-slate-400 font-bold truncate">${getMaterialEmoji(ex.material)} ${ex.material}</span>
-                  </div>
-                  <span class="px-1.5 py-0.5 rounded-md text-[9px] font-bold ${useCount > 0 ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-slate-200 dark:bg-slate-800 text-slate-400'} shrink-0">
-                    📊 ${useCount} ${useCount === 1 ? 'uso' : 'usos'}
-                  </span>
-                </div>
                 <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-snug">${ex.name}</h4>
+                ${ex.cue ? `<p class="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-1 font-medium leading-tight">${ex.cue}</p>` : ''}
               </div>
-              <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 shrink-0 px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20">Elegir</span>
+              <span class="text-xs font-black text-emerald-700 dark:text-emerald-300 shrink-0 px-2.5 py-1 bg-emerald-500/15 rounded-lg border border-emerald-500/30">Elegir</span>
             </div>
-            ${ex.cue ? `<p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 pl-0.5 font-medium leading-tight">${ex.cue}</p>` : ''}
           </div>
         `;
       }).join('');
@@ -4258,20 +4361,39 @@
       if (container) {
         container.innerHTML = activeStations.map((item, idx) => {
         const isAero = item.type === 'AERÓBICO';
+        const matTheme = item.isFree ? {
+          key: 'libre',
+          name: 'Libre',
+          emoji: '⏱️',
+          bgClasses: 'bg-slate-50/90 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800',
+          thumbBorder: 'border-slate-300 dark:border-slate-700'
+        } : getMaterialTheme(item.materialKey, item.material);
+
         return `
-          <div class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-between gap-3 shadow-sm animate-pop">
-            <div class="relative w-14 h-14 rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 shrink-0 bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-              ${item.customPhoto ? `<img src="${item.customPhoto}" class="w-full h-full object-cover">` : getExerciseSVG(item.id, item.name, item.materialKey)}
-              <span class="absolute bottom-0 right-0 bg-black/80 px-1 text-[9px] font-bold text-slate-300 font-mono">${item.materialIcon}</span>
+          <div class="overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm animate-pop flex flex-col transition">
+            <!-- Parte superior: Naranja (Cardio) o Morado (Fuerza) -->
+            <div class="${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-1.5 flex items-center justify-between text-[11px] font-black uppercase tracking-wider shadow-sm">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="w-5 h-5 rounded bg-black/25 text-white flex items-center justify-center font-mono font-black text-[10px] shrink-0">#${idx + 1}</span>
+                <span>${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'}</span>
+              </div>
+              <span class="text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full backdrop-blur-sm truncate">${matTheme.emoji} ${item.isFree ? 'LIBRE' : matTheme.name}</span>
             </div>
-            <div class="flex-1 min-w-0">
-              <span class="text-[10px] font-mono font-bold ${isAero ? 'text-orange-500' : 'text-purple-500'}">ESTACIÓN #${idx + 1} • ${item.type}</span>
-              <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">${item.name}</h4>
-              <span class="text-xs text-slate-500 dark:text-slate-400 block truncate">${getMaterialEmoji(item.material)} ${item.material}</span>
+
+            <!-- Cuerpo con fondo del material -->
+            <div class="p-3 flex items-center justify-between gap-3">
+              <div class="relative w-14 h-14 rounded-xl overflow-hidden border ${matTheme.thumbBorder} shrink-0 bg-slate-900 flex items-center justify-center shadow-inner">
+                ${item.customPhoto ? `<img src="${item.customPhoto}" class="w-full h-full object-cover">` : getExerciseSVG(item.id, item.name, item.materialKey)}
+                <span class="absolute bottom-0 right-0 bg-black/80 px-1 text-[9px] font-bold text-slate-300 font-mono">${item.materialIcon || ''}</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug truncate">${item.name}</h4>
+                <span class="text-xs text-slate-600 dark:text-slate-300 block truncate font-medium">${matTheme.emoji} ${item.material}</span>
+              </div>
+              <button onclick="openSwapModal(${idx})" class="px-3 py-1.5 bg-white/80 dark:bg-slate-800/90 hover:bg-white dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-bold shrink-0 active:scale-95 transition shadow-sm min-h-[36px]">
+                ⇄ Cambiar
+              </button>
             </div>
-            <button onclick="openSwapModal(${idx})" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold shrink-0 active:scale-95 transition min-h-[38px]">
-              ⇄ Cambiar
-            </button>
           </div>
         `;
       }).join('');
