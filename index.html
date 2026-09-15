@@ -3411,8 +3411,13 @@
         subTitle.innerText = `${activeStations.length} Estaciones • ${formatTimeMMSS(totalSec)}`;
       }
 
+      const counts = (groupData().counts || {});
+
       container.innerHTML = activeStations.map((st, idx) => {
         const isFree = !!st.isFree;
+        const cData = counts[st.id] || { count: 0, lastDate: null };
+        const useCount = cData.count || 0;
+
         let matText = isFree ? 'LIBRE' : (st.material ? st.material.toUpperCase() : 'CORPORAL');
         matText = matText.replace(/BANDA LARGA[^\w]*/gi, 'GOMA').replace(/BANDA DECATHLON/gi, 'GOMA').replace(/BANDA/gi, 'GOMA').replace(/\s*\d+KG/gi, '').trim();
         if (matText === 'MANCUERNAS 2KG') matText = 'MANCUERNAS';
@@ -3422,43 +3427,59 @@
 
         const thumb = isFree 
           ? (st.type === 'AERÓBICO'
-              ? `<div class="w-12 h-12 rounded-xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-500 text-xl font-black">🏃‍♀️</div>`
+              ? `<div class="w-14 h-14 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-500 text-2xl font-black shrink-0">🏃‍♀️</div>`
               : (st.type === 'FUERZA'
-                  ? `<div class="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-500 text-xl font-black">🏋️‍♀️</div>`
-                  : `<div class="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">⏱️</div>`))
+                  ? `<div class="w-14 h-14 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-500 text-2xl font-black shrink-0">🏋️‍♀️</div>`
+                  : `<div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl shrink-0">⏱️</div>`))
           : (st.customPhoto 
-              ? `<img src="${st.customPhoto}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 dark:border-slate-700">`
-              : `<div class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center overflow-hidden p-1">${getExerciseSVG(st.id, st.name, st.materialKey)}</div>`);
+              ? `<img src="${st.customPhoto}" class="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shrink-0">`
+              : `<div class="w-14 h-14 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center overflow-hidden p-1 shrink-0">${getExerciseSVG(st.id, st.name, st.materialKey)}</div>`);
+
+        const cueText = st.cue || (isFree ? (st.type === 'AERÓBICO' ? 'Estación cardiovascular libre a ritmo moderado/alto.' : 'Estación de tonificación y fuerza muscular libre.') : '');
 
         return `
-          <div class="p-3 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800/90 rounded-2xl shadow-sm flex items-center justify-between gap-2.5 transition-all hover:border-slate-400">
-            <div class="flex items-center gap-2.5 min-w-0 flex-1">
-              <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-mono font-black text-xs shrink-0 border border-slate-200 dark:border-slate-700">${idx + 1}</span>
-              ${thumb}
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-1.5 mb-0.5">
-                  ${typeBadge}
-                  ${!isFree ? `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">${matText}</span>` : `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">LIBRE</span>`}
+          <div class="p-3.5 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800/90 rounded-2xl shadow-sm space-y-2.5 transition-all hover:border-slate-400">
+            <div class="flex items-start justify-between gap-2.5">
+              <div class="flex items-start gap-3 min-w-0 flex-1">
+                <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center font-mono font-black text-xs shrink-0 border border-slate-200 dark:border-slate-700 mt-0.5">${idx + 1}</span>
+                ${thumb}
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                    ${typeBadge}
+                    ${!isFree ? `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">${matText}</span>` : `<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">LIBRE</span>`}
+                    ${!isFree ? `
+                      <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${useCount > 0 ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'}">
+                        📊 ${useCount} ${useCount === 1 ? 'uso' : 'usos'}
+                      </span>
+                    ` : ''}
+                  </div>
+                  <h4 class="text-sm sm:text-base font-black text-slate-900 dark:text-white leading-tight">${st.name}</h4>
                 </div>
-                <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">${st.name}</h4>
+              </div>
+
+              <div class="flex items-center gap-1 shrink-0">
+                <div class="flex items-center bg-slate-100 dark:bg-slate-800/80 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700">
+                  <button onclick="moveStation(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Subir posición">
+                    ▲
+                  </button>
+                  <button onclick="moveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Bajar posición">
+                    ▼
+                  </button>
+                </div>
+
+                <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm" title="Elegir o sustituir este ejercicio">
+                  <span>${isFree ? '✨' : '🔄'}</span>
+                  <span>${isFree ? 'Elegir' : 'Sustituir'}</span>
+                </button>
               </div>
             </div>
 
-            <div class="flex items-center gap-1 shrink-0">
-              <div class="flex items-center bg-slate-100 dark:bg-slate-800/80 rounded-xl p-0.5 border border-slate-200 dark:border-slate-700">
-                <button onclick="moveStation(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Subir posición">
-                  ▲
-                </button>
-                <button onclick="moveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 active:scale-90"'} class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black transition" title="Bajar posición">
-                  ▼
-                </button>
+            ${cueText ? `
+              <div class="pt-1.5 border-t border-slate-100 dark:border-slate-800/70 pl-10 sm:pl-10">
+                <p class="text-xs text-slate-600 dark:text-slate-300 font-medium leading-relaxed">${cueText}</p>
+                ${st.advanced ? `<p class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-1">▲ Progresión: ${st.advanced}</p>` : ''}
               </div>
-
-              <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm" title="Elegir o sustituir este ejercicio">
-                <span>${isFree ? '✨' : '🔄'}</span>
-                <span>${isFree ? 'Elegir' : 'Sustituir'}</span>
-              </button>
-            </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -3524,21 +3545,36 @@
         return;
       }
 
-      container.innerHTML = filtered.map(ex => `
-        <div onclick="executeSwap('${ex.id}')" class="p-2.5 rounded-2xl border cursor-pointer flex items-center justify-between gap-3 transition ${target && ex.name === target.name ? 'bg-emerald-500/15 border-emerald-500' : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:border-slate-400'}">
-          <div class="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shrink-0 bg-slate-900 flex items-center justify-center p-0.5">
-            ${getExerciseSVG(ex.id, ex.name, ex.materialKey)}
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1.5 mb-0.5">
-              <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded ${ex.type === 'AERÓBICO' ? 'bg-orange-500/20 text-orange-400' : 'bg-purple-500/20 text-purple-400'}">${ex.type}</span>
-              <span class="text-[10px] text-slate-400 font-bold truncate">${getMaterialEmoji(ex.material)} ${ex.material}</span>
+      const counts = groupData().counts || {};
+
+      container.innerHTML = filtered.map(ex => {
+        const cData = counts[ex.id] || { count: 0, lastDate: null };
+        const useCount = cData.count || 0;
+
+        return `
+          <div onclick="executeSwap('${ex.id}')" class="p-3 rounded-2xl border cursor-pointer flex flex-col gap-1.5 transition ${target && ex.name === target.name ? 'bg-emerald-500/15 border-emerald-500' : 'bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800 hover:border-slate-400'}">
+            <div class="flex items-center justify-between gap-3">
+              <div class="w-12 h-12 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shrink-0 bg-slate-900 flex items-center justify-center p-0.5">
+                ${getExerciseSVG(ex.id, ex.name, ex.materialKey)}
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-1 mb-0.5">
+                  <div class="flex items-center gap-1.5 truncate">
+                    <span class="text-[9px] font-black uppercase px-1.5 py-0.5 rounded ${ex.type === 'AERÓBICO' ? 'bg-orange-500/20 text-orange-400' : 'bg-purple-500/20 text-purple-400'}">${ex.type}</span>
+                    <span class="text-[10px] text-slate-400 font-bold truncate">${getMaterialEmoji(ex.material)} ${ex.material}</span>
+                  </div>
+                  <span class="px-1.5 py-0.5 rounded-md text-[9px] font-bold ${useCount > 0 ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-slate-200 dark:bg-slate-800 text-slate-400'} shrink-0">
+                    📊 ${useCount} ${useCount === 1 ? 'uso' : 'usos'}
+                  </span>
+                </div>
+                <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">${ex.name}</h4>
+              </div>
+              <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 shrink-0 px-2.5 py-1 bg-emerald-500/10 rounded-lg border border-emerald-500/20">Elegir</span>
             </div>
-            <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">${ex.name}</h4>
+            ${ex.cue ? `<p class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 pl-0.5 font-medium leading-tight">${ex.cue}</p>` : ''}
           </div>
-          <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 shrink-0 px-2 py-1 bg-emerald-500/10 rounded-lg">Elegir</span>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function openSwapModal(idx) {
