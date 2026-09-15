@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Sergio Fit - Laboratorio de Transiciones Premium</title>
+  <title>Sergio Fit - Laboratorio de Transiciones Cinéticas 2.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,186 +27,61 @@
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
-      background-color: #05080e;
+      background-color: #04070d;
       color: #f8fafc;
       overflow-x: hidden;
     }
 
     /* =========================================================================
-       1. VARIABLES Y COLORES DE FASES
+       1. VARIABLES Y TEMAS DINÁMICOS
        ========================================================================= */
     :root {
       --anim-duration: 0.85s;
-      --color-work: #10b981;       /* Verde Esmeralda */
-      --color-rest: #f59e0b;       /* Amarillo / Ámbar */
-      --color-round-rest: #ef4444; /* Rojo Intenso */
-      --glow-color: rgba(16, 185, 129, 0.4);
+      --theme-primary: #10b981;
+      --theme-glow: rgba(16, 185, 129, 0.45);
+      --theme-bg-gradient: radial-gradient(circle at 50% 32%, rgba(16, 185, 129, 0.16) 0%, rgba(4, 7, 13, 0.98) 72%);
     }
 
     .theme-work {
       --theme-primary: #10b981;
-      --theme-glow: rgba(16, 185, 129, 0.45);
-      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+      --theme-glow: rgba(16, 185, 129, 0.55);
+      --theme-bg-gradient: radial-gradient(circle at 50% 32%, rgba(16, 185, 129, 0.18) 0%, rgba(4, 7, 13, 0.98) 72%);
     }
 
     .theme-rest {
       --theme-primary: #f59e0b;
-      --theme-glow: rgba(245, 158, 11, 0.45);
-      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+      --theme-glow: rgba(245, 158, 11, 0.55);
+      --theme-bg-gradient: radial-gradient(circle at 50% 32%, rgba(245, 158, 11, 0.18) 0%, rgba(4, 7, 13, 0.98) 72%);
     }
 
     .theme-round-rest {
       --theme-primary: #ef4444;
-      --theme-glow: rgba(239, 68, 68, 0.45);
-      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+      --theme-glow: rgba(239, 68, 68, 0.55);
+      --theme-bg-gradient: radial-gradient(circle at 50% 32%, rgba(239, 68, 68, 0.18) 0%, rgba(4, 7, 13, 0.98) 72%);
     }
 
-    /* Fondo dinámico reactivo con transición suave */
     #stageBackground {
       background: var(--theme-bg-gradient);
       transition: background 0.6s ease;
     }
 
     /* =========================================================================
-       ANIMACIÓN 1: SÚPER ZOOM WARP (PETICIÓN ESPECÍFICA DEL USUARIO)
-       El círculo se expande brutalmente hacia la cámara tocando los límites,
-       hace una inmersión cinemática, transmuta el color/ejercicio y retorna
-       elásticamente a su escala normal.
+       OPCIÓN 1: ONDA SÓNICA ORIGINAL (LA QUE LE GUSTÓ AL USUARIO)
+       Implosión de carga elástica (0.86) + detonación con rebote resorte (1.16).
        ========================================================================= */
-    .anim-super-zoom {
-      animation: superZoomKeyframe var(--anim-duration) cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    .anim-opt-1 {
+      animation: shockwaveOriginal var(--anim-duration) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       will-change: transform, filter;
-      perspective: 1200px;
     }
-
-    @keyframes superZoomKeyframe {
-      0% {
-        transform: scale(1) translateZ(0);
-        filter: brightness(1);
-      }
-      42% {
-        transform: scale(2.45) translateZ(120px);
-        filter: brightness(1.7) blur(1.5px);
-        box-shadow: 0 0 100px var(--theme-glow);
-      }
-      52% {
-        transform: scale(2.35) translateZ(110px);
-        filter: brightness(1.6) blur(1px);
-      }
-      100% {
-        transform: scale(1) translateZ(0);
-        filter: brightness(1) blur(0);
-      }
-    }
-
-    /* Flash sutil de fondo durante el súper zoom */
-    .zoom-ambient-flash {
-      animation: zoomFlashKeyframe var(--anim-duration) ease-out forwards;
-    }
-    @keyframes zoomFlashKeyframe {
-      0% { opacity: 0; }
-      45% { opacity: 0.6; transform: scale(1.1); }
-      100% { opacity: 0; transform: scale(1); }
-    }
-
-    /* =========================================================================
-       ANIMACIÓN 2: CRISTAL LÍQUIDO & LENS REFRACTION (HIGH-END GLASS MORPH)
-       Efecto de lente de vidrio esmerilado que se empaña de luz líquida,
-       desenfoca con distorsión cromática y desvela la nueva fase con una
-       onda expansiva de refracción.
-       ========================================================================= */
-    .anim-liquid-glass {
-      animation: liquidGlassKeyframe var(--anim-duration) cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      will-change: transform, backdrop-filter, filter;
-    }
-
-    @keyframes liquidGlassKeyframe {
-      0% {
-        transform: scale(1);
-        filter: blur(0px) contrast(100%);
-      }
-      38% {
-        transform: scale(0.92);
-        filter: blur(8px) contrast(150%) brightness(1.4);
-      }
-      65% {
-        transform: scale(1.08);
-        filter: blur(3px) contrast(120%) brightness(1.2);
-      }
-      100% {
-        transform: scale(1);
-        filter: blur(0px) contrast(100%) brightness(1);
-      }
-    }
-
-    .glass-liquid-overlay {
-      position: absolute;
-      inset: 0;
-      backdrop-filter: blur(0px);
-      background: radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 100%);
-      pointer-events: none;
-      opacity: 0;
-    }
-    .glass-liquid-overlay.active {
-      animation: glassLiquidWave var(--anim-duration) ease-out forwards;
-    }
-    @keyframes glassLiquidWave {
-      0% { opacity: 0; backdrop-filter: blur(0px); }
-      40% { opacity: 1; backdrop-filter: blur(18px) saturate(220%); }
-      100% { opacity: 0; backdrop-filter: blur(0px); }
-    }
-
-    /* =========================================================================
-       ANIMACIÓN 3: GIRO ESPACIAL 3D (3D SPATIAL FLIP TITANIUM COIN)
-       El círculo rota en 3D sobre el eje Y (o X) como una moneda de titanio
-       de precisión, mostrando la nueva fase en su reverso con iluminación
-       especular dinámico y profundidad de perspectiva.
-       ========================================================================= */
-    .anim-spatial-flip {
-      animation: spatialFlipKeyframe var(--anim-duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
-      transform-style: preserve-3d;
-      perspective: 1400px;
-      will-change: transform;
-    }
-
-    @keyframes spatialFlipKeyframe {
-      0% {
-        transform: perspective(1400px) rotateY(0deg) scale(1);
-      }
-      45% {
-        transform: perspective(1400px) rotateY(90deg) scale(1.18);
-        filter: brightness(1.8);
-      }
-      55% {
-        transform: perspective(1400px) rotateY(90deg) scale(1.18);
-        filter: brightness(1.8);
-      }
-      100% {
-        transform: perspective(1400px) rotateY(0deg) scale(1);
-        filter: brightness(1);
-      }
-    }
-
-    /* =========================================================================
-       ANIMACIÓN 4: ONDA EXPANSIVA SÓNICA (SHOCKWAVE PULSE & AURA BLAST)
-       El círculo realiza una micro-contracción de carga energética (implosión)
-       y luego detona un anillo luminoso supersónico que barre la pantalla
-       y transmuta el color en un latido cinético deportivo.
-       ========================================================================= */
-    .anim-shockwave {
-      animation: shockwaveDiscKeyframe var(--anim-duration) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-      will-change: transform;
-    }
-
-    @keyframes shockwaveDiscKeyframe {
+    @keyframes shockwaveOriginal {
       0% { transform: scale(1); }
-      25% { transform: scale(0.86); filter: brightness(0.8); }
+      24% { transform: scale(0.86); filter: brightness(0.8); }
       50% { transform: scale(1.16); filter: brightness(1.6); }
-      75% { transform: scale(0.97); }
+      74% { transform: scale(0.97); }
       100% { transform: scale(1); filter: brightness(1); }
     }
 
-    .shockwave-ring {
+    .ring-opt-1 {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -214,124 +89,365 @@
       height: 320px;
       border-radius: 50%;
       border: 4px solid var(--theme-primary);
-      transform: translate(-50%, -50%) scale(0.8);
+      transform: translate(-50%, -50%) scale(0.85);
       opacity: 0;
       pointer-events: none;
       box-shadow: 0 0 35px var(--theme-primary), inset 0 0 25px var(--theme-primary);
     }
-    .shockwave-ring.active {
-      animation: shockwaveRingBlast var(--anim-duration) cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    .ring-opt-1.active {
+      animation: ringBlast1 var(--anim-duration) cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
     }
-    @keyframes shockwaveRingBlast {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.85);
-        border-width: 6px;
-      }
-      50% {
-        opacity: 0.9;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(2.8);
-        border-width: 1px;
-      }
+    @keyframes ringBlast1 {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); border-width: 6px; }
+      50% { opacity: 0.9; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); border-width: 1px; }
     }
 
     /* =========================================================================
-       ANIMACIÓN 5: OBTURADOR DE NEÓN & APERTURA CINEMATOGRÁFICA (IRIS SHUTTER)
-       Un barrido de haz de luz circular tipo acelerador de partículas en 360°
-       con destello de neón que abre un nuevo portal visual.
+       OPCIÓN 2: DOBLE ONDA SÍSMICA & ESTALLIDO DE CHISPAS (DUAL SEISMIC BURST)
+       Dos anillos de choque supersónicos desfasados (90ms) + 8 chispas radiales
+       de energía cinética + micro-temblor de masa pesada de titanio.
        ========================================================================= */
-    .anim-iris-shutter {
-      animation: irisShutterKeyframe var(--anim-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    .anim-opt-2 {
+      animation: seismicDiscKeyframe var(--anim-duration) cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
       will-change: transform, filter;
     }
-
-    @keyframes irisShutterKeyframe {
-      0% {
-        transform: scale(1);
-        clip-path: circle(50% at 50% 50%);
-      }
-      35% {
-        transform: scale(0.9);
-        clip-path: circle(22% at 50% 50%);
-        filter: brightness(2) contrast(140%);
-      }
-      50% {
-        transform: scale(1.05);
-        clip-path: circle(25% at 50% 50%);
-      }
-      100% {
-        transform: scale(1);
-        clip-path: circle(50% at 50% 50%);
-        filter: brightness(1) contrast(100%);
-      }
+    @keyframes seismicDiscKeyframe {
+      0% { transform: scale(1); }
+      20% { transform: scale(0.82) rotate(-1deg); filter: brightness(0.7); }
+      44% { transform: scale(1.22) rotate(1.5deg); filter: brightness(2.1) drop-shadow(0 0 45px var(--theme-primary)); }
+      58% { transform: scale(0.93) rotate(-0.5deg); }
+      72% { transform: scale(1.06) rotate(0.3deg); }
+      86% { transform: scale(0.98); }
+      100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
     }
 
-    .iris-beam-ring {
+    /* Micro-temblor de impacto */
+    .stage-shake {
+      animation: stageMicroShake 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+    }
+    @keyframes stageMicroShake {
+      0%, 100% { transform: translate(0, 0); }
+      20% { transform: translate(-3px, 2px); }
+      40% { transform: translate(3px, -2px); }
+      60% { transform: translate(-2px, 1px); }
+      80% { transform: translate(1px, -1px); }
+    }
+
+    .ring-opt-2-primary {
       position: absolute;
-      inset: -14px;
+      top: 50%;
+      left: 50%;
+      width: 320px;
+      height: 320px;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, transparent 0deg, var(--theme-primary) 180deg, transparent 360deg);
+      border: 5px solid var(--theme-primary);
+      transform: translate(-50%, -50%) scale(0.8);
       opacity: 0;
       pointer-events: none;
-      filter: blur(4px);
+      box-shadow: 0 0 40px var(--theme-primary);
     }
-    .iris-beam-ring.active {
-      animation: irisBeamSpin var(--anim-duration) ease-out forwards;
+    .ring-opt-2-primary.active {
+      animation: ringBlast2Prim var(--anim-duration) cubic-bezier(0.12, 0.9, 0.2, 1) forwards;
     }
-    @keyframes irisBeamSpin {
-      0% { opacity: 0; transform: rotate(0deg) scale(0.9); }
-      30% { opacity: 1; transform: rotate(180deg) scale(1.1); }
-      80% { opacity: 0.8; transform: rotate(540deg) scale(1); }
-      100% { opacity: 0; transform: rotate(720deg) scale(1); }
+    @keyframes ringBlast2Prim {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); border-width: 8px; }
+      40% { opacity: 0.95; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(3.3); border-width: 1px; }
     }
 
-    /* Pulsación suave de standby */
-    .idle-pulse {
-      animation: idleBreathe 3.6s ease-in-out infinite alternate;
+    .ring-opt-2-secondary {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 3px dashed var(--theme-primary);
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 0 25px var(--theme-primary);
     }
-    @keyframes idleBreathe {
+    .ring-opt-2-secondary.active {
+      animation: ringBlast2Sec var(--anim-duration) cubic-bezier(0.1, 0.8, 0.3, 1) 0.09s forwards;
+    }
+    @keyframes ringBlast2Sec {
+      0% { opacity: 1; transform: translate(-50%, -50%) scale(0.85); border-width: 4px; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(2.5); border-width: 0.5px; }
+    }
+
+    /* Estallido radial de chispas/partículas */
+    .sparks-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      z-index: 35;
+    }
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--theme-primary);
+      box-shadow: 0 0 12px var(--theme-primary);
+      opacity: 0;
+    }
+    .sparks-container.active .spark {
+      animation: sparkFly var(--anim-duration) cubic-bezier(0.1, 0.85, 0.25, 1) forwards;
+    }
+    @keyframes sparkFly {
+      0% { opacity: 1; transform: rotate(var(--angle)) translateY(0) scaleY(1); }
+      40% { opacity: 1; transform: rotate(var(--angle)) translateY(-130px) scaleY(1.6); }
+      100% { opacity: 0; transform: rotate(var(--angle)) translateY(-240px) scaleY(0.4); }
+    }
+
+    /* =========================================================================
+       OPCIÓN 3: WARP HIPER-ESPACIAL & RAYOS CINÉTICOS (HYPER-TUNNEL SPEED FLARE)
+       Inspirado en saltos hiper-espaciales: Recoil a la profundidad Z (-160px)
+       con rayos radiales que convergen, seguido de un latigazo warp supersónico.
+       ========================================================================= */
+    .anim-opt-3 {
+      animation: hyperDriveWarp var(--anim-duration) cubic-bezier(0.18, 1, 0.22, 1) forwards;
+      transform-style: preserve-3d;
+      perspective: 1200px;
+      will-change: transform, filter;
+    }
+    @keyframes hyperDriveWarp {
+      0% {
+        transform: perspective(1200px) translateZ(0) scale(1);
+        filter: brightness(1);
+      }
+      28% {
+        transform: perspective(1200px) translateZ(-220px) scale(0.74);
+        filter: brightness(0.6) blur(1px);
+        box-shadow: 0 0 10px rgba(0,0,0,0.8);
+      }
+      50% {
+        transform: perspective(1200px) translateZ(120px) scale(1.36);
+        filter: brightness(2.4) blur(0.5px);
+        box-shadow: 0 0 80px var(--theme-primary);
+      }
+      72% {
+        transform: perspective(1200px) translateZ(-15px) scale(0.95);
+        filter: brightness(1.2);
+      }
+      100% {
+        transform: perspective(1200px) translateZ(0) scale(1);
+        filter: brightness(1) blur(0);
+      }
+    }
+
+    /* Rayos cinéticos de velocidad (Speed lines) */
+    .speed-lines-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(255,255,255,0.08) 70%, var(--theme-primary) 100%);
+      mix-blend-mode: screen;
+    }
+    .speed-lines-overlay.active {
+      animation: speedLinesFlash var(--anim-duration) ease-out forwards;
+    }
+    @keyframes speedLinesFlash {
+      0% { opacity: 0; transform: scale(0.6); }
+      30% { opacity: 0.9; transform: scale(1); }
+      60% { opacity: 1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.8); }
+    }
+
+    /* =========================================================================
+       OPCIÓN 4: LATIDO BIOMECÁNICO & SURGE DE ECG (CARDIAC LUB-DUB PULSE)
+       Ritmo cardíaco atlético real (Sístole / Diástole):
+       Contracción menor preliminar + estallido cardíaco mayor + salto odómetro
+       cinético de los números con onda de pulso biomecánica.
+       ========================================================================= */
+    .anim-opt-4 {
+      animation: cardiacLubDub var(--anim-duration) cubic-bezier(0.25, 1.4, 0.45, 1) forwards;
+      will-change: transform, filter;
+    }
+    @keyframes cardiacLubDub {
       0% { transform: scale(1); }
-      100% { transform: scale(1.03); }
+      16% { transform: scale(1.12); filter: brightness(1.3); } /* Primer latido (lub) */
+      30% { transform: scale(0.96); filter: brightness(0.9); }
+      48% { transform: scale(1.28); filter: brightness(2.2) drop-shadow(0 0 50px var(--theme-primary)); } /* Segundo latido maestro (dub) */
+      66% { transform: scale(0.94); }
+      82% { transform: scale(1.04); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    /* Salto cinético de dígitos (odometer bounce) */
+    .digits-kinetic-jump {
+      animation: digitsJump var(--anim-duration) cubic-bezier(0.18, 1, 0.32, 1) forwards;
+    }
+    @keyframes digitsJump {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      40% { transform: translateY(-38px) scale(0.85); opacity: 0; }
+      48% { transform: translateY(38px) scale(1.15); opacity: 0; }
+      75% { transform: translateY(-4px) scale(1.03); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    /* Aura de pulso cardíaco que inunda el fondo */
+    .cardiac-aura {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--theme-primary) 0%, transparent 68%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .cardiac-aura.active {
+      animation: cardiacSurge var(--anim-duration) ease-out forwards;
+    }
+    @keyframes cardiacSurge {
+      0% { opacity: 0; transform: scale(0.7); }
+      48% { opacity: 0.75; transform: scale(1.35); }
+      100% { opacity: 0; transform: scale(2.2); }
+    }
+
+    /* =========================================================================
+       OPCIÓN 5: FISIÓN DE PLASMA & DESTELLO ANAMÓRFICO (PLASMA FLARE IMPACT)
+       Inspirado en reactores cinéticos: Torsión giratoria 360° ultra rápida del
+       anillo exterior con destello anamórfico horizontal cegador que cruza la
+       pantalla, y onda de choque en lente de cristal esmerilado.
+       ========================================================================= */
+    .anim-opt-5 {
+      animation: plasmaDiscCore var(--anim-duration) cubic-bezier(0.2, 1.2, 0.3, 1) forwards;
+      will-change: transform, filter;
+    }
+    @keyframes plasmaDiscCore {
+      0% { transform: scale(1) rotate(0deg); }
+      26% { transform: scale(0.84) rotate(-15deg); filter: brightness(0.65); }
+      50% { transform: scale(1.26) rotate(180deg); filter: brightness(2.3); }
+      72% { transform: scale(0.96) rotate(345deg); }
+      88% { transform: scale(1.03) rotate(362deg); }
+      100% { transform: scale(1) rotate(360deg); filter: brightness(1); }
+    }
+
+    /* Haz de luz anamórfico horizontal (Cinematic Laser Flare) */
+    .anamorphic-flare {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.95) 45%, var(--theme-primary) 50%, rgba(255,255,255,0.95) 55%, transparent 100%);
+      transform: translateY(-50%) scaleX(0);
+      opacity: 0;
+      box-shadow: 0 0 25px 4px var(--theme-primary);
+      pointer-events: none;
+      z-index: 40;
+    }
+    .anamorphic-flare.active {
+      animation: flareBeamFlash var(--anim-duration) cubic-bezier(0.1, 0.8, 0.25, 1) forwards;
+    }
+    @keyframes flareBeamFlash {
+      0% { opacity: 0; transform: translateY(-50%) scaleX(0.1) scaleY(3); }
+      48% { opacity: 1; transform: translateY(-50%) scaleX(1) scaleY(4); }
+      70% { opacity: 0.8; transform: translateY(-50%) scaleX(1.1) scaleY(1.5); }
+      100% { opacity: 0; transform: translateY(-50%) scaleX(1.2) scaleY(0); }
+    }
+
+    /* Halo de plasma en lente circular */
+    .plasma-lens-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      background: radial-gradient(circle, transparent 45%, var(--theme-primary) 85%, white 100%);
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .plasma-lens-ring.active {
+      animation: plasmaLensWave var(--anim-duration) ease-out forwards;
+    }
+    @keyframes plasmaLensWave {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); filter: blur(2px); }
+      48% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); filter: blur(6px); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(2.8); filter: blur(14px); }
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none bg-[#05080e]">
+<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-5 select-none bg-[#04070d]">
 
-  <!-- CONTENEDOR PRINCIPAL DEL LAB -->
+  <!-- CONTENEDOR PRINCIPAL -->
   <div class="w-full max-w-2xl mx-auto flex flex-col items-center flex-1 justify-between relative">
 
-    <!-- CABECERA SUPERIOR DEL LABORATORIO -->
-    <header class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 pb-4 border-b border-white/10 shrink-0">
-      <div class="text-center sm:text-left">
-        <div class="flex items-center justify-center sm:justify-start gap-2">
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black tracking-wider uppercase border border-emerald-500/30">Laboratorio UI</span>
-          <span class="text-xs text-slate-400 font-mono">Sergio Fit v29</span>
+    <!-- CABECERA DEL LABORATORIO -->
+    <header class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 pt-1 pb-3 border-b border-white/10 shrink-0">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black tracking-wider uppercase border border-emerald-500/30">Motor Cinético 2.0</span>
+          <span class="text-xs text-slate-400 font-mono">Sergio Fit</span>
         </div>
-        <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight mt-0.5">Transiciones Premium de Fase</h1>
+        <h1 class="text-lg sm:text-xl font-black text-white tracking-tight mt-0.5">Laboratorio de Transiciones Atléticas</h1>
       </div>
 
-      <!-- SELECTOR DE VELOCIDAD -->
-      <div class="flex items-center gap-1 bg-white/5 border border-white/10 rounded-2xl p-1 shrink-0">
-        <button onclick="setSpeed('fast', 0.55)" id="btnSpeed-fast" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">0.5s Rápida</button>
-        <button onclick="setSpeed('normal', 0.85)" id="btnSpeed-normal" class="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 shadow-md transition">0.8s Normal</button>
-        <button onclick="setSpeed('cinema', 1.25)" id="btnSpeed-cinema" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">1.2s Cine</button>
+      <!-- SELECTORES: VELOCIDAD + SONIDO + BUCLE -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Selector de Velocidad -->
+        <div class="flex items-center gap-1 bg-white/5 border border-white/10 rounded-2xl p-1">
+          <button onclick="setSpeed('fast', 0.55)" id="btnSpeed-fast" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">0.5s</button>
+          <button onclick="setSpeed('normal', 0.85)" id="btnSpeed-normal" class="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 shadow-md transition">0.8s</button>
+          <button onclick="setSpeed('cinema', 1.25)" id="btnSpeed-cinema" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">1.2s</button>
+        </div>
+
+        <!-- Botón Silenciar / Sonido -->
+        <button onclick="toggleSound()" id="soundToggleBtn" class="p-2 rounded-2xl bg-white/5 border border-white/10 text-xs font-bold text-slate-300 hover:text-white active:scale-90 transition" title="Activar/Desactivar Audio">
+          🔊
+        </button>
+
+        <!-- Botón Auto-Loop (Bucle cada 3s) -->
+        <button onclick="toggleLoop()" id="loopToggleBtn" class="px-2.5 py-1.5 rounded-2xl bg-white/5 border border-white/10 text-xs font-bold text-slate-300 hover:text-white active:scale-95 transition flex items-center gap-1">
+          <span id="loopDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+          <span>Bucle</span>
+        </button>
       </div>
     </header>
 
-    <!-- ESCENARIO PRINCIPAL (SIMULADOR DEL TIMER EN VIVO) -->
-    <main id="stageBackground" class="theme-work w-full my-4 rounded-3xl border border-white/10 p-4 sm:p-8 flex flex-col items-center justify-center relative overflow-hidden min-h-[460px] sm:min-h-[500px] shadow-2xl transition-all duration-500">
+    <!-- ESCENARIO DEL TEMPORIZADOR EN VIVO -->
+    <main id="stageBackground" class="theme-work w-full my-3 rounded-3xl border border-white/10 p-3 sm:p-6 flex flex-col items-center justify-center relative overflow-hidden min-h-[440px] sm:min-h-[480px] shadow-2xl transition-all duration-500">
       
-      <!-- CAPAS DE EFECTOS SUPERPUESTOS -->
-      <div id="zoomFlashLayer" class="absolute inset-0 bg-white pointer-events-none opacity-0 z-30"></div>
-      <div id="glassLiquidLayer" class="glass-liquid-overlay z-30"></div>
-      <div id="shockwaveRingLayer" class="shockwave-ring z-30"></div>
-      <div id="irisBeamLayer" class="iris-beam-ring z-30"></div>
+      <!-- CAPAS DE EFECTOS ESPECIALES DE CADA OPCIÓN -->
+      <!-- Opción 1: Anillo sónico simple -->
+      <div id="ring1Layer" class="ring-opt-1 z-30"></div>
 
-      <!-- TOP BAR DEL TIMER (RÉPLICA EXACTA) -->
-      <div class="w-full max-w-sm flex items-center justify-between mb-4 z-20">
+      <!-- Opción 2: Doble anillo + chispas + temblor -->
+      <div id="ring2PrimLayer" class="ring-opt-2-primary z-30"></div>
+      <div id="ring2SecLayer" class="ring-opt-2-secondary z-30"></div>
+      <div id="sparksContainer" class="sparks-container">
+        <div class="spark" style="--angle: 0deg;"></div>
+        <div class="spark" style="--angle: 45deg;"></div>
+        <div class="spark" style="--angle: 90deg;"></div>
+        <div class="spark" style="--angle: 135deg;"></div>
+        <div class="spark" style="--angle: 180deg;"></div>
+        <div class="spark" style="--angle: 225deg;"></div>
+        <div class="spark" style="--angle: 270deg;"></div>
+        <div class="spark" style="--angle: 315deg;"></div>
+      </div>
+
+      <!-- Opción 3: Líneas de velocidad hiper-espacial -->
+      <div id="speedLinesLayer" class="speed-lines-overlay z-30"></div>
+
+      <!-- Opción 4: Pulso de aura cardíaca -->
+      <div id="cardiacAuraLayer" class="cardiac-aura z-30"></div>
+
+      <!-- Opción 5: Haz anamórfico + lente de plasma -->
+      <div id="anamorphicFlareLayer" class="anamorphic-flare"></div>
+      <div id="plasmaLensLayer" class="plasma-lens-ring z-30"></div>
+
+      <!-- BARRA SUPERIOR DE PRUEBA -->
+      <div class="w-full max-w-sm flex items-center justify-between mb-2 z-20">
         <div class="px-3 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md flex items-center gap-2 text-xs font-mono text-slate-300">
           <span>🔊 85%</span>
           <span class="text-white/30">|</span>
@@ -343,24 +459,22 @@
         </div>
       </div>
 
-      <!-- ESCENARIO DEL CÍRCULO DEL TIMER (DONDE ACTÚAN LAS ANIMACIONES) -->
+      <!-- CÍRCULO PRINCIPAL DEL TIMER (CENTRO DE IMPACTO KINÉTICO) -->
       <div class="relative flex items-center justify-center my-auto py-2">
 
-        <!-- WRAPPER ANIMABLE DEL CÍRCULO -->
-        <div id="timerCircleAnimWrapper" class="relative w-[310px] h-[310px] sm:w-[340px] sm:h-[340px] rounded-full flex items-center justify-center shrink-0 origin-center transition-transform">
+        <!-- WRAPPER ANIMABLE -->
+        <div id="timerCircleAnimWrapper" class="relative w-[305px] h-[305px] sm:w-[335px] sm:h-[335px] rounded-full flex items-center justify-center shrink-0 origin-center">
           
           <!-- ANILLO SVG RADIAL -->
           <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-2xl" viewBox="0 0 260 260">
-            <!-- Guía de fondo -->
             <circle cx="130" cy="130" r="120" stroke="rgba(255,255,255,0.08)" stroke-width="12" fill="none"/>
-            <!-- Progreso de Neón dinámico -->
             <circle id="demoRadialProgress" cx="130" cy="130" r="120" stroke="var(--theme-primary)" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="753.98" stroke-dashoffset="180" class="transition-all duration-300"/>
           </svg>
 
           <!-- DISCO INTERIOR CNC TITANIO -->
-          <div id="timerInnerDisc" class="w-[264px] h-[264px] sm:w-[290px] sm:h-[290px] rounded-full bg-slate-950/90 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden backdrop-blur-xl">
+          <div id="timerInnerDisc" class="w-[260px] h-[260px] sm:w-[285px] sm:h-[285px] rounded-full bg-slate-950/90 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden backdrop-blur-xl">
             
-            <!-- BADGE DE FASE SUPERIOR -->
+            <!-- BADGE DE FASE -->
             <div class="mb-1">
               <span id="demoPhaseBadge" class="px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-colors">
                 TRABAJO
@@ -372,9 +486,8 @@
               35
             </div>
 
-            <!-- ILUSTRACIÓN / ICONO DE LA FASE -->
+            <!-- ILUSTRACIÓN / ICONO -->
             <div id="demoVisualHolder" class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center shrink-0 mt-0.5 transition-all">
-              <!-- SVG de ejercicio en trabajo -->
               <svg class="w-full h-full text-emerald-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
                 <circle cx="50" cy="18" r="8" fill="currentColor"/>
                 <line x1="50" y1="26" x2="50" y2="58"/>
@@ -387,7 +500,7 @@
               </svg>
             </div>
 
-            <!-- NOMBRE DEL EJERCICIO DENTRO DEL DISCO -->
+            <!-- NOMBRE DEL EJERCICIO -->
             <div id="demoExerciseName" class="text-xs sm:text-sm font-bold text-slate-300 truncate max-w-[220px] px-2 mt-0.5">
               Press Militar Mancuernas
             </div>
@@ -395,160 +508,247 @@
         </div>
       </div>
 
-      <!-- PIE DEL ESCENARIO: INDICADOR DEL EFECTO ACTIVO -->
-      <div class="w-full max-w-sm flex items-center justify-between text-xs text-slate-400 z-20 mt-2">
-        <span class="font-mono">Fase actual: <b id="currentPhaseLabel" class="text-emerald-400 font-black">TRABAJO</b></span>
-        <span id="activeAnimNameBadge" class="px-2.5 py-0.5 rounded-lg bg-white/10 text-white font-bold font-mono">1. Súper Zoom 3D</span>
+      <!-- PIE DEL ESCENARIO -->
+      <div class="w-full max-w-sm flex items-center justify-between text-xs text-slate-400 z-20 mt-1">
+        <span class="font-mono">Fase: <b id="currentPhaseLabel" class="text-emerald-400 font-black">TRABAJO</b></span>
+        <span id="activeAnimNameBadge" class="px-2.5 py-0.5 rounded-lg bg-white/10 text-white font-bold font-mono">1. Onda Sónica (Original)</span>
       </div>
     </main>
 
-    <!-- SELECTOR DE LAS 5 OPCIONES PREMIUM -->
-    <section class="w-full space-y-3 mb-3 shrink-0">
+    <!-- SELECTOR DE LAS 5 OPCIONES DE ANIMACIÓN -->
+    <section class="w-full space-y-2 mb-3 shrink-0">
       <div class="flex items-center justify-between">
-        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400">Elige la Transición a Probar:</h3>
-        <span class="text-[11px] text-emerald-400 font-bold">Toca cualquier opción para activarla</span>
+        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400">Selecciona la Animación:</h3>
+        <span class="text-[11px] text-emerald-400 font-bold">Pulsa en cualquiera para verla en acción</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
-        <!-- OPCIÓN 1 (SOLICITADA POR EL USUARIO) -->
-        <button onclick="selectOption(1)" id="cardOpt-1" class="p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group">
+        
+        <!-- OPCIÓN 1: LA ORIGINAL QUE LE GUSTÓ -->
+        <button onclick="selectOption(1)" id="cardOpt-1" class="p-2.5 sm:p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-xs font-black text-emerald-400 group-hover:text-emerald-300">#1 Súper Zoom</span>
-            <span class="text-xs">🚀</span>
-          </div>
-          <p class="text-[10px] text-slate-300 leading-tight">Zoom inmersivo gigante al círculo con retorno elástico y cambio de color.</p>
-        </button>
-
-        <!-- OPCIÓN 2 -->
-        <button onclick="selectOption(2)" id="cardOpt-2" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-xs font-black text-slate-300 group-hover:text-white">#2 Cristal Líquido</span>
-            <span class="text-xs">💧</span>
-          </div>
-          <p class="text-[10px] text-slate-400 leading-tight">Efecto glassmorphism con refracción óptica, desenfoque y onda fluida.</p>
-        </button>
-
-        <!-- OPCIÓN 3 -->
-        <button onclick="selectOption(3)" id="cardOpt-3" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-xs font-black text-slate-300 group-hover:text-white">#3 Giro 3D Espacial</span>
-            <span class="text-xs">🪙</span>
-          </div>
-          <p class="text-[10px] text-slate-400 leading-tight">Moneda de titanio girando en el espacio 3D mostrando la fase al reverso.</p>
-        </button>
-
-        <!-- OPCIÓN 4 -->
-        <button onclick="selectOption(4)" id="cardOpt-4" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
-          <div class="flex items-center justify-between mb-1">
-            <span class="text-xs font-black text-slate-300 group-hover:text-white">#4 Onda Sónica</span>
+            <span class="text-xs font-black text-emerald-400">#1 Onda Sónica</span>
             <span class="text-xs">⚡</span>
           </div>
-          <p class="text-[10px] text-slate-400 leading-tight">Contracción implosiva seguida de una onda de choque expansiva de neón.</p>
+          <p class="text-[10px] text-slate-300 leading-tight"><b>La que te gustó:</b> Implosión elástica (0.86) + detonación de 1 anillo sónico.</p>
         </button>
 
-        <!-- OPCIÓN 5 -->
-        <button onclick="selectOption(5)" id="cardOpt-5" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+        <!-- OPCIÓN 2: DOBLE ONDA SÍSMICA + CHISPAS -->
+        <button onclick="selectOption(2)" id="cardOpt-2" class="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-xs font-black text-slate-300 group-hover:text-white">#5 Iris Neón Shutter</span>
-            <span class="text-xs">📸</span>
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#2 Doble Sísmica</span>
+            <span class="text-xs">💥</span>
           </div>
-          <p class="text-[10px] text-slate-400 leading-tight">Apertura de diafragma circular con barrido de haz de luz 360° deportivo.</p>
+          <p class="text-[10px] text-slate-400 leading-tight">Doble anillo de choque en eco, 8 chispas radiales y micro-temblor de impacto.</p>
+        </button>
+
+        <!-- OPCIÓN 3: WARP HIPER-ESPACIAL -->
+        <button onclick="selectOption(3)" id="cardOpt-3" class="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#3 Warp Túnel</span>
+            <span class="text-xs">🚀</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Retroceso a profundidad 3D Z con líneas de velocidad y catapulta supersónica.</p>
+        </button>
+
+        <!-- OPCIÓN 4: LATIDO BIOMECÁNICO -->
+        <button onclick="selectOption(4)" id="cardOpt-4" class="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#4 Pulso Cardíaco</span>
+            <span class="text-xs">🫀</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Doble latido real (Lub-Dub) con sobrecarga ECG y salto odómetro de números.</p>
+        </button>
+
+        <!-- OPCIÓN 5: FISIÓN DE PLASMA & FLARE -->
+        <button onclick="selectOption(5)" id="cardOpt-5" class="p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#5 Fisión Plasma</span>
+            <span class="text-xs">✨</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Giro 360° ultra rápido con haz láser anamórfico que corta la pantalla.</p>
         </button>
       </div>
     </section>
 
-    <!-- BOTONERA DE ACCIÓN RÁPIDA DE PRUEBA -->
-    <footer class="w-full bg-slate-900/90 border border-white/10 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shrink-0 backdrop-blur-xl">
+    <!-- BOTONERA DE PRUEBAS DE FASE -->
+    <footer class="w-full bg-slate-900/95 border border-white/10 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-2 shrink-0 backdrop-blur-xl">
       <div class="flex items-center gap-2 flex-wrap">
-        <button onclick="triggerTransition('WORK_TO_REST')" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-amber-500/25 flex items-center gap-1.5">
+        <button onclick="triggerTransition('WORK_TO_REST')" class="px-3.5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-amber-500/25 flex items-center gap-1.5">
           <span>🟢 ➜ 🟡</span>
-          <span>A Descanso (15s)</span>
+          <span>A Descanso</span>
         </button>
 
-        <button onclick="triggerTransition('REST_TO_WORK')" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-emerald-500/25 flex items-center gap-1.5">
+        <button onclick="triggerTransition('REST_TO_WORK')" class="px-3.5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-emerald-500/25 flex items-center gap-1.5">
           <span>🟡 ➜ 🟢</span>
-          <span>A Trabajo (40s)</span>
+          <span>A Trabajo</span>
         </button>
 
-        <button onclick="triggerTransition('WORK_TO_ROUND_REST')" class="px-4 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-rose-500/25 flex items-center gap-1.5">
+        <button onclick="triggerTransition('WORK_TO_ROUND_REST')" class="px-3.5 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-rose-500/25 flex items-center gap-1.5">
           <span>🟢 ➜ 🔴</span>
-          <span>Fin de Ronda (60s)</span>
+          <span>Fin Ronda</span>
         </button>
       </div>
 
-      <!-- BOTÓN REPETIR / PROBAR LA OPCIÓN ACTUAL -->
-      <button onclick="replayCurrent()" class="px-5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 border border-white/20 flex items-center gap-2">
+      <button onclick="replayCurrent()" class="px-4 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 border border-white/20 flex items-center gap-1.5">
         <span>🔄</span>
-        <span>Probar Actual</span>
+        <span>Reactivar Efecto</span>
       </button>
     </footer>
 
   </div>
 
-  <!-- SCRIPT INTERACTIVO DEL LABORATORIO -->
+  <!-- SCRIPT KINÉTICO AVANZADO -->
   <script>
     let currentOption = 1;
-    let currentPhase = 'WORK'; // 'WORK', 'REST', 'ROUND_REST'
+    let currentPhase = 'WORK';
     let animDuration = 0.85;
+    let soundEnabled = true;
+    let loopInterval = null;
 
     const ANIM_CLASSES = {
-      1: 'anim-super-zoom',
-      2: 'anim-liquid-glass',
-      3: 'anim-spatial-flip',
-      4: 'anim-shockwave',
-      5: 'anim-iris-shutter'
+      1: 'anim-opt-1',
+      2: 'anim-opt-2',
+      3: 'anim-opt-3',
+      4: 'anim-opt-4',
+      5: 'anim-opt-5'
     };
 
     const ANIM_NAMES = {
-      1: '1. Súper Zoom 3D',
-      2: '2. Cristal Líquido',
-      3: '3. Giro 3D Espacial',
-      4: '4. Onda Sónica',
-      5: '5. Iris Neón Shutter'
+      1: '1. Onda Sónica (Original)',
+      2: '2. Doble Onda Sísmica & Chispas',
+      3: '3. Warp Hiper-Espacial',
+      4: '4. Pulso Cardíaco Biomecánico',
+      5: '5. Fisión Plasma & Flare Láser'
     };
 
-    // Sintetizador de audio Web Audio para sentir el impacto de cada animación
+    // Sintetizador procedural de audio Web Audio API personalizado para cada opción
     let audioCtx = null;
-    function playTransitionSound(type) {
+    function getAudioCtx() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      return audioCtx;
+    }
+
+    function playSoundForOption(opt) {
+      if (!soundEnabled) return;
       try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const now = audioCtx.currentTime;
+        const ctx = getAudioCtx();
+        const now = ctx.currentTime;
 
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        if (type === 'zoom') {
-          // Barrido futurista que sube y baja
+        if (opt === 1) {
+          // Onda Sónica: Golpe sub-bass + sweep
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(220, now);
-          osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
-          osc.frequency.exponentialRampToValueAtTime(330, now + 0.7);
-          gain.gain.setValueAtTime(0.01, now);
-          gain.gain.linearRampToValueAtTime(0.2, now + 0.35);
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(700, now + 0.15);
+          osc.frequency.exponentialRampToValueAtTime(180, now + 0.5);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+          osc.start(now);
+          osc.stop(now + 0.6);
+        } else if (opt === 2) {
+          // Doble Sísmica: Doble golpe THUMP-THUMP con campana alta
+          [0, 0.09].forEach(delay => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(90, now + delay);
+            osc.frequency.exponentialRampToValueAtTime(320, now + delay + 0.12);
+            gain.gain.setValueAtTime(0.35, now + delay);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.45);
+            osc.start(now + delay);
+            osc.stop(now + delay + 0.5);
+          });
+        } else if (opt === 3) {
+          // Warp Hiper-Espacial: Láser de precarga descendente + estallido ascendente
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.linearRampToValueAtTime(160, now + 0.22);
+          osc.frequency.exponentialRampToValueAtTime(1200, now + 0.48);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.3, now + 0.48);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
           osc.start(now);
           osc.stop(now + 0.8);
-        } else if (type === 'glass') {
-          // Tono cristalino armónico
+        } else if (opt === 4) {
+          // Pulso Cardíaco: Doble latido real con filtro paso bajo (LUB-DUB)
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = 280;
+          filter.connect(ctx.destination);
+
+          // Primer latido
+          const o1 = ctx.createOscillator();
+          const g1 = ctx.createGain();
+          o1.connect(g1);
+          g1.connect(filter);
+          o1.type = 'sine';
+          o1.frequency.setValueAtTime(80, now);
+          o1.frequency.exponentialRampToValueAtTime(45, now + 0.12);
+          g1.gain.setValueAtTime(0.4, now);
+          g1.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+          o1.start(now);
+          o1.stop(now + 0.15);
+
+          // Segundo latido maestro (más potente)
+          const o2 = ctx.createOscillator();
+          const g2 = ctx.createGain();
+          o2.connect(g2);
+          g2.connect(filter);
+          o2.type = 'sine';
+          o2.frequency.setValueAtTime(110, now + 0.2);
+          o2.frequency.exponentialRampToValueAtTime(50, now + 0.4);
+          g2.gain.setValueAtTime(0.6, now + 0.2);
+          g2.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+          o2.start(now + 0.2);
+          o2.stop(now + 0.5);
+        } else if (opt === 5) {
+          // Fisión Plasma: Resonancia metálica con armónicos brillantes
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           osc.type = 'triangle';
-          osc.frequency.setValueAtTime(659.25, now); // E5
-          gain.gain.setValueAtTime(0.2, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
+          osc.frequency.setValueAtTime(587.33, now); // D5
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
+          osc.frequency.exponentialRampToValueAtTime(440, now + 0.6);
+          gain.gain.setValueAtTime(0.28, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
           osc.start(now);
-          osc.stop(now + 0.9);
-        } else {
-          // Bell deportivo clásico
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(800, now);
-          gain.gain.setValueAtTime(0.25, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
-          osc.start(now);
-          osc.stop(now + 0.7);
+          osc.stop(now + 0.75);
         }
-      } catch (e) {}
+      } catch(e) {}
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const btn = document.getElementById('soundToggleBtn');
+      if (btn) btn.innerText = soundEnabled ? '🔊' : '🔇';
+    }
+
+    function toggleLoop() {
+      const dot = document.getElementById('loopDot');
+      if (loopInterval) {
+        clearInterval(loopInterval);
+        loopInterval = null;
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-slate-500';
+      } else {
+        if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-ping';
+        replayCurrent();
+        loopInterval = setInterval(() => {
+          replayCurrent();
+        }, (animDuration * 1000) + 1600);
+      }
     }
 
     function setSpeed(mode, sec) {
@@ -570,17 +770,16 @@
 
     function selectOption(optNum) {
       currentOption = optNum;
-      
-      // Actualizar estilos de las tarjetas
+
       for (let i = 1; i <= 5; i++) {
         const card = document.getElementById(`cardOpt-${i}`);
         if (!card) continue;
         const titleSpan = card.querySelector('span');
         if (i === optNum) {
-          card.className = "p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group";
+          card.className = "p-2.5 sm:p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group shadow-lg shadow-emerald-500/15";
           if (titleSpan) titleSpan.className = "text-xs font-black text-emerald-400";
         } else {
-          card.className = "p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group";
+          card.className = "p-2.5 sm:p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group";
           if (titleSpan) titleSpan.className = "text-xs font-black text-slate-300 group-hover:text-white";
         }
       }
@@ -588,17 +787,15 @@
       const badge = document.getElementById('activeAnimNameBadge');
       if (badge) badge.innerText = ANIM_NAMES[optNum];
 
-      // Disparar animación automáticamente para que el usuario la vea de inmediato
       replayCurrent();
     }
 
     function replayCurrent() {
-      // Alternar automáticamente de fase para que se aprecie la transición
       const nextTarget = (currentPhase === 'WORK') ? 'WORK_TO_REST' : 'REST_TO_WORK';
       triggerTransition(nextTarget);
     }
 
-    function triggerTransition(transitionType) {
+    function triggerTransition(targetTransition) {
       const circleWrapper = document.getElementById('timerCircleAnimWrapper');
       const stage = document.getElementById('stageBackground');
       const digits = document.getElementById('demoDigits');
@@ -609,49 +806,62 @@
 
       if (!circleWrapper) return;
 
-      // Limpiar clases de animación anteriores
+      // 1. Resetear todas las clases activas de animación
       Object.values(ANIM_CLASSES).forEach(cls => circleWrapper.classList.remove(cls));
-      void circleWrapper.offsetWidth; // Force Reflow
+      if (stage) stage.classList.remove('stage-shake');
+      if (digits) digits.classList.remove('digits-kinetic-jump');
 
-      // Capas auxiliares
-      const zoomFlash = document.getElementById('zoomFlashLayer');
-      const glassLayer = document.getElementById('glassLiquidLayer');
-      const shockwaveLayer = document.getElementById('shockwaveRingLayer');
-      const irisLayer = document.getElementById('irisBeamLayer');
+      const r1 = document.getElementById('ring1Layer');
+      const r2P = document.getElementById('ring2PrimLayer');
+      const r2S = document.getElementById('ring2SecLayer');
+      const sparks = document.getElementById('sparksContainer');
+      const speedLines = document.getElementById('speedLinesLayer');
+      const cardiacAura = document.getElementById('cardiacAuraLayer');
+      const flare = document.getElementById('anamorphicFlareLayer');
+      const plasmaLens = document.getElementById('plasmaLensLayer');
 
-      if (zoomFlash) zoomFlash.classList.remove('zoom-ambient-flash');
-      if (glassLayer) glassLayer.classList.remove('active');
-      if (shockwaveLayer) shockwaveLayer.classList.remove('active');
-      if (irisLayer) irisLayer.classList.remove('active');
+      if (r1) r1.classList.remove('active');
+      if (r2P) r2P.classList.remove('active');
+      if (r2S) r2S.classList.remove('active');
+      if (sparks) sparks.classList.remove('active');
+      if (speedLines) speedLines.classList.remove('active');
+      if (cardiacAura) cardiacAura.classList.remove('active');
+      if (flare) flare.classList.remove('active');
+      if (plasmaLens) plasmaLens.classList.remove('active');
 
-      // Aplicar animación seleccionada
-      const activeAnimClass = ANIM_CLASSES[currentOption];
-      circleWrapper.classList.add(activeAnimClass);
+      void circleWrapper.offsetWidth; // Forzar reflow
 
-      // Activar capas complementarias según la opción
-      if (currentOption === 1 && zoomFlash) {
-        zoomFlash.classList.add('zoom-ambient-flash');
-        playTransitionSound('zoom');
-      } else if (currentOption === 2 && glassLayer) {
-        glassLayer.classList.add('active');
-        playTransitionSound('glass');
-      } else if (currentOption === 4 && shockwaveLayer) {
-        shockwaveLayer.classList.add('active');
-        playTransitionSound('bell');
-      } else if (currentOption === 5 && irisLayer) {
-        irisLayer.classList.add('active');
-        playTransitionSound('zoom');
-      } else {
-        playTransitionSound('bell');
+      // 2. Aplicar la animación seleccionada
+      circleWrapper.classList.add(ANIM_CLASSES[currentOption]);
+
+      // Disparar capas auxiliares según la opción
+      if (currentOption === 1) {
+        if (r1) r1.classList.add('active');
+      } else if (currentOption === 2) {
+        if (r2P) r2P.classList.add('active');
+        if (r2S) r2S.classList.add('active');
+        if (sparks) sparks.classList.add('active');
+        if (stage) stage.classList.add('stage-shake');
+      } else if (currentOption === 3) {
+        if (speedLines) speedLines.classList.add('active');
+      } else if (currentOption === 4) {
+        if (cardiacAura) cardiacAura.classList.add('active');
+        if (digits) digits.classList.add('digits-kinetic-jump');
+      } else if (currentOption === 5) {
+        if (flare) flare.classList.add('active');
+        if (plasmaLens) plasmaLens.classList.add('active');
       }
 
-      // En la mitad de la animación (tiempo apex), transmutar los datos visuales
+      // Audio procedural sincronizado
+      playSoundForOption(currentOption);
+
+      // 3. Mutación de estado en el vértice de la animación (45% del tiempo)
       const midpointMs = (animDuration * 1000) * 0.44;
 
       setTimeout(() => {
-        if (transitionType === 'WORK_TO_REST') {
+        if (targetTransition === 'WORK_TO_REST') {
           currentPhase = 'REST';
-          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-rest';
+          if (stage) stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-rest';
           if (badge) {
             badge.innerText = 'DESCANSO';
             badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-amber-500/20 text-amber-400 border border-amber-500/30';
@@ -670,9 +880,9 @@
               </div>
             `;
           }
-        } else if (transitionType === 'REST_TO_WORK') {
+        } else if (targetTransition === 'REST_TO_WORK') {
           currentPhase = 'WORK';
-          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-work';
+          if (stage) stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-work';
           if (badge) {
             badge.innerText = 'TRABAJO';
             badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
@@ -697,9 +907,9 @@
               </svg>
             `;
           }
-        } else if (transitionType === 'WORK_TO_ROUND_REST') {
+        } else if (targetTransition === 'WORK_TO_ROUND_REST') {
           currentPhase = 'ROUND_REST';
-          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-round-rest';
+          if (stage) stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-round-rest';
           if (badge) {
             badge.innerText = 'FIN DE RONDA';
             badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-rose-500/20 text-rose-400 border border-rose-500/30';
@@ -722,7 +932,6 @@
       }, midpointMs);
     }
 
-    // Inicializar con la opción 1
     window.onload = function() {
       selectOption(1);
     };
