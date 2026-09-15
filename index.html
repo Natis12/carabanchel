@@ -1208,7 +1208,7 @@
             </div>
 
             <div class="text-center px-2 shrink-0 -mt-1 sm:-mt-1.5">
-              <span id="m1Material" class="inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow mb-2 sm:mb-2.5 transition-all">
+              <span id="m1Material" class="inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all">
                 MANCUERNAS
               </span>
               <h3 id="m1Name" class="font-exercise text-lg sm:text-xl text-white tracking-wider leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all max-w-[320px] mx-auto break-words">
@@ -4284,7 +4284,7 @@
       const nextIdx = (currentStationIdx + 1) % activeStations.length;
       const nextEx = activeStations[nextIdx];
 
-      const isRest = (timerPhase !== 'WORK');
+      const isRest = (timerPhase === 'REST_SERIES' || timerPhase === 'REST_ROUND' || timerPhase === 'PREP');
 
       // 1. Fase actual
       updateScreenColor();
@@ -4351,16 +4351,16 @@
           m1SvgStage.innerHTML = "";
         }
         if (m1Material) {
+          const isNextAero = (nextEx.type === 'AERÓBICO');
+          const nextMatTheme = getMaterialTheme(nextEx.materialKey, nextEx.material);
           if (isFreeMode) {
-            const isNextAero = (nextEx.type === 'AERÓBICO');
-            m1Material.innerText = `SIGUIENTE: ${isNextAero ? 'CARDIO' : 'FUERZA'}`;
-            m1Material.className = isNextAero
-              ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-orange-500/25 border border-orange-300/40 text-orange-200 shadow mb-2 sm:mb-2.5 transition-all"
-              : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-purple-500/25 border border-purple-300/40 text-purple-200 shadow mb-2 sm:mb-2.5 transition-all";
+            m1Material.innerText = `SIGUIENTE: ${isNextAero ? '🏃 CARDIO' : '🏋️ FUERZA'}`;
           } else {
-            m1Material.innerText = `SIGUIENTE: ${nextEx.material.toUpperCase()}`;
-            m1Material.className = "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-amber-400/25 border border-amber-300/40 text-amber-200 shadow mb-2 sm:mb-2.5 transition-all";
+            m1Material.innerText = `SIGUIENTE: ${nextMatTheme.emoji ? nextMatTheme.emoji + ' ' : ''}${nextEx.material.toUpperCase()}`;
           }
+          m1Material.className = isNextAero
+            ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-orange-500/30 border border-orange-400/50 text-orange-200 shadow mb-2 sm:mb-2.5 transition-all"
+            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600/30 border border-purple-400/50 text-purple-200 shadow mb-2 sm:mb-2.5 transition-all";
         }
         if (m1Name) {
           m1Name.innerText = nextEx.name.toUpperCase();
@@ -4389,16 +4389,16 @@
           }
         }
         if (m1Material) {
+          const isCurAero = (cur.type === 'AERÓBICO');
+          const matTheme = getMaterialTheme(cur.materialKey, cur.material);
           if (isFreeMode) {
-            const isCurAero = (cur.type === 'AERÓBICO');
-            m1Material.innerText = isCurAero ? 'CARDIO / AERÓBICO' : 'FUERZA / TONIFICACIÓN';
-            m1Material.className = isCurAero
-              ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-orange-500/25 border border-orange-400/40 text-orange-200 shadow mb-2 sm:mb-2.5 transition-all"
-              : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-purple-500/25 border border-purple-400/40 text-purple-200 shadow mb-2 sm:mb-2.5 transition-all";
+            m1Material.innerText = isCurAero ? '🏃 CARDIO / AERÓBICO' : '🏋️ FUERZA / TONIFICACIÓN';
           } else {
-            m1Material.innerText = cur.material.toUpperCase();
-            m1Material.className = "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow mb-2 sm:mb-2.5 transition-all";
+            m1Material.innerText = `${matTheme.emoji ? matTheme.emoji + ' ' : ''}${cur.material.toUpperCase()}`;
           }
+          m1Material.className = isCurAero
+            ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-orange-500 text-white shadow-md border border-orange-300/40 mb-2 sm:mb-2.5 transition-all"
+            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all";
         }
         if (m1Name) {
           m1Name.innerText = cur.name.toUpperCase();
