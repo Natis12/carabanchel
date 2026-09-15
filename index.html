@@ -1047,6 +1047,73 @@
           </button>
         </div>
 
+        <!-- PANEL DE CONTROL Y REPARTO DE LA SESIÓN: CARDIO/FUERZA Y CANTIDAD POR MATERIAL -->
+        <div id="sessionConfigCard" class="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-sm">
+          
+          <!-- Fila 1: Ajuste directo de Cardio y Fuerza -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <span>⚡</span><span>Tipo de Ejercicio:</span>
+              </span>
+              <span id="sessionStationsSummary" class="text-xs font-mono font-black text-emerald-600 dark:text-emerald-400">6 Estaciones</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <!-- Cardio Stepper -->
+              <div class="p-2 sm:p-2.5 rounded-2xl bg-orange-500/15 border-2 border-orange-500/40 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-base">🏃</span>
+                  <span class="text-xs font-black uppercase text-orange-600 dark:text-orange-400">Cardio</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="changeSessionAerobic(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionAerobicCount" class="font-mono font-black text-sm text-orange-600 dark:text-orange-300 w-5 text-center">3</span>
+                  <button onclick="changeSessionAerobic(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">+</button>
+                </div>
+              </div>
+
+              <!-- Fuerza Stepper -->
+              <div class="p-2 sm:p-2.5 rounded-2xl bg-purple-500/15 border-2 border-purple-500/40 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-base">🏋️</span>
+                  <span class="text-xs font-black uppercase text-purple-600 dark:text-purple-400">Fuerza</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <button onclick="changeSessionStrength(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionStrengthCount" class="font-mono font-black text-sm text-purple-600 dark:text-purple-300 w-5 text-center">3</span>
+                  <button onclick="changeSessionStrength(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila 2: Materiales seleccionados y cantidad por material -->
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-800/80 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <span>🎒</span><span>Material Seleccionado:</span>
+              </span>
+              <button onclick="balanceMaterialQuotas()" class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1" title="Repartir las estaciones equitativamente entre los materiales seleccionados">
+                <span>⚖️</span><span>Repartir equitativo</span>
+              </button>
+            </div>
+
+            <!-- Grid dinámico de materiales activos con su contador de ejercicios -->
+            <div id="sessionMaterialsGrid" class="grid grid-cols-2 gap-2 text-xs">
+              <!-- Renderizado dinámicamente con los colores vibrantes de cada material -->
+            </div>
+          </div>
+
+          <!-- Botón de regeneración con este reparto -->
+          <div class="pt-1">
+            <button onclick="applySessionQuotasAndRegenerate()" class="w-full py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-md shadow-emerald-500/20 active:scale-95 transition flex items-center justify-center gap-2">
+              <span>🎲</span>
+              <span>Regenerar con este Reparto</span>
+            </button>
+          </div>
+        </div>
+
         <div class="flex items-center justify-between px-1">
           <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado y arrastra para reordenar</span></span>
           <button onclick="generateRandomWorkout(false); renderStationsViewUI();" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
@@ -2697,6 +2764,9 @@
       }
 
       activeMaterials[key] = !activeMaterials[key];
+      if (typeof distributeEquitably === 'function' && typeof getActiveMaterialKeys === 'function') {
+        distributeEquitably(circuitConfig.aerobicCount + circuitConfig.strengthCount, getActiveMaterialKeys());
+      }
       updateMaterialUI();
       saveStore();
       generateRandomWorkout(false);
@@ -2745,6 +2815,200 @@
         .sort((a, b) => a[0] - b[0]).map(p => p[1]);
     }
 
+
+    // =========================================================================
+    // GESTIÓN DE CUOTAS POR MATERIAL Y REPARTO DE SESIÓN (CARDIO / FUERZA)
+    // =========================================================================
+    function getActiveMaterialKeys() {
+      return Object.keys(activeMaterials).filter(k => activeMaterials[k]);
+    }
+
+    function distributeEquitably(total, keys) {
+      if (!keys || !keys.length) return;
+      if (!circuitConfig.materialQuotas) circuitConfig.materialQuotas = {};
+      const base = Math.floor(total / keys.length);
+      let rem = total % keys.length;
+      keys.forEach(k => {
+        circuitConfig.materialQuotas[k] = base + (rem > 0 ? 1 : 0);
+        if (rem > 0) rem--;
+      });
+    }
+
+    function syncQuotasToTotal() {
+      const total = circuitConfig.aerobicCount + circuitConfig.strengthCount;
+      const keys = getActiveMaterialKeys();
+      if (!keys.length) return;
+      if (!circuitConfig.materialQuotas) circuitConfig.materialQuotas = {};
+      
+      let sum = keys.reduce((acc, k) => acc + (circuitConfig.materialQuotas[k] || 0), 0);
+      if (sum === 0) {
+        distributeEquitably(total, keys);
+        return;
+      }
+      let idx = 0;
+      while (sum < total) {
+        const k = keys[idx % keys.length];
+        circuitConfig.materialQuotas[k] = (circuitConfig.materialQuotas[k] || 0) + 1;
+        sum++;
+        idx++;
+      }
+      idx = keys.length - 1;
+      while (sum > total) {
+        const k = keys[idx % keys.length];
+        if (circuitConfig.materialQuotas[k] > 0) {
+          circuitConfig.materialQuotas[k]--;
+          sum--;
+        }
+        idx = (idx - 1 + keys.length) % keys.length;
+        if (sum > 0 && keys.every(key => (circuitConfig.materialQuotas[key] || 0) === 0)) break;
+      }
+    }
+
+    function renderSessionControls() {
+      const container = document.getElementById('sessionMaterialsGrid');
+      const sumEl = document.getElementById('sessionStationsSummary');
+      const aeroCountEl = document.getElementById('sessionAerobicCount');
+      const strengthCountEl = document.getElementById('sessionStrengthCount');
+      if (!container) return;
+
+      const totalStations = circuitConfig.aerobicCount + circuitConfig.strengthCount;
+      if (sumEl) sumEl.innerText = `${totalStations} Estaciones (${circuitConfig.aerobicCount} Cardio + ${circuitConfig.strengthCount} Fuerza)`;
+      if (aeroCountEl) aeroCountEl.innerText = circuitConfig.aerobicCount;
+      if (strengthCountEl) strengthCountEl.innerText = circuitConfig.strengthCount;
+
+      const activeKeys = getActiveMaterialKeys();
+      if (!activeKeys.length) {
+        container.innerHTML = `<div class="col-span-2 text-center text-xs text-slate-400 p-2 italic">Ningún material activo. Marca alguno en Ajustes.</div>`;
+        return;
+      }
+
+      if (!circuitConfig.materialQuotas) circuitConfig.materialQuotas = {};
+
+      let currentSum = 0;
+      activeKeys.forEach(k => {
+        if (circuitConfig.materialQuotas[k] === undefined) {
+          circuitConfig.materialQuotas[k] = 0;
+        }
+        currentSum += circuitConfig.materialQuotas[k];
+      });
+
+      if (currentSum === 0 || currentSum !== totalStations) {
+        syncQuotasToTotal();
+      }
+
+      container.innerHTML = activeKeys.map(k => {
+        const theme = MATERIAL_THEMES[k] || { emoji: '🤸', name: k, bgClasses: 'mat-card-corporal border-2' };
+        const count = circuitConfig.materialQuotas[k] || 0;
+
+        return `
+          <div class="p-2 sm:p-2.5 rounded-2xl border-2 ${theme.bgClasses} flex items-center justify-between shadow-sm transition">
+            <div class="flex items-center gap-1.5 min-w-0 pr-1">
+              <span class="text-base shrink-0">${theme.emoji}</span>
+              <span class="font-black text-xs truncate text-slate-900 dark:text-white">${theme.name}</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button onclick="changeMaterialQuota('${k}', -1)" class="w-6 h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">-</button>
+              <span class="font-mono font-black text-xs w-4 text-center text-slate-900 dark:text-white">${count}</span>
+              <button onclick="changeMaterialQuota('${k}', 1)" class="w-6 h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function changeSessionAerobic(delta) {
+      const next = circuitConfig.aerobicCount + delta;
+      if (next < 0 || next > 20) return;
+      if (next === 0 && circuitConfig.strengthCount === 0) return;
+      circuitConfig.aerobicCount = next;
+      syncQuotasToTotal();
+      generateRandomWorkout(false);
+      saveStore();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+    }
+
+    function changeSessionStrength(delta) {
+      const next = circuitConfig.strengthCount + delta;
+      if (next < 0 || next > 20) return;
+      if (next === 0 && circuitConfig.aerobicCount === 0) return;
+      circuitConfig.strengthCount = next;
+      syncQuotasToTotal();
+      generateRandomWorkout(false);
+      saveStore();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+    }
+
+    function changeMaterialQuota(matKey, delta) {
+      if (!circuitConfig.materialQuotas) circuitConfig.materialQuotas = {};
+      const cur = circuitConfig.materialQuotas[matKey] || 0;
+      const nextVal = Math.max(0, cur + delta);
+      if (cur === nextVal) return;
+      circuitConfig.materialQuotas[matKey] = nextVal;
+      
+      const keys = getActiveMaterialKeys();
+      const newTotal = keys.reduce((acc, k) => acc + (circuitConfig.materialQuotas[k] || 0), 0);
+      if (newTotal <= 0) {
+        circuitConfig.materialQuotas[matKey] = 1;
+        return;
+      }
+      
+      const currentSum = circuitConfig.aerobicCount + circuitConfig.strengthCount;
+      const diff = newTotal - currentSum;
+      if (diff > 0) {
+        for (let i = 0; i < diff; i++) {
+          if (circuitConfig.aerobicCount <= circuitConfig.strengthCount) {
+            circuitConfig.aerobicCount++;
+          } else {
+            circuitConfig.strengthCount++;
+          }
+        }
+      } else if (diff < 0) {
+        for (let i = 0; i < -diff; i++) {
+          if (circuitConfig.aerobicCount >= circuitConfig.strengthCount && circuitConfig.aerobicCount > 0) {
+            circuitConfig.aerobicCount--;
+          } else if (circuitConfig.strengthCount > 0) {
+            circuitConfig.strengthCount--;
+          } else if (circuitConfig.aerobicCount > 0) {
+            circuitConfig.aerobicCount--;
+          }
+        }
+      }
+
+      generateRandomWorkout(false);
+      saveStore();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+    }
+
+    function balanceMaterialQuotas() {
+      const total = circuitConfig.aerobicCount + circuitConfig.strengthCount;
+      const keys = getActiveMaterialKeys();
+      distributeEquitably(total, keys);
+      generateRandomWorkout(false);
+      saveStore();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate([20, 30, 20]); } catch(e) {}
+    }
+
+    function applySessionQuotasAndRegenerate() {
+      generateRandomWorkout(false);
+      saveStore();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate([20, 30, 20]); } catch(e) {}
+    }
+
     function generateRandomWorkout(showFeedback = true) {
       activeStations = [];
 
@@ -2788,21 +3052,64 @@
           }
         }
       } else {
-        const aeroPool = shuffleArray(getFilteredLibrary('aerobic'));
-        const strengthPool = shuffleArray(getFilteredLibrary('strength'));
-
         const aeroNeeded = circuitConfig.aerobicCount;
         const strengthNeeded = circuitConfig.strengthCount;
-        const maxLoops = Math.max(aeroNeeded, strengthNeeded);
+        const totalStations = aeroNeeded + strengthNeeded;
+        const activeKeys = getActiveMaterialKeys();
 
-        for (let i = 0; i < maxLoops; i++) {
-          if (i < aeroNeeded) {
-            activeStations.push({ ...aeroPool[i % aeroPool.length] });
-          }
-          if (i < strengthNeeded) {
-            activeStations.push({ ...strengthPool[i % strengthPool.length] });
-          }
+        // Construir slots por material a partir de las cuotas
+        let materialSlots = [];
+        if (circuitConfig.materialQuotas) {
+          activeKeys.forEach(mat => {
+            const q = circuitConfig.materialQuotas[mat] || 0;
+            for (let i = 0; i < q; i++) materialSlots.push(mat);
+          });
         }
+
+        while (materialSlots.length < totalStations && activeKeys.length) {
+          const pickMat = activeKeys[materialSlots.length % activeKeys.length];
+          materialSlots.push(pickMat);
+        }
+        if (materialSlots.length > totalStations) {
+          materialSlots = materialSlots.slice(0, totalStations);
+        }
+
+        let usedIds = new Set();
+        const typesSequence = [];
+        const maxLoops = Math.max(aeroNeeded, strengthNeeded);
+        for (let i = 0; i < maxLoops; i++) {
+          if (i < aeroNeeded) typesSequence.push('AERÓBICO');
+          if (i < strengthNeeded) typesSequence.push('FUERZA');
+        }
+
+        let availableSlots = [...materialSlots];
+
+        typesSequence.forEach(type => {
+          let chosenSlotIdx = -1;
+          for (let i = 0; i < availableSlots.length; i++) {
+            const mat = availableSlots[i];
+            const hasEx = fullExerciseDatabase[type === 'AERÓBICO' ? 'aerobic' : 'strength'].some(e => e.materialKey === mat && !usedIds.has(e.id));
+            if (hasEx) {
+              chosenSlotIdx = i;
+              break;
+            }
+          }
+          if (chosenSlotIdx === -1) chosenSlotIdx = 0;
+
+          const mat = availableSlots.splice(chosenSlotIdx, 1)[0] || activeKeys[0];
+          const pool = shuffleArray(fullExerciseDatabase[type === 'AERÓBICO' ? 'aerobic' : 'strength'].filter(e => e.materialKey === mat));
+          let picked = pool.find(e => !usedIds.has(e.id));
+          if (!picked && pool.length > 0) picked = pool[0];
+          if (!picked) {
+            const anyPool = shuffleArray(fullExerciseDatabase[type === 'AERÓBICO' ? 'aerobic' : 'strength'].filter(e => activeMaterials[e.materialKey]));
+            picked = anyPool.find(e => !usedIds.has(e.id)) || anyPool[0];
+          }
+
+          if (picked) {
+            usedIds.add(picked.id);
+            activeStations.push({ ...picked });
+          }
+        });
       }
 
       if (!isRunning) {
@@ -4054,6 +4361,7 @@
     }
 
     function renderStationsViewUI() {
+      renderSessionControls();
       const container = document.getElementById('dedicatedStationsList');
       const subTitle = document.getElementById('stationsHeaderSubtitle');
       if (!container) return;
