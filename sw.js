@@ -1,16 +1,27 @@
-const CACHE_NAME = 'sergio-fit-v11';
+const CACHE_NAME = 'sergio-fit-v12';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  './banda_decathlon.jpg'
+  './icon-192.png',
+  './icon-512.png',
+  './banda_decathlon.jpg',
+  'https://cdn.tailwindcss.com'
 ];
 // Recursos externos (Tailwind y fuentes) que deben quedar en caché para funcionar sin cobertura
 const EXTERNAL_HOSTS = ['cdn.tailwindcss.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(async (cache) => {
+      for (const asset of ASSETS) {
+        try {
+          await cache.add(asset);
+        } catch (err) {
+          console.warn('No se pudo precachear el recurso:', asset, err);
+        }
+      }
+    }).then(() => self.skipWaiting())
   );
 });
 
@@ -36,7 +47,7 @@ self.addEventListener('fetch', (e) => {
           caches.open(CACHE_NAME).then((c) => c.put('./index.html', copy));
           return res;
         })
-        .catch(() => caches.match('./index.html'))
+        .catch(() => caches.match('./index.html').then((res) => res || caches.match('./') || caches.match(req)))
     );
     return;
   }

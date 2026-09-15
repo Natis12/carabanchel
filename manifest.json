@@ -8,6 +8,16 @@
   "description": "Temporizador funcional para clases de entrenamiento en circuito",
   "icons": [
     {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
       "src": "banda_decathlon.jpg",
       "sizes": "192x192 512x512",
       "type": "image/jpeg"
