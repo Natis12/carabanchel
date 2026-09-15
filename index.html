@@ -499,7 +499,7 @@
     }
     .station-card-draggable.is-holding .station-hold-fill {
       width: 100% !important;
-      transition: width 2s linear !important;
+      transition: width 1.2s linear !important;
     }
     .station-card-draggable.is-dragging {
       z-index: 50 !important;
@@ -1710,7 +1710,7 @@
         </div>
 
         <div class="flex items-center justify-between px-1">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado 2s para mover</span></span>
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado 1.2s para mover</span></span>
           <button onclick="generateRandomWorkout(false); renderStationsViewUI();" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
             <span>🎲</span>
             <span>Regenerar todo</span>
@@ -5108,21 +5108,21 @@
           startClientY = touch.clientY;
           startClientX = touch.clientX;
 
-          // Iniciar animación de barra de progreso de 2 segundos
+          // Iniciar animación de barra de progreso de 1.2 segundos
           card.classList.add('is-holding');
           if (fillBar) {
             fillBar.style.transition = 'none';
             fillBar.style.width = '0%';
             void fillBar.offsetWidth; // forzar reflow
-            fillBar.style.transition = 'width 2s linear';
+            fillBar.style.transition = 'width 1.2s linear';
             fillBar.style.width = '100%';
           }
 
-          // Exactamente 2 segundos requeridos manteniendo el dedo
+          // Exactamente 1.2 segundos requeridos manteniendo el dedo
           holdTimer = setTimeout(() => {
             holdTimer = null;
             activateDrag(e, startClientY);
-          }, 2000);
+          }, 1200);
 
           function cancelIfMovedOrScrolled(ev) {
             const curTouch = ev.touches ? ev.touches[0] : ev;
