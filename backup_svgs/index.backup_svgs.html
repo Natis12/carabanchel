@@ -583,7 +583,7 @@
 
             <button onclick="toggleMaterial('goma')" id="matBtn-goma" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
               <span id="matCheck-goma">✅</span>
-              <span>🎗️ Goma</span>
+              <span>🎗️ Banda Larga Decathlon</span>
             </button>
 
             <button onclick="toggleMaterial('aro')" id="matBtn-aro" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
@@ -593,7 +593,7 @@
 
             <button onclick="toggleMaterial('mancuernas')" id="matBtn-mancuernas" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
               <span id="matCheck-mancuernas">✅</span>
-              <span>🏋️‍♀️ Mancuernas</span>
+              <span>🏋️‍♀️ Mancuernas 2kg</span>
             </button>
 
             <button onclick="toggleMaterial('corporal')" id="matBtn-corporal" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
@@ -943,9 +943,9 @@
           <button onclick="setCatalogFilter('all')" id="catFilt-all" class="px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold shrink-0">Todos (125)</button>
           <button onclick="setCatalogFilter('AERÓBICO')" id="catFilt-AERÓBICO" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aeróbicos</button>
           <button onclick="setCatalogFilter('FUERZA')" id="catFilt-FUERZA" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Fuerza</button>
-          <button onclick="setCatalogFilter('mancuernas')" id="catFilt-mancuernas" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Mancuernas</button>
+          <button onclick="setCatalogFilter('mancuernas')" id="catFilt-mancuernas" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Mancuernas 2kg</button>
           <button onclick="setCatalogFilter('corporal')" id="catFilt-corporal" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Sin Material</button>
-          <button onclick="setCatalogFilter('goma')" id="catFilt-goma" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Goma</button>
+          <button onclick="setCatalogFilter('goma')" id="catFilt-goma" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Banda Larga</button>
           <button onclick="setCatalogFilter('aro')" id="catFilt-aro" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aro</button>
           <button onclick="setCatalogFilter('esterilla')" id="catFilt-esterilla" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Esterilla</button>
           <button onclick="setCatalogFilter('kettlebell')" id="catFilt-kettlebell" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">KB Pesada</button>
@@ -1029,13 +1029,13 @@
 
       if (isDarkMode) {
         htmlElem.classList.add('dark');
-        if (themeIcon) themeIcon.innerText = '☀️';
-        if (themeLabel) themeLabel.innerText = 'Claro';
+        themeIcon.innerText = '☀️';
+        themeLabel.innerText = 'Claro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#131b2c');
       } else {
         htmlElem.classList.remove('dark');
-        if (themeIcon) themeIcon.innerText = '🌙';
-        if (themeLabel) themeLabel.innerText = 'Oscuro';
+        themeIcon.innerText = '🌙';
+        themeLabel.innerText = 'Oscuro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#e2e8f0');
       }
 
@@ -1062,7 +1062,7 @@
       "name": "Paso Lateral con Tracción al Pecho",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso a un lado mientras abres suavemente la banda Decathlon al pecho.",
       "advanced": "Haz un paso más amplio con mini sentadilla al abrir."
@@ -1102,7 +1102,7 @@
       "name": "Step Touch Lateral con Tracción",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pasos laterales rítmicos abriendo codos hacia atrás con la goma.",
       "advanced": "Desciende ligeramente la cadera en cada paso lateral."
@@ -1152,7 +1152,7 @@
       "name": "Shadow Boxing",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Banda por detrás de la espalda; puñetazos rectos suaves y controlados.",
       "advanced": "Combina jab recto con gancho suave contra la tensión."
@@ -1202,7 +1202,7 @@
       "name": "Tracción Frontal en Tijera",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso alterno al frente estirando la banda larga con los brazos rectos.",
       "advanced": "Paso adelante más largo flexionando rodilla delantera."
@@ -1262,7 +1262,7 @@
       "name": "Remo Dinámico con Paso Atrás",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso atrás simultáneo al remo con codos pegados al cuerpo.",
       "advanced": "Paso atrás más amplio y tira de codos bien pegados."
@@ -1314,7 +1314,7 @@
       "name": "Remo Dorsal Doble",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda al centro, inclina el torso 45º y tira con codos pegados atrás.",
       "advanced": "Pausa 2 segundos atrás juntando las escápulas con fuerza."
@@ -1354,7 +1354,7 @@
       "name": "Apertura de Escápulas (Pull-Apart)",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Brazos al frente, estira la banda hacia los lados abriendo pecho y hombros.",
       "advanced": "Mantén la banda tensa abierta 2 segundos en el pecho."
@@ -1404,7 +1404,7 @@
       "name": "Buenos Días",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda y pasa el bucle tras los hombros; flexiona cadera con espalda neutra.",
       "advanced": "Desciende el tronco en 3 segundos manteniendo la curvatura neutra."
@@ -1444,7 +1444,7 @@
       "name": "Curl de Bíceps",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda y flexiona codos sin mover hombros; control en la bajada.",
       "advanced": "Sube en 1 segundo y desciende lento en 3 segundos."
@@ -1494,7 +1494,7 @@
       "name": "Extensión de Tríceps Vertical",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Una mano ancla la banda al pecho y la otra empuja hacia abajo extendiendo codo.",
       "advanced": "Bloquea el codo abajo 2 segundos sintiendo el tríceps."
@@ -1544,7 +1544,7 @@
       "name": "Abducción de Cadera de Pie",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Banda alrededor de pantorrillas con apoyo; separa pierna lateralmente controlada.",
       "advanced": "Separa la pierna sin apoyar el pie al volver al centro."
@@ -1633,10 +1633,10 @@
     const MATERIAL_INFO = {
       corporal: ['Peso Corporal', 'BODY'],
       esterilla: ['Esterillas', 'EST'],
-      goma: ['Goma', 'BANDA'],
+      goma: ['Banda Larga 10-15kg', 'BANDA'],
       aro: ['Aro Pilates', 'ARO'],
       kettlebell: ['Kettlebell Pesada', 'KB'],
-      mancuernas: ['Mancuernas', 'MANC']
+      mancuernas: ['Mancuernas 2kg', 'MANC']
     };
 
     // Nuevos 50 ejercicios sin saltos añadidos en la sesión previa
@@ -1711,7 +1711,7 @@
     "name": "Marcha en el Sitio con Curl de Bíceps",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Marcha suave en el sitio flexionando codos al ritmo; mancuernas pegadas al cuerpo.",
@@ -1722,7 +1722,7 @@
     "name": "Paso Lateral con Empuje Frontal",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Paso a un lado mientras extiendes las mancuernas al frente a la altura del esternón.",
@@ -1733,7 +1733,7 @@
     "name": "Boxeo Suave",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Puñetazos rectos alternos controlados; nunca bloquees el codo con violencia.",
@@ -1744,7 +1744,7 @@
     "name": "Step Touch con Elevación Frontal Baja",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Pasos laterales rítmicos subiendo mancuernas sólo hasta el pecho, codos blandos.",
@@ -1755,7 +1755,7 @@
     "name": "Talones al Glúteo con Remo",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Lleva talón al glúteo alternando pies mientras tiras de codos hacia atrás.",
@@ -1766,7 +1766,7 @@
     "name": "Paso en V con Apertura de Brazos",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Paso adelante abriendo pies en V mientras abres brazos a 45º sin superar hombros.",
@@ -1777,7 +1777,7 @@
     "name": "Marcha con Transporte de Maletas",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Caminata firme en el sitio sosteniendo mancuernas abajo con hombros nivelados y abdomen firme.",
@@ -1788,7 +1788,7 @@
     "name": "Patinador Suave con Balanceo de Brazos",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Paso lateral cruzando pierna por detrás con balanceo pendular suave de mancuernas.",
@@ -1799,7 +1799,7 @@
     "name": "Toque de Talón al Frente con Press al Pecho",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Talón adelante alternando y empuje horizontal desde el pecho con las dos mancuernas.",
@@ -1810,7 +1810,7 @@
     "name": "Sentadilla Corta con Impulso al Pecho",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Mini sentadilla fluida y al subir elévate a puntillas con mancuernas pegadas al esternón.",
@@ -1821,7 +1821,7 @@
     "name": "Paso Atrás Alterno con Apertura en W",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Paso atrás apoyando punta mientras doblas codos pegados al cuerpo en forma de W.",
@@ -1832,7 +1832,7 @@
     "name": "Desplazamiento Lateral con Guardia",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Dos pasos laterales a la derecha y dos a la izquierda sosteniendo mancuernas al pecho.",
@@ -1843,7 +1843,7 @@
     "name": "Marcha Rápida con Balanceo Alterno Corto",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Codos flexionados a 90º; braceo rítmico corto y constante coordinado con los pies.",
@@ -1856,7 +1856,7 @@
     "name": "Sentadilla a Silla al Pecho",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Cadera atrás como a sentarte, roza la silla y sube empujando talones con pesas al pecho.",
@@ -1867,7 +1867,7 @@
     "name": "Remo Dorsal con Codos Pegados",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Torso inclinado 45º, columna neutra; tira de codos hacia las costillas juntando escápulas.",
@@ -1878,7 +1878,7 @@
     "name": "Elevaciones Laterales en Plano Escapular",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Brazos a 30º hacia delante, sube sólo hasta la altura de las axilas con codos suaves.",
@@ -1889,7 +1889,7 @@
     "name": "Peso Muerto Rumano Asistido",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Espalda recta, bisagra de cadera atrás; las mancuernas bajan rozando los muslos hasta las rodillas.",
@@ -1900,7 +1900,7 @@
     "name": "Patada de Tríceps a Dos Manos",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Torso inclinado, codos fijados a los costados; extiende brazos atrás sin balancear.",
@@ -1911,7 +1911,7 @@
     "name": "Curl de Bíceps Martillo Controlado",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Palmas enfrentadas hacia dentro; sube controlando sin arquear la espalda baja.",
@@ -1922,7 +1922,7 @@
     "name": "Zancada Estática",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Posición en tijera fija, baja rodilla trasera en vertical; brazos colgados como maletas.",
@@ -1933,7 +1933,7 @@
     "name": "Pájaros para Deltoides Posterior y Escápulas",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Inclinación de tronco a 45º, abre brazos en semicírculo hacia los lados para postura dorsal.",
@@ -1944,7 +1944,7 @@
     "name": "Sentadilla Sumo Central",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Pies anchos con puntas a 45º; baja vertical con las mancuernas unidas colgando al centro.",
@@ -1955,7 +1955,7 @@
     "name": "Elevación de Talones para Gemelos",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "De pie erguida, eleva talones lentamente soportando el peso; pausa arriba 1 segundo.",
@@ -1966,7 +1966,7 @@
     "name": "Press de Pecho en Suelo (Floor Press)",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Tumbada en esterilla con rodillas dobladas; empuja mancuernas arriba, los codos tocan el suelo a 45º.",
@@ -1977,7 +1977,7 @@
     "name": "Apertura de Pecho",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Boca arriba en esterilla, abre brazos con codos ligeramente doblados hasta rozar el suelo.",
@@ -3480,7 +3480,7 @@
       document.getElementById('totalTimeEstimate').innerText = `${m}m ${s < 10 ? '0' : ''}${s}s`;
 
       const container = document.getElementById('activeStationsList');
-      if (container) container.innerHTML = activeStations.map((item, idx) => {
+      container.innerHTML = activeStations.map((item, idx) => {
         const isAero = item.type === 'AERÓBICO';
         return `
           <div class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-between gap-3 shadow-sm animate-pop">
