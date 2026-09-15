@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+  <title>Sergio Fit — Timer V29: Ejercicio a la izquierda + Play Gigante + Rondas a la derecha</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-triline: 'Monoton', cursive;
+
+      /* DEFAULT VERDE (TRABAJO) */
+      --phase-base: #064e3b;
+      --phase-gradient-from: #022c22;
+      --phase-gradient-via: #064e3b;
+      --phase-gradient-to: #042f24;
+      --phase-primary: #10b981;
+      --phase-accent: #34d399;
+      --phase-ring: #10b981;
+      --phase-glow: rgba(16, 185, 129, 0.45);
+      --phase-pill-bg: rgba(6, 78, 59, 0.9);
+      --phase-name: "TRABAJO";
+      --play-glow: rgba(16, 185, 129, 0.7);
+
+      --gif-duration: 3s;
+    }
+
+    body.phase-verde {
+      --phase-base: #064e3b;
+      --phase-gradient-from: #022c22;
+      --phase-gradient-via: #064e3b;
+      --phase-gradient-to: #042f24;
+      --phase-primary: #10b981;
+      --phase-accent: #34d399;
+      --phase-ring: #10b981;
+      --phase-glow: rgba(16, 185, 129, 0.45);
+      --phase-name: "TRABAJO";
+      --play-glow: rgba(16, 185, 129, 0.7);
+    }
+
+    body.phase-amarillo {
+      --phase-base: #78350f;
+      --phase-gradient-from: #451a03;
+      --phase-gradient-via: #78350f;
+      --phase-gradient-to: #451a03;
+      --phase-primary: #f59e0b;
+      --phase-accent: #fbbf24;
+      --phase-ring: #fbbf24;
+      --phase-glow: rgba(245, 158, 11, 0.55);
+      --phase-name: "DESCANSO";
+      --play-glow: rgba(245, 158, 11, 0.7);
+    }
+
+    body.phase-rojo {
+      --phase-base: #7f1d1d;
+      --phase-gradient-from: #450a0a;
+      --phase-gradient-via: #7f1d1d;
+      --phase-gradient-to: #450a0a;
+      --phase-primary: #ef4444;
+      --phase-accent: #f87171;
+      --phase-ring: #ef4444;
+      --phase-glow: rgba(239, 68, 68, 0.55);
+      --phase-name: "DESCANSO DE RONDA";
+      --play-glow: rgba(239, 68, 68, 0.7);
+    }
+
+    h1, h2, .font-display { font-family: var(--font-display); }
+    body, p, span, button, .font-body { font-family: var(--font-body); }
+    .font-mono { font-family: var(--font-mono); }
+
+    /* FUENTE MULTILÍNEA ESTILO 99 LUFTBALLONS (USADA EN TÍTULOS Y NÚMEROS DE MODELO D) */
+    .font-exercise {
+      font-family: var(--font-triline);
+      letter-spacing: 2px;
+      line-height: 1.15;
+    }
+
+    /* Animación de dibujo a ritmo de 3 segundos */
+    @keyframes step1FadeSlow {
+      0%, 46% { opacity: 1; visibility: visible; }
+      50%, 96% { opacity: 0; visibility: hidden; }
+      100% { opacity: 1; visibility: visible; }
+    }
+    @keyframes step2FadeSlow {
+      0%, 46% { opacity: 0; visibility: hidden; }
+      50%, 96% { opacity: 1; visibility: visible; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    .gif-step1 { animation: step1FadeSlow var(--gif-duration) ease-in-out infinite; will-change: opacity; }
+    .gif-step2 { animation: step2FadeSlow var(--gif-duration) ease-in-out infinite; will-change: opacity; }
+
+    /* Radial SVG gauge 60 FPS continuo */
+    .radial-track { stroke: rgba(255, 255, 255, 0.14); }
+    .radial-progress {
+      stroke: var(--phase-ring);
+      transition: stroke 0.4s ease;
+      will-change: stroke-dashoffset;
+    }
+
+    .circular-glow {
+      border-radius: 9999px;
+      box-shadow: 0 0 50px var(--phase-glow);
+      pointer-events: none;
+    }
+
+    @keyframes secondZoomPulse {
+      0% { transform: scale(1); }
+      22% { transform: scale(1.026); }
+      100% { transform: scale(1); }
+    }
+    .zoom-pulse-active {
+      animation: secondZoomPulse 0.36s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    }
+
+    /* Phone Mockup */
+    .iphone-mockup {
+      width: 100%;
+      max-width: 420px;
+      height: min(100vh - 120px, 860px);
+      min-height: 680px;
+      border-radius: 44px;
+      border: 8px solid #0f172a;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
+      background: var(--phase-base);
+      transition: background 0.5s ease-in-out;
+    }
+
+    .fullscreen-mode {
+      width: 100%;
+      max-width: 880px;
+      height: min(100vh - 120px, 800px);
+      min-height: 660px;
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+      background: var(--phase-base);
+      transition: background 0.5s ease-in-out;
+    }
+
+    .phase-bg-stage {
+      background: radial-gradient(circle at center 35%, var(--phase-base) 0%, var(--phase-gradient-from) 100%);
+      transition: background 0.5s ease-in-out;
+    }
+
+    /* ========================================================
+       DISEÑO DE RECUADROS TITANIUM TECH ULTRA-PREMIUM (CNC DIAMOND-CUT)
+       ======================================================== */
+
+    /* Recuadro Rondas: Bisel Diamond-Cut Azul Neón con Profundidad */
+    .recuadro-titanium-rondas {
+      background: radial-gradient(circle at 50% 20%, #0d1a38 0%, #030712 100%);
+      border: 2px solid #3b82f6;
+      border-top: 2.5px solid #bfdbfe;
+      border-bottom: 2.5px solid #1e3a8a;
+      box-shadow: 
+        0 16px 32px -6px rgba(0, 0, 0, 0.9),
+        0 0 28px rgba(59, 130, 246, 0.45),
+        inset 0 2px 1.5px rgba(191, 219, 254, 0.5),
+        inset 0 -3px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Recuadro Ejercicio (antes Ciclos): Bisel Diamond-Cut Amarillo Oro con Profundidad */
+    .recuadro-titanium-ciclos {
+      background: radial-gradient(circle at 50% 20%, #261904 0%, #050300 100%);
+      border: 2px solid #f59e0b;
+      border-top: 2.5px solid #fef08a;
+      border-bottom: 2.5px solid #78350f;
+      box-shadow: 
+        0 16px 32px -6px rgba(0, 0, 0, 0.9),
+        0 0 28px rgba(245, 158, 11, 0.45),
+        inset 0 2px 1.5px rgba(254, 240, 138, 0.5),
+        inset 0 -3px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* BOTÓN PLAY GIGANTE TITANIUM TACTILE PRECISION */
+    .titanium-play-outer {
+      background: #020617;
+      border: 3px solid var(--phase-ring);
+      box-shadow: 
+        0 0 40px var(--play-glow),
+        0 20px 45px -8px rgba(0, 0, 0, 0.95),
+        inset 0 0 20px rgba(0, 0, 0, 0.95);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .titanium-play-inner {
+      background: radial-gradient(circle at 35% 25%, #1e293b 0%, #080c14 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        inset 0 2.5px 2px rgba(255, 255, 255, 0.5),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.85),
+        0 8px 22px rgba(0, 0, 0, 0.85);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .titanium-play-outer:hover {
+      transform: scale(1.05);
+      box-shadow: 
+        0 0 55px var(--play-glow),
+        0 24px 50px -8px rgba(0, 0, 0, 1),
+        inset 0 0 24px rgba(0, 0, 0, 0.95);
+    }
+
+    .titanium-play-outer:active {
+      transform: scale(0.94);
+    }
+
+    .titanium-play-outer:active .titanium-play-inner {
+      transform: scale(0.95);
+      box-shadow: 
+        inset 0 4px 6px rgba(0, 0, 0, 0.95),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col font-body antialiased phase-verde text-slate-100 transition-colors duration-500">
+
+  <!-- ========================================================
+       TOP TOOLBAR
+  ======================================================== -->
+  <header class="bg-slate-900/95 border-b border-slate-800 backdrop-blur-md sticky top-0 z-50 px-4 py-2 shadow-xl">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand & Version -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center font-black text-slate-950 text-base shadow-lg shadow-emerald-500/30">
+          SF
+        </div>
+        <div>
+          <h1 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-2">
+            SERGIO FIT <span class="text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">V29</span>
+          </h1>
+          <p class="text-[11px] text-slate-400">Ejercicio (Izquierda) • Play Gigante (Centro) • Rondas (Derecha) • Bordes Titanio</p>
+        </div>
+      </div>
+
+      <!-- Action Tools -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleFont()" id="fontBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-300">
+          🔤 <span id="fontText">Fuente: Multilínea</span>
+        </button>
+        <button onclick="toggleDeviceFrame()" id="frameBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-300">
+          <span id="frameIcon">📱</span> <span id="frameText">Marco iPhone</span>
+        </button>
+        <button onclick="toggleLiveTimer()" id="simBtn" class="px-4 py-1.5 rounded-xl font-black text-xs text-slate-950 shadow-lg transition-all" style="background-color: var(--phase-ring);">
+          <span id="simIcon">▶</span> <span id="simText">Simular Timer</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUB-BAR: FASE Y EJERCICIO -->
+    <div class="max-w-7xl mx-auto mt-2 pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+      
+      <!-- FASE Y COLOR DE FONDO -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-slate-400 font-bold text-xs">PROBAR FASE:</span>
+        <button onclick="setPhase('verde')" id="phaseBtnVerde" class="px-3 py-1 rounded-xl font-black text-xs transition-all shadow-md bg-emerald-500 text-slate-950 ring-2 ring-emerald-300">
+          🟢 TRABAJO (30s)
+        </button>
+        <button onclick="setPhase('amarillo')" id="phaseBtnAmarillo" class="px-3 py-1 rounded-xl font-bold text-xs transition-all text-amber-300 bg-amber-950/70 border border-amber-600 hover:bg-amber-500 hover:text-slate-950">
+          🟡 DESCANSO (10s)
+        </button>
+        <button onclick="setPhase('rojo')" id="phaseBtnRojo" class="px-3 py-1 rounded-xl font-bold text-xs transition-all text-red-300 bg-red-950/70 border border-red-600 hover:bg-red-500 hover:text-slate-950">
+          🔴 FIN RONDA (20s)
+        </button>
+      </div>
+
+      <!-- SELECTOR DE EJERCICIO -->
+      <div class="flex items-center gap-2">
+        <span class="text-slate-400 font-medium">Ejercicio Actual:</span>
+        <select id="exerciseSelect" onchange="changeExercise(this.value)" class="bg-slate-900 border border-slate-700 text-slate-200 rounded-xl px-2.5 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          <option value="0">🏋️ 1. Elevaciones Frontales (Mancuernas)</option>
+          <option value="1">⭕ 2. Sentadilla Asistida (Aro Pilates)</option>
+          <option value="2">💃 3. Paso Lateral Rítmico (Mancuernas)</option>
+          <option value="3">🟢 4. Remo Suave (Banda Elástica)</option>
+        </select>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================
+       MAIN STAGE: PHONE / FULLSCREEN VIEWPORT
+  ======================================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-2 md:p-4 flex flex-col items-center justify-center">
+
+    <div id="viewportContainer" class="iphone-mockup phase-bg-stage flex flex-col justify-between transition-all duration-500 relative overflow-hidden">
+
+      <section id="model1" class="model-view flex-1 flex flex-col px-3 sm:px-4 pt-2 pb-3 justify-between relative overflow-hidden z-10">
+        
+        <!-- 1. TOP BAR: MUTE + ANTERIOR + SIGUIENTE A LA IZQUIERDA Y TIEMPO A LA DERECHA -->
+        <div class="w-full flex items-center justify-between z-20 shrink-0 px-1 pt-0.5">
+          
+          <div class="flex items-center gap-1 bg-black/45 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg">
+            <button onclick="toggleSound()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Silenciar / Activar sonido">
+              <span id="m1SoundIcon">🔊</span>
+            </button>
+            
+            <div class="w-[1px] h-3.5 bg-white/15 mx-0.5"></div>
+
+            <button onclick="skipStation(-1)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Ejercicio Anterior">
+              ⏮
+            </button>
+
+            <button onclick="skipStation(1)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Ejercicio Siguiente">
+              ⏭
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg">
+            <span class="text-sm leading-none">⏳</span>
+            <span id="m1Total" class="font-mono font-black text-sm sm:text-base text-white tracking-tight leading-none">14:25</span>
+          </div>
+        </div>
+
+        <!-- 2. ZONA CENTRAL: CÍRCULO MÁS GRANDE + DIBUJO + TÍTULO -->
+        <div class="flex-1 flex flex-col items-center justify-center z-10 w-full pt-0.5 pb-0.5">
+          
+          <div id="m1CircleWrapper" class="relative w-[346px] h-[346px] sm:w-[362px] sm:h-[362px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center">
+            
+            <div class="absolute inset-0 circular-glow"></div>
+
+            <svg class="absolute inset-0 w-full h-full transform -rotate-90 z-20 pointer-events-none overflow-visible" viewBox="0 0 280 280">
+              <circle cx="140" cy="140" r="124" stroke-width="14" fill="none" class="radial-track"/>
+              <circle id="m1Radial" cx="140" cy="140" r="124" stroke-width="14" fill="none"
+                      stroke-linecap="round"
+                      stroke-dasharray="779.12"
+                      stroke-dashoffset="623.3"
+                      class="radial-progress"/>
+            </svg>
+
+            <div id="m1InnerDisc" class="w-[294px] h-[294px] sm:w-[308px] sm:h-[308px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out" style="border-radius: 9999px;">
+              
+              <span id="m1PhaseBadge" class="text-[11px] sm:text-xs font-black uppercase tracking-widest px-4 py-0.5 rounded-full shadow-md mb-1 transition-all" style="background-color: var(--phase-ring); color: #022c22;">
+                TRABAJO
+              </span>
+
+              <span id="m1Digits" class="text-8xl sm:text-[106px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200">
+                24
+              </span>
+
+              <span class="text-[10px] sm:text-[11px] font-black text-slate-300 uppercase tracking-widest mt-0.5">
+                SEGUNDOS
+              </span>
+            </div>
+
+          </div>
+
+          <!-- 3. BLOQUE DIBUJO Y TÍTULO MULTILÍNEA -->
+          <div class="flex flex-col items-center justify-center shrink-0 mt-1 sm:mt-1.5 mb-0.5">
+            
+            <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0 transition-all duration-300 ease-out" id="m1SvgStage">
+              <!-- SVG animado limpio a ritmo de 3s -->
+            </div>
+
+            <div class="text-center px-2 shrink-0 -mt-1 sm:-mt-1.5">
+              <span id="m1Material" class="inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow mb-2 sm:mb-2.5 transition-all">
+                MANCUERNAS
+              </span>
+              <h3 id="m1Name" class="font-exercise text-xl sm:text-2xl text-white tracking-widest leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all">
+                ELEVACIONES FRONTALES
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ========================================================
+             4. DOCK INFERIOR PERFECCIONADO:
+             - IZQUIERDA: EJERCICIO (ANTES CICLOS) CON SU NÚMERO Y BARRA SEGMENTADA
+             - CENTRO: PLAY GIGANTE (112px - 120px) TITANIUM TACTILE PRECISION
+             - DERECHA: RONDAS CON SU NÚMERO Y PUNTOS LED
+             - NÚMEROS MULTILÍNEA DEL MODELO D (MONOTON)
+             - 100% CENTRADOS HORIZONTAL Y VERTICALMENTE
+             - TOTALES (/6 y /3) MÁS ABAJO JUNTO A LA BASE
+             - BORDES TITANIO CON BISEL CNC DIAMOND-CUT
+             - TEXTOS FUERA Y DEBAJO DEL RECUADRO
+             ======================================================== -->
+        <div class="w-full flex items-center justify-between gap-2 pt-1 pb-0.5 z-20 shrink-0 mt-auto">
+          
+          <!-- COLUMNA IZQUIERDA: RECUADRO EJERCICIO + TEXTO DEBAJO -->
+          <div class="flex flex-col items-center gap-1 shrink-0">
+            
+            <!-- RECUADRO EJERCICIO: TITANIO CNC DIAMOND-CUT DORADO/ÁMBAR -->
+            <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
+              
+              <!-- NÚMERO ACTIVO EN FUENTE MODELO D MULTILÍNEA 100% CENTRADO -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <!-- NÚMERO UN PELÍN MÁS PEQUEÑO: 42px - 46px -->
+                <span class="font-exercise text-[42px] sm:text-[46px] text-yellow-100 leading-none tracking-normal drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="m1CurrentCycle">
+                  3
+                </span>
+                <!-- TOTAL (/6) POSICIONADO MÁS ABAJO JUNTO A LA BASE -->
+                <span class="absolute left-[calc(50%+17px)] sm:left-[calc(50%+19px)] bottom-3 sm:bottom-3.5 text-xs sm:text-sm font-black font-mono text-yellow-300 drop-shadow" id="m1TotalCycles">
+                  /6
+                </span>
+              </div>
+
+              <!-- Micro-barra segmentada de 6 ejercicios en la base del titanio -->
+              <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1 pointer-events-none">
+                <span class="w-2.5 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                <span class="w-2.5 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                <span class="w-2.5 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              </div>
+
+            </div>
+
+            <!-- TEXTO FUERA Y DEBAJO DEL RECUADRO: EJERCICIO -->
+            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-yellow-300 drop-shadow-md whitespace-nowrap">
+              EJERCICIO
+            </span>
+
+          </div>
+
+          <!-- CENTRO: BOTÓN PLAY AÚN MÁS GRANDE (112px - 120px) TITANIUM TACTILE PRECISION -->
+          <div class="flex flex-col items-center justify-center shrink-0">
+            <button onclick="toggleLiveTimer()" id="m1PlayBtn" class="titanium-play-outer w-[112px] h-[112px] sm:w-[120px] sm:h-[120px] rounded-full p-2.5 flex items-center justify-center relative cursor-pointer outline-none focus:outline-none" title="Iniciar / Pausar Entrenamiento">
+              
+              <!-- Plato interior CNC con textura táctil y muescas de precisión -->
+              <div class="titanium-play-inner w-full h-full rounded-full flex items-center justify-center relative overflow-hidden">
+                
+                <!-- ICONO PAUSE SVG (CENTRADÍSIMO Y HERÓICO) -->
+                <svg id="m1PauseSvg" class="w-12 h-12 sm:w-[52px] sm:h-[52px] fill-current transition-transform" style="color: var(--phase-ring); filter: drop-shadow(0 0 16px var(--phase-ring));" viewBox="0 0 24 24">
+                  <rect x="5" y="3.5" width="4.5" height="17" rx="2.25" />
+                  <rect x="14.5" y="3.5" width="4.5" height="17" rx="2.25" />
+                </svg>
+
+                <!-- ICONO PLAY SVG (CENTRADÍSIMO Y HERÓICO CON CENTRADO ÓPTICO LEVE) -->
+                <svg id="m1PlaySvg" class="w-12 h-12 sm:w-[52px] sm:h-[52px] fill-current ml-1.5 transition-transform hidden" style="color: var(--phase-ring); filter: drop-shadow(0 0 16px var(--phase-ring));" viewBox="0 0 24 24">
+                  <path d="M7 4C7 3.1 8 2.5 8.8 3l12 7.2c.8.5.8 1.7 0 2.2l-12 7.2c-.8.5-1.8-.1-1.8-1.1V4z" stroke-linejoin="round" />
+                </svg>
+
+              </div>
+            </button>
+          </div>
+
+          <!-- COLUMNA DERECHA: RECUADRO RONDAS + TEXTO DEBAJO -->
+          <div class="flex flex-col items-center gap-1 shrink-0">
+            
+            <!-- RECUADRO RONDAS: TITANIO CNC DIAMOND-CUT AZUL NEÓN -->
+            <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
+              
+              <!-- NÚMERO ACTIVO EN FUENTE MODELO D MULTILÍNEA 100% CENTRADO -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <!-- NÚMERO UN PELÍN MÁS PEQUEÑO: 42px - 46px -->
+                <span class="font-exercise text-[42px] sm:text-[46px] text-white leading-none tracking-normal drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="m1CurrentRound">
+                  1
+                </span>
+                <!-- TOTAL (/3) POSICIONADO MÁS ABAJO JUNTO A LA BASE -->
+                <span class="absolute left-[calc(50%+17px)] sm:left-[calc(50%+19px)] bottom-3 sm:bottom-3.5 text-xs sm:text-sm font-black font-mono text-blue-300 drop-shadow" id="m1TotalRounds">
+                  /3
+                </span>
+              </div>
+
+              <!-- Puntos LED discretos integrados en la base del titanio -->
+              <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1.5 pointer-events-none">
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-800 border border-white/10"></span>
+              </div>
+
+            </div>
+
+            <!-- TEXTO FUERA Y DEBAJO DEL RECUADRO: RONDAS -->
+            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-blue-300 drop-shadow-md whitespace-nowrap">
+              RONDAS
+            </span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================
+       SCRIPTS: TEMPORIZADOR 60FPS + PULSO ZOOM + CONTROLES
+  ======================================================== -->
+  <script>
+    const exercises = [{"id": "m3", "name": "ELEVACIONES FRONTALES", "cleanName": "Elevaciones Frontales", "fullName": "Elevaciones Frontales con Mancuernas (2kg)", "type": "FUERZA Y TONIFICACIÓN", "material": "Mancuernas", "materialBadge": "MANCUERNAS", "focus": "Hombros, Deltoides & Escápulas", "cue": "Espalda recta y codos suaves. Eleva solo hasta la altura del pecho sin tirones.", "advanced": "Mantén 1 segundo la contracción arriba en cada repetición.", "svg": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>"}, {"id": "e1", "name": "SENTADILLA ASISTIDA", "cleanName": "Sentadilla Asistida", "fullName": "Sentadilla Asistida con Aro Pilates", "type": "FUERZA Y CONTROL", "material": "Aro Pilates", "materialBadge": "ARO PILATES", "focus": "Glúteos, Cuádriceps & Suelo Pélvico", "cue": "Pies al ancho de caderas. Presiona suave el aro para activar core y estabilizar.", "advanced": "Añade un rebote cortito de 2 segundos en el punto más bajo.", "svg": "<svg class=\"w-full h-full\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"22\" r=\"7\" fill=\"#ffffff\"/><path d=\"M50 29v28M50 38l-14 10M50 38l14 10\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 57l-10 28M50 57l10 28\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"48\" r=\"9\" stroke=\"#f43f5e\" stroke-width=\"3.5\" fill=\"none\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"28\" r=\"7\" fill=\"#ffffff\"/><path d=\"M50 35v22M50 44l-12 6M50 44l12 6\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 57l-15 16l4 14M50 57l15 16l-4 14\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><ellipse cx=\"50\" cy=\"50\" rx=\"6\" ry=\"9\" stroke=\"#f43f5e\" stroke-width=\"4\" fill=\"none\"/></g></svg>"}, {"id": "m12", "name": "PASO LATERAL RÍTMICO", "cleanName": "Paso Lateral Rítmico", "fullName": "Paso Lateral Rítmico con Curls 2kg", "type": "AERÓBICO DE BAJO IMPACTO", "material": "Mancuernas", "materialBadge": "MANCUERNAS", "focus": "Cardio Suave, Coordinación & Brazos", "cue": "Paso amplio alterno a los lados flexionando codos al ritmo. Cero saltos.", "advanced": "Baja más el centro de gravedad en cada paso simulando media sentadilla.", "svg": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>"}, {"id": "e14", "name": "REMO SUAVE", "cleanName": "Remo Suave", "fullName": "Remo Suave con Banda Elástica (10kg)", "type": "POSTURAL Y ESPALDA", "material": "Banda Elástica", "materialBadge": "BANDA ELÁSTICA", "focus": "Dorsales, Romboides & Postura Cervical", "cue": "Codos pegados al cuerpo hacia atrás; junta escápulas y alarga el cuello.", "advanced": "Aguanta 2 segundos la apertura escapular atrás expulsando el aire.", "svg": "<svg class=\"w-full h-full\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"48\" cy=\"20\" r=\"7\" fill=\"#ffffff\"/><path d=\"M48 27v30M48 35l18 0\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 57l-8 28M48 57l12 28\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M66 35l14 0\" stroke=\"#10b981\" stroke-width=\"3.5\" stroke-dasharray=\"2 2\"/><rect x=\"78\" y=\"25\" width=\"4\" height=\"24\" rx=\"2\" fill=\"#94a3b8\"/></g><g class=\"gif-step2\"><circle cx=\"47\" cy=\"20\" r=\"7\" fill=\"#ffffff\"/><path d=\"M47 27v30M47 35l-8 6l14-2\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M47 57l-8 28M47 57l12 28\" stroke=\"#ffffff\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M53 39l25-4\" stroke=\"#10b981\" stroke-width=\"5\" stroke-linecap=\"round\"/><rect x=\"78\" y=\"25\" width=\"4\" height=\"24\" rx=\"2\" fill=\"#94a3b8\"/></g></svg>"}];
+    let currentExIndex = 0;
+    let currentPhase = 'verde';
+    let isFullscreen = false;
+    let soundEnabled = true;
+    let useTrilineFont = true;
+
+    // Workout progression counters
+    const totalRounds = 3;
+    let currentRound = 1;
+    const totalCyclesPerRound = 6;
+    let currentCycle = 3;
+
+    // Timer high-precision state
+    let simRunning = false;
+    let rafId = null;
+    let lastFrameTimestamp = null;
+    let simPhaseDuration = 30; // seconds
+    let simElapsedMs = 6000;   // starts at 6s elapsed (24s remaining)
+    let totalWorkoutDuration = 14 * 60 + 25; // seconds
+    let totalWorkoutElapsedMs = 0;
+    let lastSecondReported = null;
+
+    // Web Audio Synthesis
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playBeep(freq = 880, duration = 0.12, type = 'sine') {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) { console.warn("Audio not allowed yet:", e); }
+    }
+
+    function playBoxingBell() {
+      if (!soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const tones = [800, 1200, 1600];
+        tones.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + (idx * 0.04));
+          gain.gain.setValueAtTime(0.4, ctx.currentTime + (idx * 0.04));
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + (idx * 0.04));
+          osc.stop(ctx.currentTime + 1.2);
+        });
+      } catch (e) { console.warn("Boxing bell error:", e); }
+    }
+
+    // DISPARA LA LIGERA IMPRESIÓN DE ZOOM CADA SEGUNDO EN ENTRENAMIENTO
+    function triggerTrainingZoomPulse() {
+      if (currentPhase !== 'verde') return;
+      const circleEl = document.getElementById('m1CircleWrapper');
+      if (!circleEl) return;
+      circleEl.classList.remove('zoom-pulse-active');
+      void circleEl.offsetWidth;
+      circleEl.classList.add('zoom-pulse-active');
+    }
+
+    function toggleFont() {
+      useTrilineFont = !useTrilineFont;
+      const fontText = document.getElementById('fontText');
+      if (fontText) fontText.innerText = useTrilineFont ? 'Fuente: Multilínea' : 'Fuente: Outfit';
+      updateExerciseVisuals();
+    }
+
+    function setPhase(phase) {
+      currentPhase = phase;
+      document.body.className = `h-full flex flex-col font-body antialiased phase-${phase} text-slate-100 transition-colors duration-500`;
+      
+      const btnVerde = document.getElementById('phaseBtnVerde');
+      const btnAmarillo = document.getElementById('phaseBtnAmarillo');
+      const btnRojo = document.getElementById('phaseBtnRojo');
+
+      [btnVerde, btnAmarillo, btnRojo].forEach(b => {
+        b.className = 'px-3 py-1 rounded-xl font-bold text-xs transition-all text-slate-400 bg-slate-900 border border-slate-700 hover:text-white';
+      });
+
+      if (phase === 'verde') {
+        btnVerde.className = 'px-3 py-1 rounded-xl font-black text-xs transition-all shadow-md bg-emerald-500 text-slate-950 ring-2 ring-emerald-300';
+        simPhaseDuration = 30;
+        simElapsedMs = 6000;
+      } else if (phase === 'amarillo') {
+        btnAmarillo.className = 'px-3 py-1 rounded-xl font-black text-xs transition-all shadow-md bg-amber-500 text-slate-950 ring-2 ring-amber-300';
+        simPhaseDuration = 10;
+        simElapsedMs = 2000;
+      } else if (phase === 'rojo') {
+        btnRojo.className = 'px-3 py-1 rounded-xl font-black text-xs transition-all shadow-md bg-red-500 text-slate-950 ring-2 ring-red-300';
+        simPhaseDuration = 20;
+        simElapsedMs = 3000;
+      }
+
+      lastSecondReported = null;
+
+      const phaseBadgeMap = {
+        'verde': 'TRABAJO',
+        'amarillo': 'DESCANSO',
+        'rojo': 'FIN RONDA'
+      };
+      const badgeEl = document.getElementById('m1PhaseBadge');
+      if (badgeEl) badgeEl.innerText = phaseBadgeMap[currentPhase];
+
+      updateExerciseVisuals();
+      renderTimerFrame();
+    }
+
+    function changeExercise(idx) {
+      currentExIndex = parseInt(idx, 10);
+      currentCycle = (currentExIndex % totalCyclesPerRound) + 1;
+      updateExerciseVisuals();
+      updateProgressIndicators();
+    }
+
+    function skipStation(delta) {
+      currentExIndex = (currentExIndex + delta + exercises.length) % exercises.length;
+      document.getElementById('exerciseSelect').value = currentExIndex;
+      currentCycle = (currentExIndex % totalCyclesPerRound) + 1;
+      playBeep(600, 0.1);
+      updateExerciseVisuals();
+      updateProgressIndicators();
+    }
+
+    function toggleDeviceFrame() {
+      const container = document.getElementById('viewportContainer');
+      const text = document.getElementById('frameText');
+      isFullscreen = !isFullscreen;
+      if (isFullscreen) {
+        container.className = 'fullscreen-mode phase-bg-stage flex flex-col justify-between transition-all duration-500 relative overflow-hidden';
+        text.innerText = 'Pantalla Completa';
+      } else {
+        container.className = 'iphone-mockup phase-bg-stage flex flex-col justify-between transition-all duration-500 relative overflow-hidden';
+        text.innerText = 'Marco iPhone';
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      const soundBtn = document.getElementById('soundBtn');
+      if (soundBtn) soundBtn.innerText = soundEnabled ? '🔊' : '🔇';
+      const m1Sound = document.getElementById('m1SoundIcon');
+      if (m1Sound) m1Sound.innerText = soundEnabled ? '🔊' : '🔇';
+    }
+
+    // BUCLE CONTINUO A 60 FPS
+    function animationLoop(timestamp) {
+      if (!simRunning) return;
+
+      if (!lastFrameTimestamp) {
+        lastFrameTimestamp = timestamp;
+      }
+      const deltaMs = Math.min(100, timestamp - lastFrameTimestamp);
+      lastFrameTimestamp = timestamp;
+
+      simElapsedMs += deltaMs;
+      totalWorkoutElapsedMs += deltaMs;
+
+      const maxPhaseMs = simPhaseDuration * 1000;
+
+      if (simElapsedMs >= maxPhaseMs) {
+        simElapsedMs = maxPhaseMs;
+        renderTimerFrame();
+        playBoxingBell();
+        handlePhaseCompletion();
+        return;
+      }
+
+      renderTimerFrame();
+      rafId = requestAnimationFrame(animationLoop);
+    }
+
+    function handlePhaseCompletion() {
+      if (currentPhase === 'verde') {
+        setPhase('amarillo');
+      } else if (currentPhase === 'amarillo') {
+        currentExIndex = (currentExIndex + 1) % exercises.length;
+        currentCycle = (currentExIndex % totalCyclesPerRound) + 1;
+        if (currentCycle === 1) {
+          currentRound = (currentRound % totalRounds) + 1;
+        }
+        document.getElementById('exerciseSelect').value = currentExIndex;
+        updateProgressIndicators();
+        setPhase('verde');
+      } else if (currentPhase === 'rojo') {
+        currentExIndex = (currentExIndex + 1) % exercises.length;
+        currentCycle = 1;
+        currentRound = (currentRound % totalRounds) + 1;
+        document.getElementById('exerciseSelect').value = currentExIndex;
+        updateProgressIndicators();
+        setPhase('verde');
+      }
+
+      simElapsedMs = 0;
+      lastFrameTimestamp = null;
+      lastSecondReported = null;
+
+      if (simRunning) {
+        rafId = requestAnimationFrame(animationLoop);
+      }
+    }
+
+    function toggleLiveTimer() {
+      simRunning = !simRunning;
+      const simIcon = document.getElementById('simIcon');
+      const simText = document.getElementById('simText');
+      const pauseSvg = document.getElementById('m1PauseSvg');
+      const playSvg = document.getElementById('m1PlaySvg');
+      const stateText = document.getElementById('m1PlayStateText');
+
+      if (simRunning) {
+        simIcon.innerText = '⏸';
+        simText.innerText = 'Pausar Timer';
+        
+        if (pauseSvg) pauseSvg.classList.remove('hidden');
+        if (playSvg) playSvg.classList.add('hidden');
+        if (stateText) stateText.innerText = 'RUNNING';
+        
+        getAudioContext();
+
+        document.querySelectorAll('.gif-step1, .gif-step2').forEach(el => {
+          el.style.animationPlayState = 'running';
+        });
+
+        lastFrameTimestamp = null;
+        rafId = requestAnimationFrame(animationLoop);
+      } else {
+        simIcon.innerText = '▶';
+        simText.innerText = 'Simular Timer';
+        
+        if (pauseSvg) pauseSvg.classList.add('hidden');
+        if (playSvg) playSvg.classList.remove('hidden');
+        if (stateText) stateText.innerText = 'PAUSED';
+        
+        document.querySelectorAll('.gif-step1, .gif-step2').forEach(el => {
+          el.style.animationPlayState = 'paused';
+        });
+
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+        lastFrameTimestamp = null;
+      }
+    }
+
+    // RENDERIZA CADA FRAME DE FORMA CONTINUA
+    function renderTimerFrame() {
+      const maxPhaseMs = simPhaseDuration * 1000;
+      const fraction = Math.min(1, Math.max(0, simElapsedMs / maxPhaseMs));
+      
+      const circumference = 779.12;
+      const offset = circumference * (1 - fraction);
+      const radialEl = document.getElementById('m1Radial');
+      if (radialEl) {
+        radialEl.style.strokeDashoffset = offset;
+      }
+
+      const remainingMs = Math.max(0, maxPhaseMs - simElapsedMs);
+      const remainingSec = Math.ceil(remainingMs / 1000);
+
+      if (remainingSec !== lastSecondReported) {
+        lastSecondReported = remainingSec;
+        const digitStr = remainingSec < 10 ? `0${remainingSec}` : `${remainingSec}`;
+        const digitsEl = document.getElementById('m1Digits');
+        if (digitsEl) digitsEl.innerText = digitStr;
+
+        if (simRunning) {
+          if (currentPhase === 'verde') {
+            triggerTrainingZoomPulse();
+          }
+
+          if (remainingSec <= 3 && remainingSec > 0) {
+            playBeep(880, 0.12, 'sine');
+          }
+        }
+      }
+
+      const totalRemainingSec = Math.max(0, Math.ceil(totalWorkoutDuration - (totalWorkoutElapsedMs / 1000)));
+      const mins = Math.floor(totalRemainingSec / 60);
+      const secs = totalRemainingSec % 60;
+      const totalEl = document.getElementById('m1Total');
+      if (totalEl) {
+        totalEl.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      }
+    }
+
+    function updateProgressIndicators() {
+      const curRoundEl = document.getElementById('m1CurrentRound');
+      const totRoundEl = document.getElementById('m1TotalRounds');
+      if (curRoundEl) curRoundEl.innerText = currentRound;
+      if (totRoundEl) totRoundEl.innerText = `/${totalRounds}`;
+
+      const curCycleEl = document.getElementById('m1CurrentCycle');
+      const totCycleEl = document.getElementById('m1TotalCycles');
+      if (curCycleEl) curCycleEl.innerText = currentCycle;
+      if (totCycleEl) totCycleEl.innerText = `/${totalCyclesPerRound}`;
+    }
+
+    function updateExerciseVisuals() {
+      const isRest = (currentPhase !== 'verde');
+      const curEx = exercises[currentExIndex];
+      const nextExIndex = (currentExIndex + 1) % exercises.length;
+      const nextEx = exercises[nextExIndex];
+
+      const m1Circle = document.getElementById('m1CircleWrapper');
+      const m1InnerDisc = document.getElementById('m1InnerDisc');
+      const m1Digits = document.getElementById('m1Digits');
+      const m1SvgStage = document.getElementById('m1SvgStage');
+      const m1Material = document.getElementById('m1Material');
+      const m1Name = document.getElementById('m1Name');
+
+      const fontClass = useTrilineFont ? "font-exercise tracking-widest uppercase" : "font-display font-black tracking-normal";
+
+      if (isRest) {
+        if (m1Circle) m1Circle.className = "relative w-[354px] h-[354px] sm:w-[368px] sm:h-[368px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
+        if (m1InnerDisc) m1InnerDisc.className = "w-[300px] h-[300px] sm:w-[314px] sm:h-[314px] rounded-full bg-slate-950/90 border-2 border-white/25 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
+        if (m1Digits) m1Digits.className = "text-[102px] sm:text-[116px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200";
+        if (m1SvgStage) {
+          m1SvgStage.className = "w-20 h-20 sm:w-22 sm:h-22 flex items-center justify-center shrink-0 my-0.5 transition-all duration-300 ease-out p-0 border-0 shadow-none bg-transparent";
+          m1SvgStage.innerHTML = nextEx.svg;
+        }
+        if (m1Material) {
+          m1Material.innerText = `SIGUIENTE: ${nextEx.materialBadge}`;
+          m1Material.className = "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-amber-400/25 border border-amber-300/40 text-amber-200 shadow mb-2 sm:mb-2.5 transition-all";
+        }
+        if (m1Name) {
+          m1Name.innerText = useTrilineFont ? nextEx.name : nextEx.cleanName;
+          m1Name.className = `${fontClass} text-lg sm:text-xl text-slate-200 leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all`;
+        }
+      } else {
+        if (m1Circle) m1Circle.className = "relative w-[346px] h-[346px] sm:w-[362px] sm:h-[362px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
+        if (m1InnerDisc) m1InnerDisc.className = "w-[294px] h-[294px] sm:w-[308px] sm:h-[308px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
+        if (m1Digits) m1Digits.className = "text-8xl sm:text-[106px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200";
+        if (m1SvgStage) {
+          m1SvgStage.className = "w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0 transition-all duration-300 ease-out";
+          m1SvgStage.innerHTML = curEx.svg;
+        }
+        if (m1Material) {
+          m1Material.innerText = curEx.materialBadge;
+          m1Material.className = "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow mb-2 sm:mb-2.5 transition-all";
+        }
+        if (m1Name) {
+          m1Name.innerText = useTrilineFont ? curEx.name : curEx.cleanName;
+          m1Name.className = `${fontClass} text-xl sm:text-2xl text-white leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all`;
+        }
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { e.preventDefault(); toggleLiveTimer(); }
+    });
+
+    setPhase('verde');
+    updateExerciseVisuals();
+    updateProgressIndicators();
+    renderTimerFrame();
+  </script>
+</body>
+</html>

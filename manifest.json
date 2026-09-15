@@ -1,0 +1,16 @@
+{
+  "name": "Sergio Fit",
+  "short_name": "Sergio Fit",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#06090e",
+  "theme_color": "#06090e",
+  "description": "Temporizador funcional para clases de entrenamiento en circuito",
+  "icons": [
+    {
+      "src": "banda_decathlon.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

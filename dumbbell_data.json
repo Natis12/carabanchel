@@ -1,0 +1,310 @@
+{
+  "exercises": {
+    "aerobic": [
+      {
+        "id": "m1",
+        "name": "Marcha en el Sitio con Curl de Bíceps",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Marcha suave en el sitio flexionando codos al ritmo; mancuernas pegadas al cuerpo.",
+        "advanced": "Acelera el ritmo de marcha elevando rodillas a 90º."
+      },
+      {
+        "id": "m2",
+        "name": "Paso Lateral con Empuje Frontal",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Paso a un lado mientras extiendes las mancuernas al frente a la altura del esternón.",
+        "advanced": "Haz un paso más amplio descendiendo en mini sentadilla."
+      },
+      {
+        "id": "m3",
+        "name": "Boxeo Suave",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Puñetazos rectos alternos controlados; nunca bloquees el codo con violencia.",
+        "advanced": "Combina dos directos rápidos con esquiva lateral suave."
+      },
+      {
+        "id": "m4",
+        "name": "Step Touch con Elevación Frontal Baja",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Pasos laterales rítmicos subiendo mancuernas sólo hasta el pecho, codos blandos.",
+        "advanced": "Pausa 1 segundo arriba al juntar los pies."
+      },
+      {
+        "id": "m5",
+        "name": "Talones al Glúteo con Remo",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Lleva talón al glúteo alternando pies mientras tiras de codos hacia atrás.",
+        "advanced": "Aumenta la cadencia de taloneo sin perder la alineación lumbar."
+      },
+      {
+        "id": "m6",
+        "name": "Paso en V con Apertura de Brazos",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Paso adelante abriendo pies en V mientras abres brazos a 45º sin superar hombros.",
+        "advanced": "Baja en media sentadilla al dar el paso adelante."
+      },
+      {
+        "id": "m7",
+        "name": "Marcha con Transporte de Maletas",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Caminata firme en el sitio sosteniendo mancuernas abajo con hombros nivelados y abdomen firme.",
+        "advanced": "Haz marcha sobre las puntas de los pies para retorno venoso."
+      },
+      {
+        "id": "m8",
+        "name": "Patinador Suave con Balanceo de Brazos",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Paso lateral cruzando pierna por detrás con balanceo pendular suave de mancuernas.",
+        "advanced": "Desciende más la cadera hacia el talón de apoyo."
+      },
+      {
+        "id": "m9",
+        "name": "Toque de Talón al Frente con Press al Pecho",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Talón adelante alternando y empuje horizontal desde el pecho con las dos mancuernas.",
+        "advanced": "Extiende brazos a mayor velocidad con control escapular."
+      },
+      {
+        "id": "m10",
+        "name": "Sentadilla Corta con Impulso al Pecho",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Mini sentadilla fluida y al subir elévate a puntillas con mancuernas pegadas al esternón.",
+        "advanced": "Pausa 1 segundo arriba sobre las puntas de los pies."
+      },
+      {
+        "id": "m11",
+        "name": "Paso Atrás Alterno con Apertura en W",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Paso atrás apoyando punta mientras doblas codos pegados al cuerpo en forma de W.",
+        "advanced": "Junta escápulas con firmeza durante 2 segundos atrás."
+      },
+      {
+        "id": "m12",
+        "name": "Desplazamiento Lateral con Guardia",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "z",
+        "cue": "Dos pasos laterales a la derecha y dos a la izquierda sosteniendo mancuernas al pecho.",
+        "advanced": "Añade una rotación suave de hombros al cambiar de sentido."
+      },
+      {
+        "id": "m13",
+        "name": "Marcha Rápida con Balanceo Alterno Corto",
+        "type": "AERÓBICO",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Codos flexionados a 90º; braceo rítmico corto y constante coordinado con los pies.",
+        "advanced": "Acelera la cadencia manteniendo la postura erguida."
+      }
+    ],
+    "strength": [
+      {
+        "id": "m14",
+        "name": "Sentadilla a Silla al Pecho",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Cadera atrás como a sentarte, roza la silla y sube empujando talones con pesas al pecho.",
+        "advanced": "Hazla sin apoyar el peso en la silla, pausando 2 seg abajo."
+      },
+      {
+        "id": "m15",
+        "name": "Remo Dorsal con Codos Pegados",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Torso inclinado 45º, columna neutra; tira de codos hacia las costillas juntando escápulas.",
+        "advanced": "Pausa 2 segundos arriba apretando la espalda media."
+      },
+      {
+        "id": "m16",
+        "name": "Elevaciones Laterales en Plano Escapular",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Brazos a 30º hacia delante, sube sólo hasta la altura de las axilas con codos suaves.",
+        "advanced": "Sube en 1 segundo y desciende controlando en 3 segundos."
+      },
+      {
+        "id": "m17",
+        "name": "Peso Muerto Rumano Asistido",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Espalda recta, bisagra de cadera atrás; las mancuernas bajan rozando los muslos hasta las rodillas.",
+        "advanced": "Baja en 4 segundos sintiendo el estiramiento de isquios."
+      },
+      {
+        "id": "m18",
+        "name": "Patada de Tríceps a Dos Manos",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Torso inclinado, codos fijados a los costados; extiende brazos atrás sin balancear.",
+        "advanced": "Bloquea atrás 2 segundos sintiendo la contracción del tríceps."
+      },
+      {
+        "id": "m19",
+        "name": "Curl de Bíceps Martillo Controlado",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Palmas enfrentadas hacia dentro; sube controlando sin arquear la espalda baja.",
+        "advanced": "Baja en 3 segundos resistiendo el peso."
+      },
+      {
+        "id": "m20",
+        "name": "Zancada Estática",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Posición en tijera fija, baja rodilla trasera en vertical; brazos colgados como maletas.",
+        "advanced": "Pausa 2 segundos en el punto bajo sin tocar el suelo."
+      },
+      {
+        "id": "m21",
+        "name": "Pájaros para Deltoides Posterior y Escápulas",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Inclinación de tronco a 45º, abre brazos en semicírculo hacia los lados para postura dorsal.",
+        "advanced": "Pausa 2 segundos arriba juntando los omóplatos."
+      },
+      {
+        "id": "m22",
+        "name": "Sentadilla Sumo Central",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "pz",
+        "cue": "Pies anchos con puntas a 45º; baja vertical con las mancuernas unidas colgando al centro.",
+        "advanced": "Haz 2 pequeños rebotes controlados abajo antes de subir."
+      },
+      {
+        "id": "m23",
+        "name": "Elevación de Talones para Gemelos",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "De pie erguida, eleva talones lentamente soportando el peso; pausa arriba 1 segundo.",
+        "advanced": "Sube en 1 segundo y baja muy lento en 4 segundos."
+      },
+      {
+        "id": "m24",
+        "name": "Press de Pecho en Esterilla (Floor Press)",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Tumbada en esterilla con rodillas dobladas; empuja mancuernas arriba, los codos tocan el suelo a 45º.",
+        "advanced": "Mantén la pelvis elevada en puente de glúteo durante el press."
+      },
+      {
+        "id": "m25",
+        "name": "Apertura de Pecho en Esterilla",
+        "type": "FUERZA",
+        "materialKey": "mancuernas",
+        "material": "Mancuernas 2kg",
+        "materialIcon": "MANC",
+        "groups": "p",
+        "cue": "Boca arriba en esterilla, abre brazos con codos ligeramente doblados hasta rozar el suelo.",
+        "advanced": "Pausa 2 segundos con los brazos casi abiertos antes de cerrar."
+      }
+    ]
+  },
+  "svgs": {
+    "m1": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m2": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m3": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuernas al pecho o a los lados --> <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m11": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m12": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m13": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m14": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuernas al pecho o a los lados --> <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m15": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m16": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m17": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m18": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m19": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m20": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuernas al pecho o a los lados --> <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m21": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m22": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuernas al pecho o a los lados --> <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m23": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m24": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuerna abajo --> <line x1=\"32\" y1=\"62\" x2=\"40\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuerna arriba --> <line x1=\"32\" y1=\"48\" x2=\"40\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/> <path d=\"M36 58 L36 50 M33 53 L36 49 L39 53\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
+    "m25": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><rect width=\"100\" height=\"100\" rx=\"16\" fill=\"#1e293b\"/><g class=\"gif-step1\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#334155\"/><text x=\"23\" y=\"14\" fill=\"#cbd5e1\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">1. INICIO</text> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuerna abajo --> <line x1=\"32\" y1=\"62\" x2=\"40\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/> </g><g class=\"gif-step2\"><rect x=\"6\" y=\"6\" width=\"34\" height=\"11\" rx=\"3.5\" fill=\"#047857\"/><text x=\"23\" y=\"14\" fill=\"#34d399\" font-size=\"5.5\" font-family=\"system-ui, sans-serif\" font-weight=\"800\" text-anchor=\"middle\">2. ACCIÓN</text> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <!-- Mancuerna arriba --> <line x1=\"32\" y1=\"48\" x2=\"40\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/> <path d=\"M36 58 L36 50 M33 53 L36 49 L39 53\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>"
+  }
+}

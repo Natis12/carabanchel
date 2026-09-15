@@ -1,0 +1,6 @@
+index.backup.html
+temp_*.html
+*.log
+.vscode/
+.DS_Store
+Thumbs.db
