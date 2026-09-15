@@ -73,6 +73,82 @@
       transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
+
+    /* ========================================================
+       FONDOS DE MATERIALES VIBRANTES Y NOTORIOS (LUZ Y OSCURO)
+       ======================================================== */
+    .mat-card-mancuernas {
+      background-color: #dbeafe !important;
+      border-color: #3b82f6 !important;
+    }
+    .dark .mat-card-mancuernas {
+      background-color: #0c2340 !important;
+      border-color: #60a5fa !important;
+    }
+
+    .mat-card-kettlebell {
+      background-color: #fee2e2 !important;
+      border-color: #ef4444 !important;
+    }
+    .dark .mat-card-kettlebell {
+      background-color: #3b0d14 !important;
+      border-color: #f87171 !important;
+    }
+
+    .mat-card-goma {
+      background-color: #ecfccb !important;
+      border-color: #84cc16 !important;
+    }
+    .dark .mat-card-goma {
+      background-color: #1a2e05 !important;
+      border-color: #a3e635 !important;
+    }
+
+    .mat-card-aro {
+      background-color: #fce7f3 !important;
+      border-color: #ec4899 !important;
+    }
+    .dark .mat-card-aro {
+      background-color: #380b20 !important;
+      border-color: #f472b6 !important;
+    }
+
+    .mat-card-esterilla {
+      background-color: #d1fae5 !important;
+      border-color: #10b981 !important;
+    }
+    .dark .mat-card-esterilla {
+      background-color: #063022 !important;
+      border-color: #34d399 !important;
+    }
+
+    .mat-card-silla {
+      background-color: #cffafe !important;
+      border-color: #06b6d4 !important;
+    }
+    .dark .mat-card-silla {
+      background-color: #062c38 !important;
+      border-color: #22d3ee !important;
+    }
+
+    .mat-card-pared {
+      background-color: #e2e8f0 !important;
+      border-color: #64748b !important;
+    }
+    .dark .mat-card-pared {
+      background-color: #1e293b !important;
+      border-color: #94a3b8 !important;
+    }
+
+    .mat-card-corporal {
+      background-color: #ccfbf1 !important;
+      border-color: #14b8a6 !important;
+    }
+    .dark .mat-card-corporal {
+      background-color: #042f2c !important;
+      border-color: #2dd4bf !important;
+    }
+
     /* Arrastre y Reordenación Suave de Estaciones */
     .station-card-draggable {
       touch-action: pan-y;
@@ -705,43 +781,43 @@
           </div>
           
           <div class="grid grid-cols-2 gap-2 text-xs font-bold">
-            <button onclick="toggleMaterial('esterilla')" id="matBtn-esterilla" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-esterilla">✅</span>
+            <button onclick="toggleMaterial('esterilla')" id="matBtn-esterilla" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-esterilla text-emerald-950 dark:text-emerald-100">
+              <span id="matCheck-esterilla"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #10b981">✓</span></span>
               <span>🧘 Esterillas</span>
             </button>
 
-            <button onclick="toggleMaterial('kettlebell')" id="matBtn-kettlebell" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-kettlebell">✅</span>
+            <button onclick="toggleMaterial('kettlebell')" id="matBtn-kettlebell" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-kettlebell text-red-950 dark:text-red-100">
+              <span id="matCheck-kettlebell"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #ef4444">✓</span></span>
               <span>🏋️ KB Pesada</span>
             </button>
 
-            <button onclick="toggleMaterial('goma')" id="matBtn-goma" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-goma">✅</span>
+            <button onclick="toggleMaterial('goma')" id="matBtn-goma" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-goma text-lime-950 dark:text-lime-100">
+              <span id="matCheck-goma"><span class="w-5 h-5 rounded-md flex items-center justify-center text-slate-950 text-xs font-black shadow-inner" style="background-color: #84cc16">✓</span></span>
               <span>🎗️ Goma</span>
             </button>
 
-            <button onclick="toggleMaterial('aro')" id="matBtn-aro" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-aro">✅</span>
+            <button onclick="toggleMaterial('aro')" id="matBtn-aro" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-aro text-pink-950 dark:text-pink-100">
+              <span id="matCheck-aro"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #ec4899">✓</span></span>
               <span>⭕ Aro Pilates</span>
             </button>
 
-            <button onclick="toggleMaterial('mancuernas')" id="matBtn-mancuernas" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-mancuernas">✅</span>
+            <button onclick="toggleMaterial('mancuernas')" id="matBtn-mancuernas" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-mancuernas text-blue-950 dark:text-blue-100">
+              <span id="matCheck-mancuernas"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #3b82f6">✓</span></span>
               <span>🏋️‍♀️ Mancuernas</span>
             </button>
 
-            <button onclick="toggleMaterial('silla')" id="matBtn-silla" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-silla">✅</span>
+            <button onclick="toggleMaterial('silla')" id="matBtn-silla" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-silla text-cyan-950 dark:text-cyan-100">
+              <span id="matCheck-silla"><span class="w-5 h-5 rounded-md flex items-center justify-center text-slate-950 text-xs font-black shadow-inner" style="background-color: #06b6d4">✓</span></span>
               <span>🪑 Silla</span>
             </button>
 
-            <button onclick="toggleMaterial('pared')" id="matBtn-pared" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-pared">✅</span>
+            <button onclick="toggleMaterial('pared')" id="matBtn-pared" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-pared text-slate-950 dark:text-slate-100">
+              <span id="matCheck-pared"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #64748b">✓</span></span>
               <span>🧱 Pared</span>
             </button>
 
-            <button onclick="toggleMaterial('corporal')" id="matBtn-corporal" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
-              <span id="matCheck-corporal">✅</span>
+            <button onclick="toggleMaterial('corporal')" id="matBtn-corporal" class="p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm mat-card-corporal text-teal-950 dark:text-teal-100">
+              <span id="matCheck-corporal"><span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: #14b8a6">✓</span></span>
               <span>🤸 Peso Corporal</span>
             </button>
           </div>
@@ -2626,17 +2702,30 @@
       generateRandomWorkout(false);
     }
 
+    const MATERIAL_BTN_THEMES = {
+      mancuernas: { bg: 'mat-card-mancuernas text-blue-950 dark:text-blue-100', dot: '#3b82f6' },
+      kettlebell: { bg: 'mat-card-kettlebell text-red-950 dark:text-red-100', dot: '#ef4444' },
+      goma: { bg: 'mat-card-goma text-lime-950 dark:text-lime-100', dot: '#84cc16' },
+      aro: { bg: 'mat-card-aro text-pink-950 dark:text-pink-100', dot: '#ec4899' },
+      esterilla: { bg: 'mat-card-esterilla text-emerald-950 dark:text-emerald-100', dot: '#10b981' },
+      silla: { bg: 'mat-card-silla text-cyan-950 dark:text-cyan-100', dot: '#06b6d4' },
+      pared: { bg: 'mat-card-pared text-slate-950 dark:text-slate-100', dot: '#64748b' },
+      corporal: { bg: 'mat-card-corporal text-teal-950 dark:text-teal-100', dot: '#14b8a6' }
+    };
+
     function updateMaterialUI() {
       ['esterilla', 'kettlebell', 'goma', 'aro', 'mancuernas', 'silla', 'pared', 'corporal'].forEach(key => {
         const btn = document.getElementById(`matBtn-${key}`);
         const check = document.getElementById(`matCheck-${key}`);
         if (!btn || !check) return;
+        const theme = MATERIAL_BTN_THEMES[key] || { bg: 'mat-card-corporal', dot: '#10b981' };
+
         if (activeMaterials[key]) {
-          btn.className = "p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold min-h-[44px]";
-          check.innerText = "✅";
+          btn.className = `p-2.5 rounded-xl border-2 flex items-center gap-2 transition active:scale-95 font-black min-h-[44px] shadow-sm ${theme.bg}`;
+          check.innerHTML = `<span class="w-5 h-5 rounded-md flex items-center justify-center text-white text-xs font-black shadow-inner" style="background-color: ${theme.dot}">✓</span>`;
         } else {
-          btn.className = "p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-slate-100 dark:bg-slate-900 border-slate-300 dark:border-slate-800 text-slate-400 font-bold opacity-60 min-h-[44px]";
-          check.innerText = "⬜";
+          btn.className = "p-2.5 rounded-xl border border-slate-300 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/50 text-slate-400 font-bold opacity-45 min-h-[44px] flex items-center gap-2 transition active:scale-95";
+          check.innerHTML = `<span class="w-5 h-5 rounded-md border border-slate-400 dark:border-slate-600 flex items-center justify-center"></span>`;
         }
       });
     }
@@ -3184,72 +3273,80 @@
         name: 'Mancuernas',
         colorName: 'Azul',
         emoji: '🏋️‍♀️',
-        bgClasses: 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800/70',
-        thumbBorder: 'border-blue-300 dark:border-blue-700',
-        badgeClasses: 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
+        bgClasses: 'mat-card-mancuernas border-2',
+        dotHex: '#3b82f6',
+        thumbBorder: 'border-blue-400 dark:border-blue-400',
+        badgeClasses: 'bg-blue-500/25 text-blue-900 dark:text-blue-100 border border-blue-400'
       },
       kettlebell: {
         key: 'kettlebell',
         name: 'Kettlebell',
         colorName: 'Rojo',
         emoji: '🏋️',
-        bgClasses: 'bg-red-50/90 dark:bg-red-950/40 border-red-200 dark:border-red-800/70',
-        thumbBorder: 'border-red-300 dark:border-red-700',
-        badgeClasses: 'bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30'
+        bgClasses: 'mat-card-kettlebell border-2',
+        dotHex: '#ef4444',
+        thumbBorder: 'border-red-400 dark:border-red-400',
+        badgeClasses: 'bg-red-500/25 text-red-900 dark:text-red-100 border border-red-400'
       },
       goma: {
         key: 'goma',
         name: 'Goma',
         colorName: 'Lima',
         emoji: '🎗️',
-        bgClasses: 'bg-lime-50/90 dark:bg-lime-950/40 border-lime-200 dark:border-lime-800/70',
-        thumbBorder: 'border-lime-300 dark:border-lime-700',
-        badgeClasses: 'bg-lime-500/15 text-lime-800 dark:text-lime-300 border-lime-500/30'
+        bgClasses: 'mat-card-goma border-2',
+        dotHex: '#84cc16',
+        thumbBorder: 'border-lime-400 dark:border-lime-400',
+        badgeClasses: 'bg-lime-500/25 text-lime-950 dark:text-lime-100 border border-lime-400'
       },
       aro: {
         key: 'aro',
         name: 'Aro',
         colorName: 'Rosa',
         emoji: '⭕',
-        bgClasses: 'bg-pink-50/90 dark:bg-pink-950/40 border-pink-200 dark:border-pink-800/70',
-        thumbBorder: 'border-pink-300 dark:border-pink-700',
-        badgeClasses: 'bg-pink-500/15 text-pink-700 dark:text-pink-300 border-pink-500/30'
+        bgClasses: 'mat-card-aro border-2',
+        dotHex: '#ec4899',
+        thumbBorder: 'border-pink-400 dark:border-pink-400',
+        badgeClasses: 'bg-pink-500/25 text-pink-900 dark:text-pink-100 border border-pink-400'
       },
       esterilla: {
         key: 'esterilla',
         name: 'Esterilla',
         colorName: 'Esmeralda',
         emoji: '🧘',
-        bgClasses: 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/70',
-        thumbBorder: 'border-emerald-300 dark:border-emerald-700',
-        badgeClasses: 'bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border-emerald-500/30'
+        bgClasses: 'mat-card-esterilla border-2',
+        dotHex: '#10b981',
+        thumbBorder: 'border-emerald-400 dark:border-emerald-400',
+        badgeClasses: 'bg-emerald-500/25 text-emerald-950 dark:text-emerald-100 border border-emerald-400'
       },
       silla: {
         key: 'silla',
         name: 'Silla',
         colorName: 'Cian',
         emoji: '🪑',
-        bgClasses: 'bg-cyan-50/90 dark:bg-cyan-950/40 border-cyan-200 dark:border-cyan-800/70',
-        thumbBorder: 'border-cyan-300 dark:border-cyan-700',
-        badgeClasses: 'bg-cyan-500/15 text-cyan-800 dark:text-cyan-300 border-cyan-500/30'
+        bgClasses: 'mat-card-silla border-2',
+        dotHex: '#06b6d4',
+        thumbBorder: 'border-cyan-400 dark:border-cyan-400',
+        badgeClasses: 'bg-cyan-500/25 text-cyan-950 dark:text-cyan-100 border border-cyan-400'
       },
       pared: {
         key: 'pared',
         name: 'Pared',
         colorName: 'Pizarra',
         emoji: '🧱',
-        bgClasses: 'bg-slate-100/90 dark:bg-slate-900/80 border-slate-300 dark:border-slate-700',
-        thumbBorder: 'border-slate-400 dark:border-slate-600',
-        badgeClasses: 'bg-slate-500/15 text-slate-700 dark:text-slate-300 border-slate-500/30'
+        bgClasses: 'mat-card-pared border-2',
+        dotHex: '#64748b',
+        thumbBorder: 'border-slate-400 dark:border-slate-400',
+        badgeClasses: 'bg-slate-500/25 text-slate-900 dark:text-slate-100 border border-slate-400'
       },
       corporal: {
         key: 'corporal',
         name: 'Corporal',
         colorName: 'Turquesa',
         emoji: '🤸',
-        bgClasses: 'bg-teal-50/90 dark:bg-teal-950/40 border-teal-200 dark:border-teal-800/70',
-        thumbBorder: 'border-teal-300 dark:border-teal-700',
-        badgeClasses: 'bg-teal-500/15 text-teal-800 dark:text-teal-300 border-teal-500/30'
+        bgClasses: 'mat-card-corporal border-2',
+        dotHex: '#14b8a6',
+        thumbBorder: 'border-teal-400 dark:border-teal-400',
+        badgeClasses: 'bg-teal-500/25 text-teal-950 dark:text-teal-100 border border-teal-400'
       }
     };
 
