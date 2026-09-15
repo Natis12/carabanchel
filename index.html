@@ -169,6 +169,45 @@
       pointer-events: none;
     }
 
+    
+    /* Animación Fluida y Continua del Círculo (Sin tics bruscos) */
+    @keyframes continuousFluidZoom {
+      0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 16px var(--phase-glow));
+      }
+      50% {
+        transform: scale(1.032);
+        filter: drop-shadow(0 0 38px var(--phase-glow));
+      }
+      100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 16px var(--phase-glow));
+      }
+    }
+
+    @keyframes continuousFluidAura {
+      0% {
+        transform: scale(1);
+        opacity: 0.35;
+      }
+      50% {
+        transform: scale(1.09);
+        opacity: 0.80;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.35;
+      }
+    }
+
+    .animate-fluid-zoom {
+      animation: continuousFluidZoom 2.6s ease-in-out infinite !important;
+    }
+    .animate-fluid-aura {
+      animation: continuousFluidAura 2.6s ease-in-out infinite !important;
+    }
+
     /* Luminous Heartbeat Pro Animation (60 FPS, zero reflow) */
     @keyframes heartBeatPro {
       0% {
@@ -287,15 +326,47 @@
 
       <!-- VISTA 1: TEMPORIZADOR CIRCULAR (CAMBIO DE COLOR EN TIEMPO REAL) -->
             <!-- VISTA 1: TEMPORIZADOR CIRCULAR V29 (TITANIO + 60FPS + PULSO + DOCK SWAPPED) -->
-      <section id="viewTimer" class="flex-1 flex flex-col p-3 sm:p-5 justify-between items-center relative overflow-hidden z-10 w-full max-w-xl mx-auto h-full min-h-[100dvh]">
+      <section id="viewTimer" class="flex-1 flex flex-col px-3 sm:px-5 justify-between items-center relative overflow-hidden z-10 w-full max-w-xl mx-auto h-full min-h-[100dvh]" style="padding-top: max(env(safe-area-inset-top, 0px) + 0.75rem, 3.5rem); padding-bottom: max(env(safe-area-inset-bottom, 0px) + 0.5rem, 1.25rem);">
         
         <!-- 1. TOP BAR: MUTE + REINICIAR + ANTERIOR + SIGUIENTE A LA IZQUIERDA Y TIEMPO TOTAL A LA DERECHA -->
-        <div class="w-full flex items-center justify-between z-20 shrink-0 px-1 pt-0.5 mb-1">
+        <div class="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-20 shrink-0 px-2 pt-0.5 mb-1">
           
-          <div class="flex items-center gap-1 bg-black/45 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg">
-            <button onclick="toggleMute()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Silenciar / Activar sonido">
+          <div class="relative flex items-center gap-1 bg-black/45 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg">
+            <button type="button" onclick="toggleVolumePopover(event)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Ajustar Volumen y Silenciar">
               <span id="m1SoundIcon">🔊</span>
             </button>
+
+            <!-- POPOVER FLOTANTE DE VOLUMEN (0-100) Y MUTE -->
+            <div id="timerVolumePopover" class="hidden absolute top-11 left-0 z-50 w-64 bg-slate-950/95 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 shadow-2xl space-y-3 text-white text-left origin-top-left transition-all">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">🔊</span>
+                  <span class="text-xs font-black uppercase tracking-wider text-slate-200">Volumen General</span>
+                </div>
+                <span id="timerVolVal" class="font-mono font-black text-xs text-emerald-400">85%</span>
+              </div>
+
+              <!-- Deslizador de 0 a 100 -->
+              <div class="space-y-1">
+                <input type="range" id="timerVolSlider" min="0" max="100" value="85" oninput="changeVolume(this.value)" class="w-full accent-emerald-500 bg-white/20 rounded-lg h-2 cursor-pointer">
+                <div class="flex justify-between text-[10px] text-slate-400 font-mono">
+                  <span>0%</span>
+                  <span>50%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+
+              <!-- Controles Rápidos: Mute + Test Gong -->
+              <div class="flex items-center gap-2 pt-1 border-t border-white/10">
+                <button type="button" onclick="toggleMute()" id="timerMuteBtn" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1.5 text-xs font-bold transition">
+                  <span id="timerMuteIcon">🔊</span>
+                  <span id="timerMuteText">Silenciar</span>
+                </button>
+                <button type="button" onclick="playBoxingBell()" class="py-1.5 px-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold active:scale-95 transition" title="Probar sonido">
+                  🔔 Gong
+                </button>
+              </div>
+            </div>
 
             <button onclick="resetWorkout()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Reiniciar entrenamiento">
               <span class="text-xs">↺</span>
@@ -312,16 +383,16 @@
             </button>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1.5">
             <!-- CÁPSULA TIEMPO TOTAL RESTANTE -->
-            <div class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg">
-              <span class="text-sm leading-none">⏳</span>
-              <span id="m1Total" class="font-mono font-black text-sm sm:text-base text-white tracking-tight leading-none">14:25</span>
+            <div class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg">
+              <span class="text-xs leading-none">⏳</span>
+              <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
             </div>
 
             <!-- BOTÓN AJUSTES A LA DERECHA DEL TEMPORIZADOR TOTAL -->
-            <button onclick="setMainView('config')" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all active:scale-90" title="Configurar Entrenamiento">
-              <span class="text-base sm:text-lg">⚙️</span>
+            <button onclick="setMainView('config')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all active:scale-90" title="Configurar Entrenamiento">
+              <span class="text-sm sm:text-base">⚙️</span>
             </button>
           </div>
         </div>
@@ -329,7 +400,7 @@
         <!-- 2. ZONA CENTRAL: CÍRCULO MÁS GRANDE + DIBUJO + TÍTULO -->
         <div class="flex-1 flex flex-col items-center justify-center z-10 w-full pt-0.5 pb-0.5">
           
-          <div id="m1CircleWrapper" class="relative w-[346px] h-[346px] sm:w-[362px] sm:h-[362px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center">
+          <div id="m1CircleWrapper" class="relative w-[320px] h-[320px] sm:w-[356px] sm:h-[356px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center">
             
             <div id="m1AuraGlow" class="absolute -inset-6 rounded-full pointer-events-none opacity-35" style="background: radial-gradient(circle, var(--phase-glow) 0%, rgba(0,0,0,0) 72%);"></div>
             <div class="absolute inset-0 circular-glow"></div>
@@ -343,13 +414,13 @@
                       class="radial-progress"/>
             </svg>
 
-            <div id="m1InnerDisc" class="w-[294px] h-[294px] sm:w-[308px] sm:h-[308px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out" style="border-radius: 9999px;">
+            <div id="m1InnerDisc" class="w-[274px] h-[274px] sm:w-[304px] sm:h-[304px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out" style="border-radius: 9999px;">
               
               <span id="m1PhaseBadge" class="text-[11px] sm:text-xs font-black uppercase tracking-widest px-4 py-0.5 rounded-full shadow-md mb-1 transition-all" style="background-color: var(--phase-ring); color: #022c22;">
                 TRABAJO
               </span>
 
-              <span id="m1Digits" class="text-8xl sm:text-[106px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200">
+              <span id="m1Digits" class="text-[102px] sm:text-[124px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] transition-all duration-200">
                 30
               </span>
 
@@ -371,7 +442,7 @@
               <span id="m1Material" class="inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow mb-2 sm:mb-2.5 transition-all">
                 MANCUERNAS
               </span>
-              <h3 id="m1Name" class="font-exercise text-xl sm:text-2xl text-white tracking-widest leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all">
+              <h3 id="m1Name" class="font-exercise text-lg sm:text-xl text-white tracking-wider leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all max-w-[320px] mx-auto break-words">
                 ELEVACIONES FRONTALES
               </h3>
             </div>
@@ -494,7 +565,7 @@
       </section>
 
       <!-- VISTA 2: PANEL DE AJUSTES (GRUPO, MATERIAL, SERIES, TIEMPOS, CATÁLOGO Y BOTÓN GENERAR) -->
-      <section id="viewConfig" class="flex-1 flex flex-col p-4 sm:p-6 overflow-y-auto hidden space-y-4 max-w-xl mx-auto w-full">
+      <section id="viewConfig" class="flex-1 flex flex-col p-4 sm:p-6 overflow-y-auto hidden space-y-4 max-w-xl mx-auto w-full" style="padding-top: max(env(safe-area-inset-top, 0px) + 0.75rem, 2.75rem); padding-bottom: max(env(safe-area-inset-bottom, 0px) + 1.5rem, 4rem);">
 
         <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sticky top-0 bg-white/95 dark:bg-[#0b1019]/95 backdrop-blur-md z-30 pt-1">
           <div class="flex items-center gap-2.5">
@@ -526,42 +597,18 @@
             <span class="text-xs text-slate-400 font-semibold">Toca para cambiar</span>
           </div>
           <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm font-extrabold">
-            <button onclick="setGroup('pilates')" id="btnGroupPilates" class="p-3 rounded-2xl border flex flex-col items-center justify-center gap-1 transition active:scale-95 bg-emerald-500/20 border-emerald-500 text-emerald-800 dark:text-emerald-200 min-h-[52px]">
-              <span class="text-base">🧘</span>
-              <span>Circuito Pilates</span>
-              <span class="text-[10px] font-normal opacity-80">Core, Suelo Pélvico y Control</span>
+            <button onclick="setGroup('pilates')" id="btnGroupPilates" class="p-3 rounded-2xl border flex items-center justify-center gap-2 transition active:scale-95 bg-emerald-500/20 border-emerald-500 text-emerald-800 dark:text-emerald-200 min-h-[48px]">
+              <span class="text-xl">🧘</span>
+              <span class="text-sm font-black">Pilates</span>
             </button>
-            <button onclick="setGroup('zumba')" id="btnGroupZumba" class="p-3 rounded-2xl border flex flex-col items-center justify-center gap-1 transition active:scale-95 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 min-h-[52px]">
-              <span class="text-base">💃</span>
-              <span>Circuito Zumba</span>
-              <span class="text-[10px] font-normal opacity-80">Pasos de Baile sin Impacto</span>
+            <button onclick="setGroup('zumba')" id="btnGroupZumba" class="p-3 rounded-2xl border flex items-center justify-center gap-2 transition active:scale-95 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 min-h-[48px]">
+              <span class="text-xl">💃</span>
+              <span class="text-sm font-black">Zumba</span>
             </button>
           </div>
         </div>
 
-        <!-- SELECTOR DE MODO: CON EJERCICIOS vs SOLO TEMPORIZADOR -->
-        <div class="p-3.5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2.5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">Modo de Entrenamiento:</span>
-            <span id="badgeTimerMode" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">Ejercicios Guiados</span>
-          </div>
-          <div class="grid grid-cols-2 gap-2 text-xs font-extrabold">
-            <button type="button" onclick="setTimerMode(false)" id="btnModeGuided" class="p-3 rounded-2xl border flex flex-col items-center justify-center gap-1 transition active:scale-95 bg-emerald-500/20 border-emerald-500 text-emerald-800 dark:text-emerald-200 min-h-[52px]">
-              <span class="text-lg">📋</span>
-              <span>Ejercicios Guiados</span>
-              <span class="text-[10px] font-normal opacity-80">Catálogo e Ilustraciones</span>
-            </button>
-            <button type="button" onclick="setTimerMode(true)" id="btnModeFree" class="p-3 rounded-2xl border flex flex-col items-center justify-center gap-1 transition active:scale-95 bg-white dark:bg-slate-950 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 min-h-[52px]">
-              <span class="text-lg">⏱️</span>
-              <span>Solo Temporizador</span>
-              <span class="text-[10px] font-normal opacity-80">Rondas y Estaciones Libres</span>
-            </button>
-          </div>
-          <div id="freeModeNotice" class="hidden text-xs text-slate-600 dark:text-slate-300 bg-amber-500/10 border border-amber-500/30 p-2.5 rounded-2xl flex items-start gap-2">
-            <span class="text-base">ℹ️</span>
-            <span><strong>Modo Temporizador Libre:</strong> Temporizador limpio sin ejercicios concretos. Tú decides los ejercicios en directo. La pantalla mostrará "EJERCICIO 1, EJERCICIO 2..." con tus tiempos, rondas y avisos sonoros.</span>
-          </div>
-        </div>
+        
 
         <!-- 1. SELECTOR DE MATERIAL DISPONIBLE HOY (AHORA CON MANCUERNAS 2KG) -->
         <div id="guidedMaterialsSec" class="p-3.5 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2.5 shadow-sm">
@@ -757,8 +804,8 @@
           </button>
         </div>
 
-        <!-- 7. AJUSTES DE AUDIO (GONG METÁLICO FIJO SEGÚN PETICIÓN) -->
-        <div class="p-4 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-sm">
+        <!-- 7. AJUSTES DE AUDIO (GONG METÁLICO FIJO SEGÚN PETICIÓN - OCULTO) -->
+        <div class="hidden p-4 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-sm">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="text-lg">🥊</span>
@@ -807,7 +854,7 @@
 
       </section>
       <!-- VISTA 3: PANTALLA DEDICADA DE ESTACIONES DEL CIRCUITO GENERADO -->
-      <section id="viewStations" class="flex-1 flex flex-col p-4 sm:p-6 overflow-y-auto hidden space-y-4 max-w-xl mx-auto w-full">
+      <section id="viewStations" class="flex-1 flex flex-col p-4 sm:p-6 overflow-y-auto hidden space-y-4 max-w-xl mx-auto w-full pb-20" style="padding-top: max(env(safe-area-inset-top, 0px) + 0.75rem, 2.75rem); padding-bottom: max(env(safe-area-inset-bottom, 0px) + 1.5rem, 4rem);">
         <!-- Header de la pantalla de estaciones -->
         <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 sticky top-0 bg-white/95 dark:bg-[#0b1019]/95 backdrop-blur-md z-30 pt-1">
           <div class="flex items-center gap-2">
@@ -943,9 +990,9 @@
           <button onclick="setCatalogFilter('all')" id="catFilt-all" class="px-2.5 py-1 rounded-lg bg-emerald-500 text-slate-950 font-bold shrink-0">Todos (125)</button>
           <button onclick="setCatalogFilter('AERÓBICO')" id="catFilt-AERÓBICO" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aeróbicos</button>
           <button onclick="setCatalogFilter('FUERZA')" id="catFilt-FUERZA" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Fuerza</button>
-          <button onclick="setCatalogFilter('mancuernas')" id="catFilt-mancuernas" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Mancuernas</button>
+          <button onclick="setCatalogFilter('mancuernas')" id="catFilt-mancuernas" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Mancuernas 2kg</button>
           <button onclick="setCatalogFilter('corporal')" id="catFilt-corporal" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Sin Material</button>
-          <button onclick="setCatalogFilter('goma')" id="catFilt-goma" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Goma</button>
+          <button onclick="setCatalogFilter('goma')" id="catFilt-goma" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Banda Larga</button>
           <button onclick="setCatalogFilter('aro')" id="catFilt-aro" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aro</button>
           <button onclick="setCatalogFilter('esterilla')" id="catFilt-esterilla" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Esterilla</button>
           <button onclick="setCatalogFilter('kettlebell')" id="catFilt-kettlebell" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">KB Pesada</button>
@@ -1029,13 +1076,13 @@
 
       if (isDarkMode) {
         htmlElem.classList.add('dark');
-        if (themeIcon) themeIcon.innerText = '☀️';
-        if (themeLabel) themeLabel.innerText = 'Claro';
+        themeIcon.innerText = '☀️';
+        themeLabel.innerText = 'Claro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#131b2c');
       } else {
         htmlElem.classList.remove('dark');
-        if (themeIcon) themeIcon.innerText = '🌙';
-        if (themeLabel) themeLabel.innerText = 'Oscuro';
+        themeIcon.innerText = '🌙';
+        themeLabel.innerText = 'Oscuro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#e2e8f0');
       }
 
@@ -1062,7 +1109,7 @@
       "name": "Paso Lateral con Tracción al Pecho",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso a un lado mientras abres suavemente la banda Decathlon al pecho.",
       "advanced": "Haz un paso más amplio con mini sentadilla al abrir."
@@ -1102,7 +1149,7 @@
       "name": "Step Touch Lateral con Tracción",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pasos laterales rítmicos abriendo codos hacia atrás con la goma.",
       "advanced": "Desciende ligeramente la cadera en cada paso lateral."
@@ -1152,7 +1199,7 @@
       "name": "Shadow Boxing",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Banda por detrás de la espalda; puñetazos rectos suaves y controlados.",
       "advanced": "Combina jab recto con gancho suave contra la tensión."
@@ -1202,7 +1249,7 @@
       "name": "Tracción Frontal en Tijera",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso alterno al frente estirando la banda larga con los brazos rectos.",
       "advanced": "Paso adelante más largo flexionando rodilla delantera."
@@ -1262,7 +1309,7 @@
       "name": "Remo Dinámico con Paso Atrás",
       "type": "AERÓBICO",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Paso atrás simultáneo al remo con codos pegados al cuerpo.",
       "advanced": "Paso atrás más amplio y tira de codos bien pegados."
@@ -1314,7 +1361,7 @@
       "name": "Remo Dorsal Doble",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda al centro, inclina el torso 45º y tira con codos pegados atrás.",
       "advanced": "Pausa 2 segundos atrás juntando las escápulas con fuerza."
@@ -1354,7 +1401,7 @@
       "name": "Apertura de Escápulas (Pull-Apart)",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Brazos al frente, estira la banda hacia los lados abriendo pecho y hombros.",
       "advanced": "Mantén la banda tensa abierta 2 segundos en el pecho."
@@ -1404,7 +1451,7 @@
       "name": "Buenos Días",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda y pasa el bucle tras los hombros; flexiona cadera con espalda neutra.",
       "advanced": "Desciende el tronco en 3 segundos manteniendo la curvatura neutra."
@@ -1444,7 +1491,7 @@
       "name": "Curl de Bíceps",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Pisa la banda y flexiona codos sin mover hombros; control en la bajada.",
       "advanced": "Sube en 1 segundo y desciende lento en 3 segundos."
@@ -1494,7 +1541,7 @@
       "name": "Extensión de Tríceps Vertical",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Una mano ancla la banda al pecho y la otra empuja hacia abajo extendiendo codo.",
       "advanced": "Bloquea el codo abajo 2 segundos sintiendo el tríceps."
@@ -1544,7 +1591,7 @@
       "name": "Abducción de Cadera de Pie",
       "type": "FUERZA",
       "materialKey": "goma",
-      "material": "Goma",
+      "material": "Banda Larga 10-15kg",
       "materialIcon": "BANDA",
       "cue": "Banda alrededor de pantorrillas con apoyo; separa pierna lateralmente controlada.",
       "advanced": "Separa la pierna sin apoyar el pie al volver al centro."
@@ -1558,7 +1605,7 @@
   "a4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <rect x=\"10\" y=\"80\" width=\"80\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"76\" cy=\"38\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M72 44 L45 52 L26 72 L20 80\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M45 52 L36 78 M45 52 L26 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M70 47 L68 80 M68 47 L66 80\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <rect x=\"10\" y=\"80\" width=\"80\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/><path d=\"M40 68 L50 60\" stroke=\"#10b981\" stroke-width=\"2.5\" stroke-linecap=\"round\"/> <circle cx=\"76\" cy=\"38\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M72 44 L45 52\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M45 52 L26 72 L20 80 M45 52 L56 64 L50 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M70 47 L68 80\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <circle cx=\"42\" cy=\"72\" r=\"7\" fill=\"#10b981\"/><path d=\"M39 65 C39 61, 45 61, 45 65\" stroke=\"#047857\" stroke-width=\"2\" fill=\"none\"/> <circle cx=\"36\" cy=\"28\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M38 35 L48 52\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M48 52 L36 78 L34 94 M48 52 L30 78 L26 94\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M44 42 L42 66\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <circle cx=\"78\" cy=\"42\" r=\"8\" fill=\"#10b981\"/><path d=\"M74 35 C74 31, 82 31, 82 35\" stroke=\"#047857\" stroke-width=\"2.5\" fill=\"none\"/><path d=\"M56 65 Q72 56 76 46\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-dasharray=\"2 2\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 56 L44 92 M50 56 L56 92\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L72 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <path d=\"M36 44 L54 44\" stroke=\"#10b981\" stroke-width=\"3\" stroke-linecap=\"round\"/> <circle cx=\"45\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M45 28 L45 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M45 56 L40 90 M45 56 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M45 36 L36 44 M45 36 L54 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M36 38 L74 38\" stroke=\"#10b981\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"38\" r=\"3\" fill=\"#047857\"/><circle cx=\"74\" cy=\"38\" r=\"3\" fill=\"#047857\"/> <circle cx=\"55\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M55 28 L55 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M55 56 L42 90 M55 56 L68 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M55 36 L38 38 M55 36 L72 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
-  "a7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <path d=\"M52 82 L48 76\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 56 L44 90 M50 56 L54 74 L46 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L40 44 M50 36 L62 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M44 82 L48 76\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 56 L56 90 M50 56 L46 74 L54 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L38 34 M50 36 L60 34\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
+  "a7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L42 46 M50 34 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 56 L50 72 L36 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L62 42 M50 34 L38 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 86 Q36 82 36 72 M34 75 L36 71 L39 74\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
   "a8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <ellipse cx=\"38\" cy=\"45\" rx=\"8\" ry=\"6\" stroke=\"#06b6d4\" stroke-width=\"3\" fill=\"none\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 44 M50 36 L50 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <ellipse cx=\"62\" cy=\"45\" rx=\"8\" ry=\"6\" stroke=\"#06b6d4\" stroke-width=\"3\" fill=\"none\"/><path d=\"M38 48 Q50 54 62 48\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-dasharray=\"2 2\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L50 44 M50 36 L64 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"24\" cy=\"76\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M28 78 L54 78\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 78 L68 64 L74 80\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M34 78 L52 80\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/><path d=\"M52 68 L52 52 M48 56 L52 50 L56 56\" stroke=\"#10b981\" stroke-width=\"2.5\" stroke-linecap=\"round\"/> <circle cx=\"24\" cy=\"76\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M28 78 L52 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M52 56 L72 80\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M34 78 L52 80\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <ellipse cx=\"50\" cy=\"92\" rx=\"6\" ry=\"2\" fill=\"#94a3b8\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 48 M50 36 L58 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M34 78 L34 86 M66 78 L66 86\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"20\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 26 L50 54\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 54 L34 88 M50 54 L66 88\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 32 L30 20 M50 32 L70 20\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
@@ -1567,7 +1614,7 @@
   "a13": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <rect x=\"10\" y=\"78\" width=\"80\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"68\" cy=\"42\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M64 46 L38 48\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M38 48 L36 78 M38 48 L32 78\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M62 48 L62 78 M56 48 L56 78\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <rect x=\"10\" y=\"78\" width=\"80\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/><path d=\"M36 76 L36 70\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"68\" cy=\"42\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M64 46 L38 48\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M38 48 L36 72 M38 48 L32 78\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M62 48 L62 78 M56 48 L56 78\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a14": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <circle cx=\"42\" cy=\"56\" r=\"7\" fill=\"#10b981\"/><path d=\"M39 50 C39 46, 45 46, 45 50\" stroke=\"#047857\" stroke-width=\"2\" fill=\"none\"/> <circle cx=\"42\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M42 28 L42 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M42 56 L38 90 M42 56 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M42 36 L42 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <circle cx=\"58\" cy=\"56\" r=\"7\" fill=\"#10b981\"/><path d=\"M55 50 C55 46, 61 46, 61 50\" stroke=\"#047857\" stroke-width=\"2\" fill=\"none\"/><path d=\"M46 56 L52 56\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"58\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M58 28 L58 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M58 56 L50 90 M58 56 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M58 36 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a15": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L40 60 M50 36 L60 60\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M58 90 L70 90\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L72 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 34 L32 20 M50 34 L68 20\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
-  "a16": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <path d=\"M44 44 L56 44\" stroke=\"#10b981\" stroke-width=\"3\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 56 L44 88 M50 56 L56 88\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L44 44 M50 36 L56 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M26 40 L74 40\" stroke=\"#10b981\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><circle cx=\"26\" cy=\"40\" r=\"3\" fill=\"#047857\"/><circle cx=\"74\" cy=\"40\" r=\"3\" fill=\"#047857\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 56 L36 88 M50 56 L64 88\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L26 40 M50 36 L74 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
+  "a16": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L44 90 M46 56 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L66 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M66 35 L66 41\" stroke=\"#10b981\" stroke-width=\"3.5\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L36 90 M46 56 L64 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L34 40 L44 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 42 L72 38\" stroke=\"#10b981\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"72\" cy=\"38\" r=\"3\" fill=\"#047857\"/><path d=\"M58 36 L42 36 M45 33 L41 36 L45 39\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
   "a17": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <circle cx=\"45\" cy=\"24\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M45 30 L42 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M42 56 L38 88 M42 56 L56 84\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M45 36 L34 46 M45 36 L56 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M44 88 L58 88\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"55\" cy=\"24\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M55 30 L58 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M58 56 L62 88 M58 56 L44 84\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M55 36 L66 46 M55 36 L44 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a18": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <ellipse cx=\"50\" cy=\"46\" rx=\"9\" ry=\"7\" stroke=\"#06b6d4\" stroke-width=\"3\" fill=\"none\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L40 46 M50 36 L60 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <ellipse cx=\"50\" cy=\"46\" rx=\"7\" ry=\"7\" stroke=\"#06b6d4\" stroke-width=\"3\" fill=\"none\"/><path d=\"M40 46 L43 46 M60 46 L57 46\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L56 64 L50 78\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "a19": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"68\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 72 L50 74\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 74 L64 60 L78 68 M50 74 L60 80 L74 80\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M32 72 L48 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/><path d=\"M68 64 A6 6 0 1 1 72 74\" stroke=\"#10b981\" stroke-width=\"2\" fill=\"none\"/> <circle cx=\"22\" cy=\"68\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 72 L50 74\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 74 L60 80 L74 80 M50 74 L64 60 L78 68\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M32 72 L48 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
@@ -1602,41 +1649,41 @@
   "s23": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <circle cx=\"50\" cy=\"70\" r=\"7\" fill=\"#10b981\"/> <circle cx=\"50\" cy=\"24\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 30 L50 60\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 60 L44 92 M50 60 L56 92\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 38 L50 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <circle cx=\"50\" cy=\"64\" r=\"7\" fill=\"#10b981\"/><path d=\"M44 92 L44 87 M56 92 L56 87\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"18\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 24 L50 54\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 54 L44 86 M50 54 L56 86\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 32 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "s24": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"76\" cy=\"42\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M72 48 L34 66\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M34 66 L26 80\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M66 50 L66 74\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/><path d=\"M68 52 L68 62 M65 58 L68 63 L71 58\" stroke=\"#10b981\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"74\" cy=\"56\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M70 60 L34 68\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M34 68 L26 80\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M64 62 L60 74\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
   "s25": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\">   <g class=\"gif-step1\">   <path d=\"M46 82 L54 82\" stroke=\"#10b981\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L40 50 M50 36 L60 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g>  <g class=\"gif-step2\">   <path d=\"M46 82 L70 80\" stroke=\"#10b981\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M56 86 L68 84\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L46 90 M50 58 L72 86\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L40 50 M50 36 L60 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> </g> </svg>",
-  "m1": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m2": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m3": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m11": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m12": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m13": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m14": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m15": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m16": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m17": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m18": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m19": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m20": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m21": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m22": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 46 M50 36 L58 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <circle cx=\"42\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"46\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"30\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 36 L50 62\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 62 L36 68 L34 90 M50 62 L64 68 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 44 L42 54 M50 44 L58 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"54\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M50 60 L50 68 M47 65 L50 69 L53 65\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m23": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L42 56 M50 36 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"42\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"58\" cy=\"58\" r=\"2.8\" fill=\"#0284c7\"/> </g><g class=\"gif-step2\"> <circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M50 36 L36 42 M50 36 L64 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/> <circle cx=\"34\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/><circle cx=\"66\" cy=\"42\" r=\"2.8\" fill=\"#0284c7\"/> <path d=\"M34 50 L34 44 M66 50 L66 44\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m24": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <line x1=\"32\" y1=\"62\" x2=\"40\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/> </g><g class=\"gif-step2\"> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <line x1=\"32\" y1=\"48\" x2=\"40\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/> <path d=\"M36 58 L36 50 M33 53 L36 49 L39 53\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>",
-  "m25": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <line x1=\"32\" y1=\"62\" x2=\"40\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/> </g><g class=\"gif-step2\"> <rect x=\"8\" y=\"80\" width=\"84\" height=\"5\" rx=\"2\" fill=\"#8b5cf6\"/> <circle cx=\"22\" cy=\"74\" r=\"6\" fill=\"#f8fafc\"/> <path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/> <path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/> <path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/>  <line x1=\"32\" y1=\"48\" x2=\"40\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"3.5\" stroke-linecap=\"round\"/> <circle cx=\"32\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/> <path d=\"M36 58 L36 50 M33 53 L36 49 L39 53\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/> </g></svg>"
+  "m1": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L56 74 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L40 48 L40 60 M50 34 L60 48 L60 60\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"60\" x2=\"44\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"44\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"56\" y1=\"60\" x2=\"64\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"56\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L62 66 L58 82\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L40 48 L36 38 M50 34 L60 48 L64 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"32\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"32\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"60\" y1=\"38\" x2=\"68\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"68\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M30 48 L30 40 M28 43 L30 39 L32 43\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M70 48 L70 40 M68 43 L70 39 L72 43\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M66 76 L66 68 M64 71 L66 67 L68 71\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m2": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L42 46 L44 38 M50 34 L58 46 L56 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"40\" y1=\"38\" x2=\"48\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"40\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"48\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"52\" y1=\"38\" x2=\"60\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"52\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"60\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L38 90 M50 58 L66 74 L74 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L36 38 M50 36 L64 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"32\" y1=\"38\" x2=\"40\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"32\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"60\" y1=\"38\" x2=\"68\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"60\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"68\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M56 88 L68 88 M65 85 L69 88 L65 91\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 32 L34 32 M37 29 L33 32 L37 35\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M58 32 L66 32 M63 29 L67 32 L63 35\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m3": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"48\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M48 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L42 90 M50 56 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 34 L36 36 L24 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"36\" x2=\"28\" y2=\"36\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"20\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"28\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M48 34 L56 44 L54 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"50\" y1=\"36\" x2=\"58\" y2=\"36\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"58\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"52\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M52 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L42 90 M50 56 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M52 34 L44 44 L46 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"42\" y1=\"36\" x2=\"50\" y2=\"36\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M52 34 L64 36 L76 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"72\" y1=\"36\" x2=\"80\" y2=\"36\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"72\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"80\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M66 30 L74 30 M71 27 L75 30 L71 33\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"76\" cy=\"36\" r=\"5.5\" stroke=\"#f59e0b\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\" fill=\"none\"/></g></svg>",
+  "m4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L44 48 L44 62 M50 34 L56 48 L56 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"40\" y1=\"62\" x2=\"48\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"40\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"48\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"52\" y1=\"62\" x2=\"60\" y2=\"62\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"52\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"60\" cy=\"62\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L40 90 M50 56 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L42 44 L40 44 M50 34 L58 44 L60 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"44\" x2=\"44\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"44\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"56\" y1=\"44\" x2=\"64\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"56\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M38 52 L38 46 M36 49 L38 45 L40 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M62 52 L62 46 M60 49 L62 45 L64 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M56 88 L64 88 M61 85 L65 88 L61 91\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L66 40 L70 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"70\" y1=\"36\" x2=\"70\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"70\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"70\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 56 L50 72 L36 72\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L36 42 L46 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"46\" y1=\"40\" x2=\"46\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"46\" cy=\"40\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"46\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M48 86 Q36 82 36 74 M34 77 L36 73 L39 76\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M60 40 L44 40 M47 37 L43 40 L47 43\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L42 46 L46 46 M50 34 L58 46 L54 46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"46\" y1=\"42\" x2=\"46\" y2=\"50\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"46\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"46\" cy=\"50\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"54\" y1=\"42\" x2=\"54\" y2=\"50\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"54\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"54\" cy=\"50\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L32 88 M50 56 L68 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L36 46 L26 38 M50 34 L64 46 L74 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"26\" y1=\"34\" x2=\"26\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"26\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"26\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"74\" y1=\"34\" x2=\"74\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"74\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"74\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M38 42 L28 36 M30 35 L27 35 L28 39\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M62 42 L72 36 M70 39 L73 35 L70 35\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L36 48 L36 64 M50 34 L64 48 L64 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"60\" x2=\"36\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"60\" x2=\"64\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L60 66 L58 82\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L36 48 L36 64 M50 34 L64 48 L64 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"60\" x2=\"36\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"60\" x2=\"64\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"32\" y1=\"34\" x2=\"68\" y2=\"34\" stroke=\"#10b981\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/><path d=\"M60 76 L60 68 M58 71 L60 67 L62 71\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"44\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M44 28 L42 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M42 56 L38 74 L36 90 M42 56 L56 76 L62 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 36 L32 48 L24 56 M44 36 L36 48 L32 58\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"22\" y1=\"53\" x2=\"26\" y2=\"59\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"22\" cy=\"53\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"26\" cy=\"59\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"30\" y1=\"55\" x2=\"34\" y2=\"61\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"55\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"34\" cy=\"61\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"56\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M56 28 L58 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 56 L62 74 L64 90 M58 56 L44 76 L38 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M56 36 L64 48 L68 58 M56 36 L68 48 L76 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"66\" y1=\"55\" x2=\"70\" y2=\"61\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"66\" cy=\"55\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"70\" cy=\"61\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"74\" y1=\"53\" x2=\"78\" y2=\"59\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"74\" cy=\"53\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"78\" cy=\"59\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M36 62 Q50 68 64 62 M61 64 L65 62 L62 60\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "m9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L44 90 M46 56 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L52 44 L54 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"54\" y1=\"32\" x2=\"54\" y2=\"40\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"54\" cy=\"32\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"54\" cy=\"40\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L42 90 M46 56 L60 76 L68 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 34 L62 36 L74 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"74\" y1=\"32\" x2=\"74\" y2=\"40\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"74\" cy=\"32\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"74\" cy=\"40\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M58 30 L72 30 M69 27 L73 30 L69 33\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"44\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M44 34 L54 48\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 48 L42 64 L42 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 38 L52 46 L50 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"50\" y1=\"36\" x2=\"50\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 54\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 54 L48 72 L48 84 M50 54 L52 72 L52 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 32 L54 42 L52 36\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"52\" y1=\"32\" x2=\"52\" y2=\"40\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"52\" cy=\"32\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"52\" cy=\"40\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M48 93 L48 87 M46 90 L48 86 L50 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 14 L50 8 M48 11 L50 7 L52 11\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m11": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L46 90 M50 56 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L42 46 L46 50 M50 34 L58 46 L54 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"46\" y1=\"46\" x2=\"46\" y2=\"54\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"46\" cy=\"46\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"46\" cy=\"54\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"54\" y1=\"46\" x2=\"54\" y2=\"54\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"54\" cy=\"46\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"54\" cy=\"54\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L64 82\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L38 46 L26 38 M50 34 L62 46 L74 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"26\" y1=\"34\" x2=\"26\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"26\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"26\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"74\" y1=\"34\" x2=\"74\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"74\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"74\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M36 44 L28 40 M30 38 L27 39 L29 42\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M64 44 L72 40 M70 42 L73 39 L70 38\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m12": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"38\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 26 L38 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M38 56 L32 74 L30 90 M38 56 L44 74 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M38 34 L32 44 L36 34 M38 34 L44 44 L40 34\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"36\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"40\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"62\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M62 26 L62 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M62 56 L56 74 L54 90 M62 56 L68 74 L70 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M62 34 L56 44 L60 34 M62 34 L68 44 L64 34\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"60\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M42 48 L58 48 M55 45 L59 48 L55 51\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m13": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 90 M50 56 L62 68 L58 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L62 42 L64 34\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"64\" y1=\"30\" x2=\"64\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"30\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M50 34 L40 44 L34 52\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"34\" y1=\"48\" x2=\"34\" y2=\"56\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"34\" cy=\"56\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L56 90 M50 56 L38 68 L42 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L40 44 L34 52\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"34\" y1=\"48\" x2=\"34\" y2=\"56\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"34\" cy=\"56\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M50 34 L62 42 L64 34\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"64\" y1=\"30\" x2=\"64\" y2=\"38\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"30\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M56 44 L64 36 M61 36 L65 35 L65 39\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 42 L36 50 M39 50 L35 51 L35 47\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m14": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><path d=\"M68 62 L84 62 M80 62 L80 90 M70 62 L70 90\" stroke=\"#64748b\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L44 90 M46 56 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L52 44 L50 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"50\" y1=\"34\" x2=\"50\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><path d=\"M68 62 L84 62 M80 62 L80 90 M70 62 L70 90\" stroke=\"#64748b\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"42\" cy=\"34\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 40 L56 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M56 56 L38 64 L38 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 44 L50 52 L48 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"48\" y1=\"40\" x2=\"48\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"48\" cy=\"40\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"48\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"62\" cy=\"62\" r=\"2.5\" fill=\"#f59e0b\"/><path d=\"M50 56 L64 62 M61 59 L65 62 L61 65\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m15": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L46 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"42\" y1=\"64\" x2=\"50\" y2=\"64\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L34 46 L46 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"42\" y1=\"50\" x2=\"50\" y2=\"50\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"50\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"50\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M46 60 L36 48 M35 52 L35 47 L39 48\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m16": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L38 50 L38 64 M50 34 L62 50 L62 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"38\" y1=\"60\" x2=\"38\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"38\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"38\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"62\" y1=\"60\" x2=\"62\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"62\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"62\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L34 42 L22 42 M50 34 L66 42 L78 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"22\" y1=\"38\" x2=\"22\" y2=\"46\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"22\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"22\" cy=\"46\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"78\" y1=\"38\" x2=\"78\" y2=\"46\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"78\" cy=\"38\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"78\" cy=\"46\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M34 56 Q24 54 24 46 M22 49 L24 45 L26 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M66 56 Q76 54 76 46 M74 49 L76 45 L78 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "m17": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L44 90 M46 56 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L48 48 L48 58\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"44\" y1=\"58\" x2=\"52\" y2=\"58\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"52\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"34\" cy=\"32\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M36 36 L60 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M60 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 42 L48 62 L48 72\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"44\" y1=\"72\" x2=\"52\" y2=\"72\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"44\" cy=\"72\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"52\" cy=\"72\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M54 50 L64 50 M61 47 L65 50 L61 53\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 60 L48 68 M46 65 L48 69 L50 65\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m18": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L40 44 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"42\" y1=\"56\" x2=\"50\" y2=\"56\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"56\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"56\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L40 44 L68 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"68\" y1=\"36\" x2=\"68\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"68\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"68\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M48 54 Q60 52 66 44 M62 44 L66 43 L66 47\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "m19": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L38 48 L38 62 M50 34 L62 48 L62 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"38\" y1=\"58\" x2=\"38\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"38\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"38\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"62\" y1=\"58\" x2=\"62\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"62\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"62\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L38 48 L36 38 M50 34 L62 48 L64 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"34\" x2=\"36\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"34\" x2=\"64\" y2=\"42\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"34\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"42\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M30 50 L30 42 M28 45 L30 41 L32 45\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M70 50 L70 42 M68 45 L70 41 L72 45\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m20": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L42 72 L42 90 M50 56 L64 74 L68 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L50 48 L50 60\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"50\" y1=\"56\" x2=\"50\" y2=\"64\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"56\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"30\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 36 L50 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 64 L36 68 L36 90 M50 64 L62 76 L62 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 44 L50 56 L50 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"50\" y1=\"66\" x2=\"50\" y2=\"74\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"74\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M50 48 L50 58 M48 55 L50 59 L52 55\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m21": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L44 54 L44 64 M46 40 L48 54 L48 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"40\" y1=\"64\" x2=\"48\" y2=\"64\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"40\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"48\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"36\" cy=\"28\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 34 L58 50\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M58 50 L54 70 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 40 L30 42 L20 40 M46 40 L62 42 L72 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"36\" x2=\"20\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"20\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"20\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"72\" y1=\"36\" x2=\"72\" y2=\"44\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"72\" cy=\"36\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"72\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M40 56 Q28 52 24 44 M23 48 L24 43 L27 46\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M52 56 Q64 52 68 44 M65 46 L68 43 L69 48\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "m22": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L28 90 M50 58 L72 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L46 50 L48 64 M50 34 L54 50 L52 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"50\" y1=\"60\" x2=\"50\" y2=\"68\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"68\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"32\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 38 L50 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 64 L28 72 L26 90 M50 64 L72 72 L74 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 44 L47 62 L48 76 M50 44 L53 62 L52 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"50\" y1=\"72\" x2=\"50\" y2=\"80\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"72\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"50\" cy=\"80\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M50 52 L50 62 M48 59 L50 63 L52 59\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M34 70 L28 70 M31 68 L27 70 L31 72\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M66 70 L72 70 M69 68 L73 70 L69 72\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m23": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L36 48 L36 62 M50 34 L64 48 L64 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"58\" x2=\"36\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"58\" x2=\"64\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"14\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 20 L50 52\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 52 L44 76 L44 84 M50 52 L56 76 L56 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 28 L36 42 L36 56 M50 28 L64 42 L64 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"52\" x2=\"36\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"52\" x2=\"64\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M44 94 L44 87 M42 90 L44 86 L46 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M56 94 L56 87 M54 90 L56 86 L58 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m24": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><circle cx=\"22\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 76 L36 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"30\" y1=\"64\" x2=\"42\" y2=\"64\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"42\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><circle cx=\"22\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"30\" y1=\"48\" x2=\"42\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"42\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M36 60 L36 52 M34 55 L36 51 L38 55\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "m25": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"36\" y=\"10\" width=\"28\" height=\"82\" rx=\"4\" fill=\"#818cf8\" opacity=\"0.4\"/><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 72 L44 86 M50 56 L56 72 L56 86\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L44 42 L46 48 M50 36 L56 42 L54 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"46\" y1=\"44\" x2=\"46\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"46\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"46\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"54\" y1=\"44\" x2=\"54\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"54\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"54\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><rect x=\"36\" y=\"10\" width=\"28\" height=\"82\" rx=\"4\" fill=\"#818cf8\" opacity=\"0.4\"/><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 72 L44 86 M50 56 L56 72 L56 86\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L34 44 L20 48 M50 36 L66 44 L80 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"44\" x2=\"20\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"20\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"20\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"80\" y1=\"44\" x2=\"80\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"80\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M42 46 Q30 46 22 46 M25 43 L21 46 L25 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M58 46 Q70 46 78 46 M75 43 L79 46 L75 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>"
 };
 
     // Materiales disponibles
     const MATERIAL_INFO = {
       corporal: ['Peso Corporal', 'BODY'],
       esterilla: ['Esterillas', 'EST'],
-      goma: ['Goma', 'BANDA'],
+      goma: ['Banda Larga 10-15kg', 'BANDA'],
       aro: ['Aro Pilates', 'ARO'],
       kettlebell: ['Kettlebell Pesada', 'KB'],
-      mancuernas: ['Mancuernas', 'MANC']
+      mancuernas: ['Mancuernas 2kg', 'MANC']
     };
 
     // Nuevos 50 ejercicios sin saltos añadidos en la sesión previa
@@ -1711,7 +1758,7 @@
     "name": "Marcha en el Sitio con Curl de Bíceps",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Marcha suave en el sitio flexionando codos al ritmo; mancuernas pegadas al cuerpo.",
@@ -1722,7 +1769,7 @@
     "name": "Paso Lateral con Empuje Frontal",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Paso a un lado mientras extiendes las mancuernas al frente a la altura del esternón.",
@@ -1733,7 +1780,7 @@
     "name": "Boxeo Suave",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Puñetazos rectos alternos controlados; nunca bloquees el codo con violencia.",
@@ -1744,7 +1791,7 @@
     "name": "Step Touch con Elevación Frontal Baja",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Pasos laterales rítmicos subiendo mancuernas sólo hasta el pecho, codos blandos.",
@@ -1755,7 +1802,7 @@
     "name": "Talones al Glúteo con Remo",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Lleva talón al glúteo alternando pies mientras tiras de codos hacia atrás.",
@@ -1766,7 +1813,7 @@
     "name": "Paso en V con Apertura de Brazos",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Paso adelante abriendo pies en V mientras abres brazos a 45º sin superar hombros.",
@@ -1777,7 +1824,7 @@
     "name": "Marcha con Transporte de Maletas",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Caminata firme en el sitio sosteniendo mancuernas abajo con hombros nivelados y abdomen firme.",
@@ -1788,7 +1835,7 @@
     "name": "Patinador Suave con Balanceo de Brazos",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Paso lateral cruzando pierna por detrás con balanceo pendular suave de mancuernas.",
@@ -1799,7 +1846,7 @@
     "name": "Toque de Talón al Frente con Press al Pecho",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Talón adelante alternando y empuje horizontal desde el pecho con las dos mancuernas.",
@@ -1810,7 +1857,7 @@
     "name": "Sentadilla Corta con Impulso al Pecho",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Mini sentadilla fluida y al subir elévate a puntillas con mancuernas pegadas al esternón.",
@@ -1821,7 +1868,7 @@
     "name": "Paso Atrás Alterno con Apertura en W",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Paso atrás apoyando punta mientras doblas codos pegados al cuerpo en forma de W.",
@@ -1832,7 +1879,7 @@
     "name": "Desplazamiento Lateral con Guardia",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "z",
     "cue": "Dos pasos laterales a la derecha y dos a la izquierda sosteniendo mancuernas al pecho.",
@@ -1843,7 +1890,7 @@
     "name": "Marcha Rápida con Balanceo Alterno Corto",
     "type": "AERÓBICO",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Codos flexionados a 90º; braceo rítmico corto y constante coordinado con los pies.",
@@ -1856,7 +1903,7 @@
     "name": "Sentadilla a Silla al Pecho",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Cadera atrás como a sentarte, roza la silla y sube empujando talones con pesas al pecho.",
@@ -1867,7 +1914,7 @@
     "name": "Remo Dorsal con Codos Pegados",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Torso inclinado 45º, columna neutra; tira de codos hacia las costillas juntando escápulas.",
@@ -1878,7 +1925,7 @@
     "name": "Elevaciones Laterales en Plano Escapular",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Brazos a 30º hacia delante, sube sólo hasta la altura de las axilas con codos suaves.",
@@ -1889,7 +1936,7 @@
     "name": "Peso Muerto Rumano Asistido",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Espalda recta, bisagra de cadera atrás; las mancuernas bajan rozando los muslos hasta las rodillas.",
@@ -1900,7 +1947,7 @@
     "name": "Patada de Tríceps a Dos Manos",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Torso inclinado, codos fijados a los costados; extiende brazos atrás sin balancear.",
@@ -1911,7 +1958,7 @@
     "name": "Curl de Bíceps Martillo Controlado",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Palmas enfrentadas hacia dentro; sube controlando sin arquear la espalda baja.",
@@ -1922,7 +1969,7 @@
     "name": "Zancada Estática",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Posición en tijera fija, baja rodilla trasera en vertical; brazos colgados como maletas.",
@@ -1933,7 +1980,7 @@
     "name": "Pájaros para Deltoides Posterior y Escápulas",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Inclinación de tronco a 45º, abre brazos en semicírculo hacia los lados para postura dorsal.",
@@ -1944,7 +1991,7 @@
     "name": "Sentadilla Sumo Central",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "pz",
     "cue": "Pies anchos con puntas a 45º; baja vertical con las mancuernas unidas colgando al centro.",
@@ -1955,7 +2002,7 @@
     "name": "Elevación de Talones para Gemelos",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "De pie erguida, eleva talones lentamente soportando el peso; pausa arriba 1 segundo.",
@@ -1966,7 +2013,7 @@
     "name": "Press de Pecho en Suelo (Floor Press)",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Tumbada en esterilla con rodillas dobladas; empuja mancuernas arriba, los codos tocan el suelo a 45º.",
@@ -1977,7 +2024,7 @@
     "name": "Apertura de Pecho",
     "type": "FUERZA",
     "materialKey": "mancuernas",
-    "material": "Mancuernas",
+    "material": "Mancuernas 2kg",
     "materialIcon": "MANC",
     "groups": "p",
     "cue": "Boca arriba en esterilla, abre brazos con codos ligeramente doblados hasta rozar el suelo.",
@@ -2315,7 +2362,12 @@
 
     function changeVolume(val) {
       currentVolume = val / 100;
-      document.getElementById('volVal').innerText = val + '%';
+      const volEl = document.getElementById('volVal');
+      if (volEl) volEl.innerText = val + '%';
+      const timerVolEl = document.getElementById('timerVolVal');
+      if (timerVolEl) timerVolEl.innerText = val + '%';
+      const timerSlider = document.getElementById('timerVolSlider');
+      if (timerSlider) timerSlider.value = val;
       if (masterGain && !isMuted && audioCtx) {
         masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
       }
@@ -2328,18 +2380,28 @@
       const text = document.getElementById('muteText');
       const m1Sound = document.getElementById('m1SoundIcon');
 
+      const timerMuteIcon = document.getElementById('timerMuteIcon');
+      const timerMuteText = document.getElementById('timerMuteText');
+      const timerMuteBtn = document.getElementById('timerMuteBtn');
+
       if (isMuted) {
         if (masterGain && audioCtx) masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/20 text-red-500 border border-red-500/40 text-xs font-bold shrink-0 min-h-[40px]';
         if (icon) icon.innerText = '🔇';
         if (text) text.innerText = 'Silencio';
         if (m1Sound) m1Sound.innerText = '🔇';
+        if (timerMuteIcon) timerMuteIcon.innerText = '🔇';
+        if (timerMuteText) timerMuteText.innerText = 'Activar Sonido';
+        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-red-500/25 hover:bg-red-500/35 active:scale-95 border border-red-500/40 text-red-200 flex items-center justify-center gap-1.5 text-xs font-bold transition';
       } else {
         if (masterGain && audioCtx) masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold shrink-0 shadow-sm min-h-[40px]';
         if (icon) icon.innerText = '🔊';
         if (text) text.innerText = 'Audio';
         if (m1Sound) m1Sound.innerText = '🔊';
+        if (timerMuteIcon) timerMuteIcon.innerText = '🔊';
+        if (timerMuteText) timerMuteText.innerText = 'Silenciar';
+        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1.5 text-xs font-bold transition';
       }
     }
 
@@ -2486,23 +2548,58 @@
       return cleanExerciseSvg(svgStr);
     }
 
-    function triggerTrainingZoomPulse() {
-      if (timerPhase !== 'WORK') return;
+    function toggleVolumePopover(e) {
+      if (e) e.stopPropagation();
+      const pop = document.getElementById('timerVolumePopover');
+      if (pop) {
+        pop.classList.toggle('hidden');
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      const pop = document.getElementById('timerVolumePopover');
+      if (pop && !pop.classList.contains('hidden')) {
+        if (!pop.contains(e.target) && !e.target.closest('button[onclick*="toggleVolumePopover"]')) {
+          pop.classList.add('hidden');
+        }
+      }
+    });
+
+    // Control del zoom continuo fluido (en trabajo continuo, y en descanso últimos 3 segundos)
+    function updateCircleZoomAnimation() {
       const circleEl = document.getElementById('m1CircleWrapper');
       const auraEl = document.getElementById('m1AuraGlow');
       if (!circleEl) return;
 
-      circleEl.style.animation = 'none';
-      if (auraEl) auraEl.style.animation = 'none';
+      const isRestPhase = (timerPhase === 'REST' || timerPhase === 'ROUND_REST');
+      const shouldAnimate = isRunning && (
+        timerPhase === 'WORK' || 
+        (isRestPhase && timeLeft <= 3 && timeLeft > 0)
+      );
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          circleEl.style.animation = 'heartBeatPro 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards';
-          if (auraEl) {
-            auraEl.style.animation = 'auraPulsePro 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards';
-          }
-        });
-      });
+      if (shouldAnimate) {
+        if (!circleEl.classList.contains('animate-fluid-zoom')) {
+          circleEl.classList.add('animate-fluid-zoom');
+        }
+        if (auraEl && !auraEl.classList.contains('animate-fluid-aura')) {
+          auraEl.classList.add('animate-fluid-aura');
+        }
+      } else {
+        if (circleEl.classList.contains('animate-fluid-zoom')) {
+          circleEl.classList.remove('animate-fluid-zoom');
+          circleEl.style.transform = '';
+          circleEl.style.filter = '';
+        }
+        if (auraEl && auraEl.classList.contains('animate-fluid-aura')) {
+          auraEl.classList.remove('animate-fluid-aura');
+          auraEl.style.transform = '';
+          auraEl.style.opacity = '';
+        }
+      }
+    }
+
+    function triggerTrainingZoomPulse() {
+      updateCircleZoomAnimation();
     }
 
     function updateScreenColor() {
@@ -2722,6 +2819,7 @@
       } else {
         startWorkout();
       }
+      updateCircleZoomAnimation();
     }
 
     function animationLoop() {
@@ -2752,9 +2850,7 @@
           digitsEl.innerText = timeLeft < 10 ? `0${timeLeft}` : `${timeLeft}`;
         }
 
-        if (timerPhase === 'WORK') {
-          triggerTrainingZoomPulse();
-        }
+        updateCircleZoomAnimation();
 
         if (timeLeft <= 3 && timeLeft > 0) {
           playBeep(timeLeft === 1 ? 1020 : 860);
@@ -3480,7 +3576,7 @@
       document.getElementById('totalTimeEstimate').innerText = `${m}m ${s < 10 ? '0' : ''}${s}s`;
 
       const container = document.getElementById('activeStationsList');
-      if (container) container.innerHTML = activeStations.map((item, idx) => {
+      container.innerHTML = activeStations.map((item, idx) => {
         const isAero = item.type === 'AERÓBICO';
         return `
           <div class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-between gap-3 shadow-sm animate-pop">
