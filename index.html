@@ -73,6 +73,26 @@
       transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
+    /* Arrastre y Reordenación Suave de Estaciones */
+    .station-card-draggable {
+      touch-action: pan-y;
+      position: relative;
+      will-change: transform;
+      transition: transform 0.22s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.22s ease, opacity 0.22s ease;
+    }
+    .station-card-draggable.is-dragging {
+      z-index: 50 !important;
+      opacity: 0.95;
+      box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.55), 0 0 25px rgba(16, 185, 129, 0.35) !important;
+      cursor: grabbing !important;
+      transition: none !important;
+    }
+    .station-drag-handle {
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
     /* Animación cíclica tipo GIF (Inicio -> Acción) */
     @keyframes gifFrame1 {
       0%, 46% { opacity: 1; visibility: visible; }
@@ -952,7 +972,7 @@
         </div>
 
         <div class="flex items-center justify-between px-1">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Pulsa sustituir en cualquier estación para cambiarla</span>
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado y arrastra para reordenar</span></span>
           <button onclick="generateRandomWorkout(false); renderStationsViewUI();" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
             <span>🎲</span>
             <span>Regenerar todo</span>
@@ -3974,10 +3994,10 @@
         const cueText = st.cue || (isFree ? (isAero ? 'Estación cardiovascular libre a ritmo moderado/alto.' : 'Estación de tonificación y fuerza muscular libre.') : '');
 
         return `
-          <div class="overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition-all hover:shadow-md">
-            <!-- Cabecera de la estación: Naranja (Cardio) o Morado (Fuerza) -->
-            <div class="${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-2 flex items-center justify-between gap-2 shadow-sm">
-              <div class="flex items-center gap-2 flex-wrap min-w-0">
+          <div data-station-idx="${idx}" class="station-card-draggable overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition-all hover:shadow-md">
+            <!-- Cabecera de la estación con arrastre: Naranja (Cardio) o Morado (Fuerza) -->
+            <div class="station-card-header ${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-2 flex items-center justify-between gap-2 shadow-sm cursor-grab select-none">
+              <div class="flex items-center gap-2 flex-wrap min-w-0 pointer-events-none">
                 <span class="w-6 h-6 rounded-lg bg-black/25 text-white flex items-center justify-center font-mono font-black text-xs shrink-0 shadow-inner">${idx + 1}</span>
                 <span class="font-black text-xs uppercase tracking-wider">${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'}</span>
                 <span class="text-[10px] font-bold bg-white/20 text-white px-2 py-0.5 rounded-full backdrop-blur-sm truncate">${matTheme.emoji} ${isFree ? 'LIBRE' : matTheme.name}</span>
@@ -3988,17 +4008,15 @@
                 ` : ''}
               </div>
 
-              <div class="flex items-center gap-1.5 shrink-0">
-                <div class="flex items-center bg-black/25 rounded-xl p-0.5 backdrop-blur-sm">
-                  <button onclick="moveStation(${idx}, -1)" ${idx === 0 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white/20 text-white active:scale-90"'} class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition" title="Subir posición">
-                    ▲
-                  </button>
-                  <button onclick="moveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled class="opacity-25 cursor-not-allowed"' : 'class="hover:bg-white/20 text-white active:scale-90"'} class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-black transition" title="Bajar posición">
-                    ▼
-                  </button>
+              <div class="flex items-center gap-2 shrink-0">
+                <!-- Botón de arrastre y mantener pulsado (Grip Icon) -->
+                <div class="station-drag-handle w-8 h-8 rounded-xl bg-black/25 hover:bg-black/40 active:bg-black/50 text-white flex items-center justify-center transition active:scale-95 cursor-grab active:cursor-grabbing shadow-sm" title="Mantén pulsado y arrastra para reordenar">
+                  <svg class="w-4 h-4 pointer-events-none" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M7 4a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0zM7 16a2 2 0 11-4 0 2 2 0 014 0zM17 4a2 2 0 11-4 0 2 2 0 014 0zM17 10a2 2 0 11-4 0 2 2 0 014 0zM17 16a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
                 </div>
 
-                <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm backdrop-blur-sm" title="Elegir o sustituir este ejercicio">
+                <button onclick="openSwapModal(${idx})" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-xs shrink-0 transition active:scale-95 flex items-center gap-1 shadow-sm backdrop-blur-sm" title="Elegir o sustituir este ejercicio">
                   <span>${isFree ? '✨' : '🔄'}</span>
                   <span>${isFree ? 'Elegir' : 'Sustituir'}</span>
                 </button>
@@ -4024,6 +4042,207 @@
           </div>
         `;
       }).join('');
+
+      initStationDragAndDrop();
+    }
+
+    // =========================================================================
+    // ARRASTRAR Y SOLTAR FLUIDO POR LONG-PRESS / DESLIZAMIENTO
+    // =========================================================================
+    function initStationDragAndDrop() {
+      const container = document.getElementById('dedicatedStationsList');
+      if (!container) return;
+      const cards = Array.from(container.querySelectorAll('.station-card-draggable'));
+      if (cards.length <= 1) return;
+
+      cards.forEach((card, idx) => {
+        const header = card.querySelector('.station-card-header');
+        const handle = card.querySelector('.station-drag-handle');
+        if (!header) return;
+
+        let holdTimer = null;
+        let isDragging = false;
+        let startClientY = 0;
+        let startClientX = 0;
+        let initialItemTop = 0;
+        let itemRects = [];
+        let currentTargetIdx = idx;
+
+        function startHold(e) {
+          // Ignorar si el toque/clic es sobre el botón de sustituir
+          if (e.target.closest('button[onclick*="openSwapModal"]')) return;
+
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          startClientY = clientY;
+          startClientX = clientX;
+
+          const isDirectHandle = handle && (e.target === handle || handle.contains(e.target));
+          const delay = isDirectHandle ? 50 : 200;
+
+          holdTimer = setTimeout(() => {
+            activateDrag(e, clientY);
+          }, delay);
+
+          function cancelIfScrolling(ev) {
+            const curY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+            const curX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+            if (Math.hypot(curX - clientX, curY - clientY) > 7) {
+              if (holdTimer) {
+                clearTimeout(holdTimer);
+                holdTimer = null;
+              }
+              cleanupPre();
+            }
+          }
+
+          function cancelHold() {
+            if (holdTimer) {
+              clearTimeout(holdTimer);
+              holdTimer = null;
+            }
+            cleanupPre();
+          }
+
+          function cleanupPre() {
+            window.removeEventListener('pointermove', cancelIfScrolling);
+            window.removeEventListener('touchmove', cancelIfScrolling);
+            window.removeEventListener('pointerup', cancelHold);
+            window.removeEventListener('touchend', cancelHold);
+            window.removeEventListener('pointercancel', cancelHold);
+            window.removeEventListener('touchcancel', cancelHold);
+          }
+
+          window.addEventListener('pointermove', cancelIfScrolling, { passive: true });
+          window.addEventListener('touchmove', cancelIfScrolling, { passive: true });
+          window.addEventListener('pointerup', cancelHold, { passive: true });
+          window.addEventListener('touchend', cancelHold, { passive: true });
+          window.addEventListener('pointercancel', cancelHold, { passive: true });
+          window.addEventListener('touchcancel', cancelHold, { passive: true });
+        }
+
+        function activateDrag(ev, clientY) {
+          isDragging = true;
+          if (navigator.vibrate) {
+            try { navigator.vibrate(35); } catch(err) {}
+          }
+
+          // Calcular posiciones reales de todas las tarjetas
+          itemRects = cards.map(c => {
+            const r = c.getBoundingClientRect();
+            return { top: r.top + window.scrollY, height: r.height, bottom: r.bottom + window.scrollY };
+          });
+          initialItemTop = itemRects[idx].top;
+          currentTargetIdx = idx;
+
+          card.classList.add('is-dragging');
+          card.style.transform = 'scale(1.03)';
+          document.body.style.userSelect = 'none';
+          document.body.style.webkitUserSelect = 'none';
+
+          function onMove(mEv) {
+            if (!isDragging) return;
+            if (mEv.cancelable) mEv.preventDefault();
+
+            const curY = mEv.touches ? mEv.touches[0].clientY : mEv.clientY;
+            const deltaY = curY - startClientY;
+            card.style.transform = `translateY(${deltaY}px) scale(1.03)`;
+
+            // Centro geométrico del elemento arrastrado
+            const currentMidY = initialItemTop + deltaY + (itemRects[idx].height / 2);
+
+            let newTargetIdx = 0;
+            for (let i = 0; i < itemRects.length; i++) {
+              const r = itemRects[i];
+              const threshold = r.top + (r.height / 2);
+              if (currentMidY > threshold) {
+                newTargetIdx = i;
+              }
+            }
+            newTargetIdx = Math.max(0, Math.min(cards.length - 1, newTargetIdx));
+
+            if (newTargetIdx !== currentTargetIdx) {
+              currentTargetIdx = newTargetIdx;
+              if (navigator.vibrate) {
+                try { navigator.vibrate(15); } catch(err) {}
+              }
+            }
+
+            // Desplazar visualmente las demás tarjetas para hacer hueco (animación resorte fluida)
+            cards.forEach((otherCard, i) => {
+              if (i === idx) return;
+
+              if (idx < currentTargetIdx && i > idx && i <= currentTargetIdx) {
+                const shift = itemRects[idx].height + 10;
+                otherCard.style.transform = `translateY(-${shift}px)`;
+              } else if (idx > currentTargetIdx && i < idx && i >= currentTargetIdx) {
+                const shift = itemRects[idx].height + 10;
+                otherCard.style.transform = `translateY(${shift}px)`;
+              } else {
+                otherCard.style.transform = 'translateY(0px)';
+              }
+            });
+          }
+
+          function onEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            window.removeEventListener('pointermove', onMove);
+            window.removeEventListener('touchmove', onMove);
+            window.removeEventListener('pointerup', onEnd);
+            window.removeEventListener('touchend', onEnd);
+            window.removeEventListener('pointercancel', onEnd);
+            window.removeEventListener('touchcancel', onEnd);
+
+            document.body.style.userSelect = '';
+            document.body.style.webkitUserSelect = '';
+
+            if (currentTargetIdx !== idx) {
+              // Animación de caída hacia la ranura objetivo
+              const targetSlotTop = itemRects[currentTargetIdx].top;
+              const landingDelta = targetSlotTop - initialItemTop;
+
+              card.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease';
+              card.style.transform = `translateY(${landingDelta}px) scale(1.0)`;
+
+              if (navigator.vibrate) {
+                try { navigator.vibrate([20, 35, 20]); } catch(err) {}
+              }
+
+              setTimeout(() => {
+                const [movedStation] = activeStations.splice(idx, 1);
+                activeStations.splice(currentTargetIdx, 0, movedStation);
+                saveStore();
+                renderStationsViewUI();
+                renderConfigUI();
+                renderActiveUI();
+              }, 210);
+            } else {
+              // Vuelve a su origen suavemente
+              card.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)';
+              card.style.transform = 'translateY(0px) scale(1.0)';
+              cards.forEach(c => {
+                c.style.transform = 'translateY(0px)';
+              });
+              setTimeout(() => {
+                card.classList.remove('is-dragging');
+                card.style.transition = '';
+                cards.forEach(c => { c.style.transform = ''; });
+              }, 210);
+            }
+          }
+
+          window.addEventListener('pointermove', onMove, { passive: false });
+          window.addEventListener('touchmove', onMove, { passive: false });
+          window.addEventListener('pointerup', onEnd, { passive: true });
+          window.addEventListener('touchend', onEnd, { passive: true });
+          window.addEventListener('pointercancel', onEnd, { passive: true });
+          window.addEventListener('touchcancel', onEnd, { passive: true });
+        }
+
+        header.addEventListener('pointerdown', startHold, { passive: true });
+        header.addEventListener('touchstart', startHold, { passive: true });
+      });
     }
 
     function setSwapTypeFilter(type) {
