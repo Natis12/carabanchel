@@ -1636,7 +1636,7 @@
             </div>
           </div>
 
-          <button onclick="setMainView('timer')" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 active:scale-95 transition min-h-[40px]">
+          <button onclick="launchTimerFromStations()" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 active:scale-95 transition min-h-[40px]">
             <span>▶️</span>
             <span>Iniciar Timer</span>
           </button>
@@ -5676,6 +5676,12 @@
     }
 
     function saveAndGoToTimer() {
+      resetWorkout();
+      setMainView('timer');
+    }
+
+    function launchTimerFromStations() {
+      saveStore();
       resetWorkout();
       setMainView('timer');
     }
