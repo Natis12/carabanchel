@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sergio Fit - Laboratorio de Transiciones Premium</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      background-color: #05080e;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================================
+       1. VARIABLES Y COLORES DE FASES
+       ========================================================================= */
+    :root {
+      --anim-duration: 0.85s;
+      --color-work: #10b981;       /* Verde Esmeralda */
+      --color-rest: #f59e0b;       /* Amarillo / Ámbar */
+      --color-round-rest: #ef4444; /* Rojo Intenso */
+      --glow-color: rgba(16, 185, 129, 0.4);
+    }
+
+    .theme-work {
+      --theme-primary: #10b981;
+      --theme-glow: rgba(16, 185, 129, 0.45);
+      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(16, 185, 129, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+    }
+
+    .theme-rest {
+      --theme-primary: #f59e0b;
+      --theme-glow: rgba(245, 158, 11, 0.45);
+      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+    }
+
+    .theme-round-rest {
+      --theme-primary: #ef4444;
+      --theme-glow: rgba(239, 68, 68, 0.45);
+      --theme-bg-gradient: radial-gradient(circle at 50% 30%, rgba(239, 68, 68, 0.15) 0%, rgba(6, 9, 14, 0.95) 75%);
+    }
+
+    /* Fondo dinámico reactivo con transición suave */
+    #stageBackground {
+      background: var(--theme-bg-gradient);
+      transition: background 0.6s ease;
+    }
+
+    /* =========================================================================
+       ANIMACIÓN 1: SÚPER ZOOM WARP (PETICIÓN ESPECÍFICA DEL USUARIO)
+       El círculo se expande brutalmente hacia la cámara tocando los límites,
+       hace una inmersión cinemática, transmuta el color/ejercicio y retorna
+       elásticamente a su escala normal.
+       ========================================================================= */
+    .anim-super-zoom {
+      animation: superZoomKeyframe var(--anim-duration) cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      will-change: transform, filter;
+      perspective: 1200px;
+    }
+
+    @keyframes superZoomKeyframe {
+      0% {
+        transform: scale(1) translateZ(0);
+        filter: brightness(1);
+      }
+      42% {
+        transform: scale(2.45) translateZ(120px);
+        filter: brightness(1.7) blur(1.5px);
+        box-shadow: 0 0 100px var(--theme-glow);
+      }
+      52% {
+        transform: scale(2.35) translateZ(110px);
+        filter: brightness(1.6) blur(1px);
+      }
+      100% {
+        transform: scale(1) translateZ(0);
+        filter: brightness(1) blur(0);
+      }
+    }
+
+    /* Flash sutil de fondo durante el súper zoom */
+    .zoom-ambient-flash {
+      animation: zoomFlashKeyframe var(--anim-duration) ease-out forwards;
+    }
+    @keyframes zoomFlashKeyframe {
+      0% { opacity: 0; }
+      45% { opacity: 0.6; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(1); }
+    }
+
+    /* =========================================================================
+       ANIMACIÓN 2: CRISTAL LÍQUIDO & LENS REFRACTION (HIGH-END GLASS MORPH)
+       Efecto de lente de vidrio esmerilado que se empaña de luz líquida,
+       desenfoca con distorsión cromática y desvela la nueva fase con una
+       onda expansiva de refracción.
+       ========================================================================= */
+    .anim-liquid-glass {
+      animation: liquidGlassKeyframe var(--anim-duration) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      will-change: transform, backdrop-filter, filter;
+    }
+
+    @keyframes liquidGlassKeyframe {
+      0% {
+        transform: scale(1);
+        filter: blur(0px) contrast(100%);
+      }
+      38% {
+        transform: scale(0.92);
+        filter: blur(8px) contrast(150%) brightness(1.4);
+      }
+      65% {
+        transform: scale(1.08);
+        filter: blur(3px) contrast(120%) brightness(1.2);
+      }
+      100% {
+        transform: scale(1);
+        filter: blur(0px) contrast(100%) brightness(1);
+      }
+    }
+
+    .glass-liquid-overlay {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(0px);
+      background: radial-gradient(circle, transparent 40%, rgba(255,255,255,0.05) 100%);
+      pointer-events: none;
+      opacity: 0;
+    }
+    .glass-liquid-overlay.active {
+      animation: glassLiquidWave var(--anim-duration) ease-out forwards;
+    }
+    @keyframes glassLiquidWave {
+      0% { opacity: 0; backdrop-filter: blur(0px); }
+      40% { opacity: 1; backdrop-filter: blur(18px) saturate(220%); }
+      100% { opacity: 0; backdrop-filter: blur(0px); }
+    }
+
+    /* =========================================================================
+       ANIMACIÓN 3: GIRO ESPACIAL 3D (3D SPATIAL FLIP TITANIUM COIN)
+       El círculo rota en 3D sobre el eje Y (o X) como una moneda de titanio
+       de precisión, mostrando la nueva fase en su reverso con iluminación
+       especular dinámico y profundidad de perspectiva.
+       ========================================================================= */
+    .anim-spatial-flip {
+      animation: spatialFlipKeyframe var(--anim-duration) cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      transform-style: preserve-3d;
+      perspective: 1400px;
+      will-change: transform;
+    }
+
+    @keyframes spatialFlipKeyframe {
+      0% {
+        transform: perspective(1400px) rotateY(0deg) scale(1);
+      }
+      45% {
+        transform: perspective(1400px) rotateY(90deg) scale(1.18);
+        filter: brightness(1.8);
+      }
+      55% {
+        transform: perspective(1400px) rotateY(90deg) scale(1.18);
+        filter: brightness(1.8);
+      }
+      100% {
+        transform: perspective(1400px) rotateY(0deg) scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    /* =========================================================================
+       ANIMACIÓN 4: ONDA EXPANSIVA SÓNICA (SHOCKWAVE PULSE & AURA BLAST)
+       El círculo realiza una micro-contracción de carga energética (implosión)
+       y luego detona un anillo luminoso supersónico que barre la pantalla
+       y transmuta el color en un latido cinético deportivo.
+       ========================================================================= */
+    .anim-shockwave {
+      animation: shockwaveDiscKeyframe var(--anim-duration) cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      will-change: transform;
+    }
+
+    @keyframes shockwaveDiscKeyframe {
+      0% { transform: scale(1); }
+      25% { transform: scale(0.86); filter: brightness(0.8); }
+      50% { transform: scale(1.16); filter: brightness(1.6); }
+      75% { transform: scale(0.97); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    .shockwave-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      border: 4px solid var(--theme-primary);
+      transform: translate(-50%, -50%) scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 0 35px var(--theme-primary), inset 0 0 25px var(--theme-primary);
+    }
+    .shockwave-ring.active {
+      animation: shockwaveRingBlast var(--anim-duration) cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+    }
+    @keyframes shockwaveRingBlast {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.85);
+        border-width: 6px;
+      }
+      50% {
+        opacity: 0.9;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2.8);
+        border-width: 1px;
+      }
+    }
+
+    /* =========================================================================
+       ANIMACIÓN 5: OBTURADOR DE NEÓN & APERTURA CINEMATOGRÁFICA (IRIS SHUTTER)
+       Un barrido de haz de luz circular tipo acelerador de partículas en 360°
+       con destello de neón que abre un nuevo portal visual.
+       ========================================================================= */
+    .anim-iris-shutter {
+      animation: irisShutterKeyframe var(--anim-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      will-change: transform, filter;
+    }
+
+    @keyframes irisShutterKeyframe {
+      0% {
+        transform: scale(1);
+        clip-path: circle(50% at 50% 50%);
+      }
+      35% {
+        transform: scale(0.9);
+        clip-path: circle(22% at 50% 50%);
+        filter: brightness(2) contrast(140%);
+      }
+      50% {
+        transform: scale(1.05);
+        clip-path: circle(25% at 50% 50%);
+      }
+      100% {
+        transform: scale(1);
+        clip-path: circle(50% at 50% 50%);
+        filter: brightness(1) contrast(100%);
+      }
+    }
+
+    .iris-beam-ring {
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, transparent 0deg, var(--theme-primary) 180deg, transparent 360deg);
+      opacity: 0;
+      pointer-events: none;
+      filter: blur(4px);
+    }
+    .iris-beam-ring.active {
+      animation: irisBeamSpin var(--anim-duration) ease-out forwards;
+    }
+    @keyframes irisBeamSpin {
+      0% { opacity: 0; transform: rotate(0deg) scale(0.9); }
+      30% { opacity: 1; transform: rotate(180deg) scale(1.1); }
+      80% { opacity: 0.8; transform: rotate(540deg) scale(1); }
+      100% { opacity: 0; transform: rotate(720deg) scale(1); }
+    }
+
+    /* Pulsación suave de standby */
+    .idle-pulse {
+      animation: idleBreathe 3.6s ease-in-out infinite alternate;
+    }
+    @keyframes idleBreathe {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.03); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none bg-[#05080e]">
+
+  <!-- CONTENEDOR PRINCIPAL DEL LAB -->
+  <div class="w-full max-w-2xl mx-auto flex flex-col items-center flex-1 justify-between relative">
+
+    <!-- CABECERA SUPERIOR DEL LABORATORIO -->
+    <header class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 pb-4 border-b border-white/10 shrink-0">
+      <div class="text-center sm:text-left">
+        <div class="flex items-center justify-center sm:justify-start gap-2">
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black tracking-wider uppercase border border-emerald-500/30">Laboratorio UI</span>
+          <span class="text-xs text-slate-400 font-mono">Sergio Fit v29</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight mt-0.5">Transiciones Premium de Fase</h1>
+      </div>
+
+      <!-- SELECTOR DE VELOCIDAD -->
+      <div class="flex items-center gap-1 bg-white/5 border border-white/10 rounded-2xl p-1 shrink-0">
+        <button onclick="setSpeed('fast', 0.55)" id="btnSpeed-fast" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">0.5s Rápida</button>
+        <button onclick="setSpeed('normal', 0.85)" id="btnSpeed-normal" class="px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 shadow-md transition">0.8s Normal</button>
+        <button onclick="setSpeed('cinema', 1.25)" id="btnSpeed-cinema" class="px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white">1.2s Cine</button>
+      </div>
+    </header>
+
+    <!-- ESCENARIO PRINCIPAL (SIMULADOR DEL TIMER EN VIVO) -->
+    <main id="stageBackground" class="theme-work w-full my-4 rounded-3xl border border-white/10 p-4 sm:p-8 flex flex-col items-center justify-center relative overflow-hidden min-h-[460px] sm:min-h-[500px] shadow-2xl transition-all duration-500">
+      
+      <!-- CAPAS DE EFECTOS SUPERPUESTOS -->
+      <div id="zoomFlashLayer" class="absolute inset-0 bg-white pointer-events-none opacity-0 z-30"></div>
+      <div id="glassLiquidLayer" class="glass-liquid-overlay z-30"></div>
+      <div id="shockwaveRingLayer" class="shockwave-ring z-30"></div>
+      <div id="irisBeamLayer" class="iris-beam-ring z-30"></div>
+
+      <!-- TOP BAR DEL TIMER (RÉPLICA EXACTA) -->
+      <div class="w-full max-w-sm flex items-center justify-between mb-4 z-20">
+        <div class="px-3 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md flex items-center gap-2 text-xs font-mono text-slate-300">
+          <span>🔊 85%</span>
+          <span class="text-white/30">|</span>
+          <span>ESTACIÓN 3/8</span>
+        </div>
+        <div class="px-3.5 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md font-mono font-black text-xs text-emerald-400 flex items-center gap-1.5 shadow-lg">
+          <span>⏳</span>
+          <span id="demoTotalRemaining">18:40</span>
+        </div>
+      </div>
+
+      <!-- ESCENARIO DEL CÍRCULO DEL TIMER (DONDE ACTÚAN LAS ANIMACIONES) -->
+      <div class="relative flex items-center justify-center my-auto py-2">
+
+        <!-- WRAPPER ANIMABLE DEL CÍRCULO -->
+        <div id="timerCircleAnimWrapper" class="relative w-[310px] h-[310px] sm:w-[340px] sm:h-[340px] rounded-full flex items-center justify-center shrink-0 origin-center transition-transform">
+          
+          <!-- ANILLO SVG RADIAL -->
+          <svg class="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-2xl" viewBox="0 0 260 260">
+            <!-- Guía de fondo -->
+            <circle cx="130" cy="130" r="120" stroke="rgba(255,255,255,0.08)" stroke-width="12" fill="none"/>
+            <!-- Progreso de Neón dinámico -->
+            <circle id="demoRadialProgress" cx="130" cy="130" r="120" stroke="var(--theme-primary)" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="753.98" stroke-dashoffset="180" class="transition-all duration-300"/>
+          </svg>
+
+          <!-- DISCO INTERIOR CNC TITANIO -->
+          <div id="timerInnerDisc" class="w-[264px] h-[264px] sm:w-[290px] sm:h-[290px] rounded-full bg-slate-950/90 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center text-center relative overflow-hidden backdrop-blur-xl">
+            
+            <!-- BADGE DE FASE SUPERIOR -->
+            <div class="mb-1">
+              <span id="demoPhaseBadge" class="px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-colors">
+                TRABAJO
+              </span>
+            </div>
+
+            <!-- DÍGITOS GIGANTES -->
+            <div id="demoDigits" class="text-8xl sm:text-[104px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] my-1">
+              35
+            </div>
+
+            <!-- ILUSTRACIÓN / ICONO DE LA FASE -->
+            <div id="demoVisualHolder" class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center shrink-0 mt-0.5 transition-all">
+              <!-- SVG de ejercicio en trabajo -->
+              <svg class="w-full h-full text-emerald-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+                <circle cx="50" cy="18" r="8" fill="currentColor"/>
+                <line x1="50" y1="26" x2="50" y2="58"/>
+                <line x1="50" y1="36" x2="26" y2="48"/>
+                <line x1="50" y1="36" x2="74" y2="48"/>
+                <line x1="50" y1="58" x2="34" y2="88"/>
+                <line x1="50" y1="58" x2="66" y2="88"/>
+                <circle cx="24" cy="48" r="5" fill="#38bdf8"/>
+                <circle cx="76" cy="48" r="5" fill="#38bdf8"/>
+              </svg>
+            </div>
+
+            <!-- NOMBRE DEL EJERCICIO DENTRO DEL DISCO -->
+            <div id="demoExerciseName" class="text-xs sm:text-sm font-bold text-slate-300 truncate max-w-[220px] px-2 mt-0.5">
+              Press Militar Mancuernas
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PIE DEL ESCENARIO: INDICADOR DEL EFECTO ACTIVO -->
+      <div class="w-full max-w-sm flex items-center justify-between text-xs text-slate-400 z-20 mt-2">
+        <span class="font-mono">Fase actual: <b id="currentPhaseLabel" class="text-emerald-400 font-black">TRABAJO</b></span>
+        <span id="activeAnimNameBadge" class="px-2.5 py-0.5 rounded-lg bg-white/10 text-white font-bold font-mono">1. Súper Zoom 3D</span>
+      </div>
+    </main>
+
+    <!-- SELECTOR DE LAS 5 OPCIONES PREMIUM -->
+    <section class="w-full space-y-3 mb-3 shrink-0">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-black uppercase tracking-wider text-slate-400">Elige la Transición a Probar:</h3>
+        <span class="text-[11px] text-emerald-400 font-bold">Toca cualquier opción para activarla</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+        <!-- OPCIÓN 1 (SOLICITADA POR EL USUARIO) -->
+        <button onclick="selectOption(1)" id="cardOpt-1" class="p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-emerald-400 group-hover:text-emerald-300">#1 Súper Zoom</span>
+            <span class="text-xs">🚀</span>
+          </div>
+          <p class="text-[10px] text-slate-300 leading-tight">Zoom inmersivo gigante al círculo con retorno elástico y cambio de color.</p>
+        </button>
+
+        <!-- OPCIÓN 2 -->
+        <button onclick="selectOption(2)" id="cardOpt-2" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#2 Cristal Líquido</span>
+            <span class="text-xs">💧</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Efecto glassmorphism con refracción óptica, desenfoque y onda fluida.</p>
+        </button>
+
+        <!-- OPCIÓN 3 -->
+        <button onclick="selectOption(3)" id="cardOpt-3" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#3 Giro 3D Espacial</span>
+            <span class="text-xs">🪙</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Moneda de titanio girando en el espacio 3D mostrando la fase al reverso.</p>
+        </button>
+
+        <!-- OPCIÓN 4 -->
+        <button onclick="selectOption(4)" id="cardOpt-4" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#4 Onda Sónica</span>
+            <span class="text-xs">⚡</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Contracción implosiva seguida de una onda de choque expansiva de neón.</p>
+        </button>
+
+        <!-- OPCIÓN 5 -->
+        <button onclick="selectOption(5)" id="cardOpt-5" class="p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-black text-slate-300 group-hover:text-white">#5 Iris Neón Shutter</span>
+            <span class="text-xs">📸</span>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">Apertura de diafragma circular con barrido de haz de luz 360° deportivo.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- BOTONERA DE ACCIÓN RÁPIDA DE PRUEBA -->
+    <footer class="w-full bg-slate-900/90 border border-white/10 rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shrink-0 backdrop-blur-xl">
+      <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="triggerTransition('WORK_TO_REST')" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-amber-500/25 flex items-center gap-1.5">
+          <span>🟢 ➜ 🟡</span>
+          <span>A Descanso (15s)</span>
+        </button>
+
+        <button onclick="triggerTransition('REST_TO_WORK')" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-emerald-500/25 flex items-center gap-1.5">
+          <span>🟡 ➜ 🟢</span>
+          <span>A Trabajo (40s)</span>
+        </button>
+
+        <button onclick="triggerTransition('WORK_TO_ROUND_REST')" class="px-4 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 shadow-md shadow-rose-500/25 flex items-center gap-1.5">
+          <span>🟢 ➜ 🔴</span>
+          <span>Fin de Ronda (60s)</span>
+        </button>
+      </div>
+
+      <!-- BOTÓN REPETIR / PROBAR LA OPCIÓN ACTUAL -->
+      <button onclick="replayCurrent()" class="px-5 py-2.5 rounded-xl bg-white/15 hover:bg-white/25 text-white font-black text-xs uppercase tracking-wider transition active:scale-95 border border-white/20 flex items-center gap-2">
+        <span>🔄</span>
+        <span>Probar Actual</span>
+      </button>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT INTERACTIVO DEL LABORATORIO -->
+  <script>
+    let currentOption = 1;
+    let currentPhase = 'WORK'; // 'WORK', 'REST', 'ROUND_REST'
+    let animDuration = 0.85;
+
+    const ANIM_CLASSES = {
+      1: 'anim-super-zoom',
+      2: 'anim-liquid-glass',
+      3: 'anim-spatial-flip',
+      4: 'anim-shockwave',
+      5: 'anim-iris-shutter'
+    };
+
+    const ANIM_NAMES = {
+      1: '1. Súper Zoom 3D',
+      2: '2. Cristal Líquido',
+      3: '3. Giro 3D Espacial',
+      4: '4. Onda Sónica',
+      5: '5. Iris Neón Shutter'
+    };
+
+    // Sintetizador de audio Web Audio para sentir el impacto de cada animación
+    let audioCtx = null;
+    function playTransitionSound(type) {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'zoom') {
+          // Barrido futurista que sube y baja
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+          osc.frequency.exponentialRampToValueAtTime(330, now + 0.7);
+          gain.gain.setValueAtTime(0.01, now);
+          gain.gain.linearRampToValueAtTime(0.2, now + 0.35);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+          osc.start(now);
+          osc.stop(now + 0.8);
+        } else if (type === 'glass') {
+          // Tono cristalino armónico
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(659.25, now); // E5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
+          osc.start(now);
+          osc.stop(now + 0.9);
+        } else {
+          // Bell deportivo clásico
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+          osc.start(now);
+          osc.stop(now + 0.7);
+        }
+      } catch (e) {}
+    }
+
+    function setSpeed(mode, sec) {
+      animDuration = sec;
+      document.documentElement.style.setProperty('--anim-duration', `${sec}s`);
+
+      ['fast', 'normal', 'cinema'].forEach(m => {
+        const btn = document.getElementById(`btnSpeed-${m}`);
+        if (!btn) return;
+        if (m === mode) {
+          btn.className = "px-2.5 py-1 rounded-xl text-xs font-black bg-emerald-500 text-slate-950 shadow-md transition";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-xl text-xs font-bold text-slate-400 transition hover:text-white";
+        }
+      });
+
+      replayCurrent();
+    }
+
+    function selectOption(optNum) {
+      currentOption = optNum;
+      
+      // Actualizar estilos de las tarjetas
+      for (let i = 1; i <= 5; i++) {
+        const card = document.getElementById(`cardOpt-${i}`);
+        if (!card) continue;
+        const titleSpan = card.querySelector('span');
+        if (i === optNum) {
+          card.className = "p-3 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500 text-left transition active:scale-95 group";
+          if (titleSpan) titleSpan.className = "text-xs font-black text-emerald-400";
+        } else {
+          card.className = "p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/30 text-left transition active:scale-95 group";
+          if (titleSpan) titleSpan.className = "text-xs font-black text-slate-300 group-hover:text-white";
+        }
+      }
+
+      const badge = document.getElementById('activeAnimNameBadge');
+      if (badge) badge.innerText = ANIM_NAMES[optNum];
+
+      // Disparar animación automáticamente para que el usuario la vea de inmediato
+      replayCurrent();
+    }
+
+    function replayCurrent() {
+      // Alternar automáticamente de fase para que se aprecie la transición
+      const nextTarget = (currentPhase === 'WORK') ? 'WORK_TO_REST' : 'REST_TO_WORK';
+      triggerTransition(nextTarget);
+    }
+
+    function triggerTransition(transitionType) {
+      const circleWrapper = document.getElementById('timerCircleAnimWrapper');
+      const stage = document.getElementById('stageBackground');
+      const digits = document.getElementById('demoDigits');
+      const badge = document.getElementById('demoPhaseBadge');
+      const visualHolder = document.getElementById('demoVisualHolder');
+      const exerciseName = document.getElementById('demoExerciseName');
+      const phaseLabel = document.getElementById('currentPhaseLabel');
+
+      if (!circleWrapper) return;
+
+      // Limpiar clases de animación anteriores
+      Object.values(ANIM_CLASSES).forEach(cls => circleWrapper.classList.remove(cls));
+      void circleWrapper.offsetWidth; // Force Reflow
+
+      // Capas auxiliares
+      const zoomFlash = document.getElementById('zoomFlashLayer');
+      const glassLayer = document.getElementById('glassLiquidLayer');
+      const shockwaveLayer = document.getElementById('shockwaveRingLayer');
+      const irisLayer = document.getElementById('irisBeamLayer');
+
+      if (zoomFlash) zoomFlash.classList.remove('zoom-ambient-flash');
+      if (glassLayer) glassLayer.classList.remove('active');
+      if (shockwaveLayer) shockwaveLayer.classList.remove('active');
+      if (irisLayer) irisLayer.classList.remove('active');
+
+      // Aplicar animación seleccionada
+      const activeAnimClass = ANIM_CLASSES[currentOption];
+      circleWrapper.classList.add(activeAnimClass);
+
+      // Activar capas complementarias según la opción
+      if (currentOption === 1 && zoomFlash) {
+        zoomFlash.classList.add('zoom-ambient-flash');
+        playTransitionSound('zoom');
+      } else if (currentOption === 2 && glassLayer) {
+        glassLayer.classList.add('active');
+        playTransitionSound('glass');
+      } else if (currentOption === 4 && shockwaveLayer) {
+        shockwaveLayer.classList.add('active');
+        playTransitionSound('bell');
+      } else if (currentOption === 5 && irisLayer) {
+        irisLayer.classList.add('active');
+        playTransitionSound('zoom');
+      } else {
+        playTransitionSound('bell');
+      }
+
+      // En la mitad de la animación (tiempo apex), transmutar los datos visuales
+      const midpointMs = (animDuration * 1000) * 0.44;
+
+      setTimeout(() => {
+        if (transitionType === 'WORK_TO_REST') {
+          currentPhase = 'REST';
+          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-rest';
+          if (badge) {
+            badge.innerText = 'DESCANSO';
+            badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-amber-500/20 text-amber-400 border border-amber-500/30';
+          }
+          if (digits) digits.innerText = '15';
+          if (phaseLabel) {
+            phaseLabel.innerText = 'DESCANSO';
+            phaseLabel.className = 'text-amber-400 font-black';
+          }
+          if (exerciseName) exerciseName.innerText = 'Siguiente: Sentadilla Goblet';
+          if (visualHolder) {
+            visualHolder.innerHTML = `
+              <div class="flex flex-col items-center justify-center text-amber-400">
+                <span class="text-3xl">☕</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Recuperación</span>
+              </div>
+            `;
+          }
+        } else if (transitionType === 'REST_TO_WORK') {
+          currentPhase = 'WORK';
+          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-work';
+          if (badge) {
+            badge.innerText = 'TRABAJO';
+            badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+          }
+          if (digits) digits.innerText = '40';
+          if (phaseLabel) {
+            phaseLabel.innerText = 'TRABAJO';
+            phaseLabel.className = 'text-emerald-400 font-black';
+          }
+          if (exerciseName) exerciseName.innerText = 'Sentadilla Goblet Mancuerna';
+          if (visualHolder) {
+            visualHolder.innerHTML = `
+              <svg class="w-full h-full text-emerald-400" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4">
+                <circle cx="50" cy="18" r="8" fill="currentColor"/>
+                <line x1="50" y1="26" x2="50" y2="58"/>
+                <line x1="50" y1="36" x2="26" y2="48"/>
+                <line x1="50" y1="36" x2="74" y2="48"/>
+                <line x1="50" y1="58" x2="34" y2="88"/>
+                <line x1="50" y1="58" x2="66" y2="88"/>
+                <circle cx="24" cy="48" r="5" fill="#38bdf8"/>
+                <circle cx="76" cy="48" r="5" fill="#38bdf8"/>
+              </svg>
+            `;
+          }
+        } else if (transitionType === 'WORK_TO_ROUND_REST') {
+          currentPhase = 'ROUND_REST';
+          stage.className = stage.className.replace(/theme-\w+/g, '') + ' theme-round-rest';
+          if (badge) {
+            badge.innerText = 'FIN DE RONDA';
+            badge.className = 'px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest bg-rose-500/20 text-rose-400 border border-rose-500/30';
+          }
+          if (digits) digits.innerText = '60';
+          if (phaseLabel) {
+            phaseLabel.innerText = 'FIN RONDA';
+            phaseLabel.className = 'text-rose-400 font-black';
+          }
+          if (exerciseName) exerciseName.innerText = '¡Gran esfuerzo! Hidrátate';
+          if (visualHolder) {
+            visualHolder.innerHTML = `
+              <div class="flex flex-col items-center justify-center text-rose-400">
+                <span class="text-3xl">💧</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Hidratación</span>
+              </div>
+            `;
+          }
+        }
+      }, midpointMs);
+    }
+
+    // Inicializar con la opción 1
+    window.onload = function() {
+      selectOption(1);
+    };
+  </script>
+</body>
+</html>
