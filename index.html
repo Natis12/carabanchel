@@ -710,6 +710,16 @@
               <span>🏋️‍♀️ Mancuernas</span>
             </button>
 
+            <button onclick="toggleMaterial('silla')" id="matBtn-silla" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
+              <span id="matCheck-silla">✅</span>
+              <span>🪑 Silla</span>
+            </button>
+
+            <button onclick="toggleMaterial('pared')" id="matBtn-pared" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
+              <span id="matCheck-pared">✅</span>
+              <span>🧱 Pared</span>
+            </button>
+
             <button onclick="toggleMaterial('corporal')" id="matBtn-corporal" class="p-2.5 rounded-xl border flex items-center gap-2 transition active:scale-95 bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 min-h-[44px]">
               <span id="matCheck-corporal">✅</span>
               <span>🤸 Peso Corporal</span>
@@ -1058,6 +1068,8 @@
           <button onclick="setCatalogFilter('AERÓBICO')" id="catFilt-AERÓBICO" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aeróbicos</button>
           <button onclick="setCatalogFilter('FUERZA')" id="catFilt-FUERZA" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Fuerza</button>
           <button onclick="setCatalogFilter('mancuernas')" id="catFilt-mancuernas" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Mancuernas</button>
+          <button onclick="setCatalogFilter('silla')" id="catFilt-silla" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Silla</button>
+          <button onclick="setCatalogFilter('pared')" id="catFilt-pared" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Pared</button>
           <button onclick="setCatalogFilter('corporal')" id="catFilt-corporal" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Sin Material</button>
           <button onclick="setCatalogFilter('goma')" id="catFilt-goma" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Banda Larga</button>
           <button onclick="setCatalogFilter('aro')" id="catFilt-aro" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold shrink-0">Aro</button>
@@ -1102,6 +1114,8 @@
       <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-bold text-slate-600 dark:text-slate-400 scrollbar-none">
         <button type="button" onclick="setSwapMatFilter('all')" id="swapFilterMat-all" class="px-2.5 py-1 rounded-lg border bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-black border-emerald-500/40 transition shrink-0">Todos</button>
         <button type="button" onclick="setSwapMatFilter('mancuernas')" id="swapFilterMat-mancuernas" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">🏋️ Mancuernas</button>
+          <button type="button" onclick="setSwapMatFilter('silla')" id="swapFilterMat-silla" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">🪑 Silla</button>
+          <button type="button" onclick="setSwapMatFilter('pared')" id="swapFilterMat-pared" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">🧱 Pared</button>
         <button type="button" onclick="setSwapMatFilter('goma')" id="swapFilterMat-goma" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">🎗️ Banda</button>
         <button type="button" onclick="setSwapMatFilter('aro')" id="swapFilterMat-aro" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">⭕ Aro</button>
         <button type="button" onclick="setSwapMatFilter('kettlebell')" id="swapFilterMat-kettlebell" class="px-2.5 py-1 rounded-lg border bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 transition shrink-0">🏋️ KB</button>
@@ -1426,9 +1440,9 @@
       "id": "s1",
       "name": "Sentadilla a Silla o Banco (Asistida)",
       "type": "FUERZA",
-      "materialKey": "corporal",
-      "material": "Peso Corporal",
-      "materialIcon": "BODY",
+      "materialKey": "silla",
+      "material": "Silla",
+      "materialIcon": "SILLA",
       "cue": "Baja la cadera como a sentarte, roza la superficie y sube empujando talones.",
       "advanced": "Roza la silla apenas 1 segundo sin descargar el peso."
     },
@@ -1516,9 +1530,9 @@
       "id": "s10",
       "name": "Sentadilla Isométrica en Pared (Wall Sit)",
       "type": "FUERZA",
-      "materialKey": "corporal",
-      "material": "Peso Corporal",
-      "materialIcon": "BODY",
+      "materialKey": "pared",
+      "material": "Pared",
+      "materialIcon": "PARED",
       "cue": "Espalda apoyada en pared, rodillas a 90º o menos; mantén postura firme.",
       "advanced": "Baja los muslos a 90º exactos manteniendo brazos al frente."
     },
@@ -1750,6 +1764,32 @@
   "m23": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 90 M50 58 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L36 48 L36 62 M50 34 L64 48 L64 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"58\" x2=\"36\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"58\" x2=\"64\" y2=\"66\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"58\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"66\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"14\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 20 L50 52\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 52 L44 76 L44 84 M50 52 L56 76 L56 84\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 28 L36 42 L36 56 M50 28 L64 42 L64 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"36\" y1=\"52\" x2=\"36\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"36\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"36\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"64\" y1=\"52\" x2=\"64\" y2=\"60\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"64\" cy=\"60\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M44 94 L44 87 M42 90 L44 86 L46 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M56 94 L56 87 M54 90 L56 86 L58 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
   "m24": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><circle cx=\"22\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 76 L36 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"30\" y1=\"64\" x2=\"42\" y2=\"64\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"42\" cy=\"64\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><circle cx=\"22\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M26 76 L54 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 76 L66 62 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M36 76 L36 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><line x1=\"30\" y1=\"48\" x2=\"42\" y2=\"48\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"42\" cy=\"48\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M36 60 L36 52 M34 55 L36 51 L38 55\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
   "m25": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"36\" y=\"10\" width=\"28\" height=\"82\" rx=\"4\" fill=\"#818cf8\" opacity=\"0.4\"/><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 72 L44 86 M50 56 L56 72 L56 86\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L44 42 L46 48 M50 36 L56 42 L54 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"46\" y1=\"44\" x2=\"46\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"46\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"46\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"54\" y1=\"44\" x2=\"54\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"54\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"54\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/></g><g class=\"gif-step2\"><rect x=\"36\" y=\"10\" width=\"28\" height=\"82\" rx=\"4\" fill=\"#818cf8\" opacity=\"0.4\"/><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 72 L44 86 M50 56 L56 72 L56 86\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L34 44 L20 48 M50 36 L66 44 L80 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"20\" y1=\"44\" x2=\"20\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"20\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"20\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><line x1=\"80\" y1=\"44\" x2=\"80\" y2=\"52\" stroke=\"#0284c7\" stroke-width=\"2.8\" stroke-linecap=\"round\"/><circle cx=\"80\" cy=\"44\" r=\"2.5\" fill=\"#38bdf8\"/><circle cx=\"80\" cy=\"52\" r=\"2.5\" fill=\"#38bdf8\"/><path d=\"M42 46 Q30 46 22 46 M25 43 L21 46 L25 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M58 46 Q70 46 78 46 M75 43 L79 46 L75 49\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>"
+,
+  "ch1": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L46 66 L46 90 M50 58 L54 66 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L40 50 M50 36 L60 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L32 68 L28 90 M50 58 L68 68 L72 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L32 20 M50 34 L68 20\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M40 32 Q34 26 32 20 M31 24 L32 19 L36 21\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M60 32 Q66 26 68 20 M64 21 L68 19 L69 24\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/><path d=\"M44 84 L34 88 M38 89 L33 88 L35 85\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M56 84 L66 88 M65 85 L67 88 L62 89\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "ch2": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"64\" y=\"64\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M82 40 L82 90 M66 69 L66 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M34 28 L34 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M34 58 L32 90 M34 58 L36 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M34 36 L26 50 M34 36 L42 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"64\" y=\"64\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M82 40 L82 90 M66 69 L66 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M34 28 L34 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M34 58 L30 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M34 58 L48 50 L64 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M34 36 L24 46 L26 36 M34 36 L44 46 L50 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 76 Q56 64 64 64 M60 61 L65 64 L61 67\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "ch3": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 66 L44 90 M50 58 L56 66 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L38 30 L46 24 M50 34 L62 30 L54 24\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"48\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M48 30 L48 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 58 L40 48 L38 68\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 58 L56 66 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 36 L36 44 L40 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 36 L64 30 L58 24\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M54 36 Q46 44 42 48 M45 47 L41 49 L43 45\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "ch4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"38\" y=\"50\" width=\"24\" height=\"4\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M42 54 L42 90 M58 54 L58 90\" stroke=\"#334155\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 26 L50 54\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 54 L44 90 M50 54 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 32 L44 50 M50 32 L56 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"38\" y=\"50\" width=\"24\" height=\"4\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M42 54 L42 90 M58 54 L58 90\" stroke=\"#334155\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><circle cx=\"48\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M48 28 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L38 72 L38 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 56 L62 76 L66 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 34 L44 50 M48 34 L56 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M56 82 Q64 82 66 86 M62 85 L66 87 L64 83\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "ch5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 66 L44 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 58 L56 66 L56 86 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L34 18 M50 34 L66 18\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"36\" y=\"64\" width=\"28\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M40 69 L40 90 M60 69 L60 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L44 66 L44 86 L42 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 58 L56 66 L56 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 34 L34 18 M50 34 L66 18\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 88 L42 84 M46 92 L46 88\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M54 92 L54 88 M58 88 L58 84\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></g></svg>",
+  "ch6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"70\" y=\"62\" width=\"20\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M72 67 L72 90 M88 67 L88 90 M88 42 L88 62\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 28 L42 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M42 56 L42 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 56 L58 60 L72 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 36 L36 46 L40 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><rect x=\"70\" y=\"62\" width=\"20\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M72 67 L72 90 M88 67 L88 90 M88 42 L88 62\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"42\" cy=\"34\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 40 L42 66\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M42 66 L32 68 L32 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 66 L56 74 L72 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 46 L36 56 L40 60\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 44 L46 54 M43 51 L46 55 L49 51\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "ch7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"16\" y=\"62\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M18 67 L18 90 M36 67 L36 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"36\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M36 41 L58 56 L78 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M78 72 L86 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 46 L34 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"16\" y=\"62\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M18 67 L18 90 M36 67 L36 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"36\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M36 41 L58 56 L78 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M78 72 L86 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 46 L34 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M60 63 L60 55 M57 58 L60 54 L63 58\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M34 67 L34 61 M31 64 L34 60 L37 64\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "ch8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"54\" y=\"64\" width=\"24\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M74 36 L74 90 M56 69 L56 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M64 30 L64 62\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M64 62 L48 64 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M64 38 L56 56 L54 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><rect x=\"54\" y=\"64\" width=\"24\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M74 36 L74 90 M56 69 L56 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"64\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M64 30 L64 62\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M64 62 L50 64 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M64 62 L26 64 L26 58\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M64 38 L56 56 L54 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 84 Q34 78 26 68 M24 72 L26 67 L29 71\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "ch9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"16\" y=\"62\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M18 67 L18 90 M36 67 L36 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"34\" cy=\"36\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M36 41 L58 56 L78 72\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M78 72 L86 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 46 L34 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"16\" y=\"62\" width=\"22\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M18 67 L18 90 M36 67 L36 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"30\" cy=\"48\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M34 52 L54 64 L76 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M76 76 L86 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M38 55 L46 48 L34 62\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 40 L38 48 M36 45 L38 49 L41 46\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "ch10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"50\" y=\"66\" width=\"26\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M72 42 L72 90 M52 71 L52 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"66\" cy=\"30\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M66 36 L58 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M64 44 L54 66\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M58 64 L30 58 M58 64 L28 72\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"50\" y=\"66\" width=\"26\" height=\"5\" rx=\"1.5\" fill=\"#334155\"/><path d=\"M72 42 L72 90 M52 71 L52 90\" stroke=\"#334155\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"66\" cy=\"30\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M66 36 L58 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M64 44 L54 66\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M58 64 L28 62 M58 64 L30 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M32 54 L32 64 M34 61 L32 65 L30 61\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M28 76 L28 66 M26 69 L28 65 L30 69\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w1": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 30 L52 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M52 56 L62 90 M52 56 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 36 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"38\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M38 30 L52 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M52 56 L62 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M52 56 L36 50 L40 68\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 36 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 66 L38 52 M36 56 L38 51 L41 54\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w2": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L80 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L38 90 M50 58 L64 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 34 L80 24\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M66 38 L76 28 M72 26 L77 27 L76 32\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M52 86 L64 88 M60 85 L65 88 L61 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w3": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 28 L42 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M42 58 L40 90 M42 58 L44 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 36 L52 46 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"46\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 30 L44 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M44 58 L58 72 L66 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 58 L36 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 88 L62 88 M58 85 L63 88 L58 91\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M66 42 L78 39 M74 37 L78 39 L75 42\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w4": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L48 90 M50 58 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 58 L50 74 L36 68\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 86 Q36 82 36 70 M34 74 L36 69 L39 73\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "w5": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L46 90 M50 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 36 L20 42 M50 36 L64 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 58 L62 48 L52 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L20 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 36 L66 42 L60 32\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M64 74 Q66 60 62 48 M60 52 L62 47 L65 51\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/></g></svg>",
+  "w6": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"56\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M56 28 L56 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M56 58 L52 90 M56 58 L60 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M56 36 L48 48 M56 36 L64 48\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"26\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 32 L44 60\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M44 60 L32 74 L32 90 M44 60 L58 74 L62 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M42 38 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M58 86 L36 86 M40 83 L35 86 L40 89\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w7": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"74\" cy=\"26\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M74 32 L74 62\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M74 62 L60 68 L60 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 38 L68 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"74\" cy=\"26\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M74 32 L74 62\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M74 62 L60 68 L60 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 62 L46 66 L30 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 38 L68 56\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 76 L32 86 M37 86 L31 87 L33 82\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w8": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"44\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M44 30 L54 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 58 L52 84 L50 88 M54 58 L62 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 36 L30 42 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"46\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 30 L56 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M56 58 L50 90 M56 58 L64 84 L66 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M46 36 L24 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M22 36 L32 36 M29 33 L33 36 L29 39\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 90 L52 90 M64 90 L68 90\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\"/></g></svg>",
+  "w9": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"74\" cy=\"34\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M74 40 L74 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M74 64 L50 64 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 46 L60 58 L54 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"74\" cy=\"34\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M74 40 L74 64\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M74 64 L50 64 L50 84 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M74 46 L60 58 L54 64\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 88 L44 80 M41 83 L44 79 L47 83\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w10": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"34\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M34 30 L48 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 58 L58 90 M48 58 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M36 36 L26 44 L22 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><line x1=\"22\" y1=\"36\" x2=\"22\" y2=\"46\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"42\" cy=\"24\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M42 30 L54 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 58 L60 90 M54 58 L54 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 36 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M28 42 L38 42 M35 39 L39 42 L35 45\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w11": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"46\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 28 Q44 44 48 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 58 L46 90 M48 58 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"54\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M54 28 L54 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M54 58 L46 90 M54 58 L52 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M54 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 38 L50 38 M47 35 L51 38 L47 41\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w12": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"48\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M48 28 L48 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 58 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 58 L68 58 L68 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 36 L40 46 L44 50 M48 36 L56 46 L52 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"48\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M48 28 L48 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M48 58 L46 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M48 58 L78 58 L78 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M48 36 L40 46 L44 50 M48 36 L56 46 L52 50\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M68 54 L78 54 M75 51 L79 54 L75 57\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w13": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M40 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 56 L62 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 36 L24 40 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 36 L54 52\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"20\" y1=\"10\" x2=\"20\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"40\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M40 28 L46 54\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 54 L62 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M42 36 L24 40 L20 40\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 36 L58 20\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M44 64 L38 54 M42 55 L37 53 L39 58\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w14": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"85\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"26\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M32 76 L58 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M36 74 L12 68\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M58 76 L58 54 L74 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g><g class=\"gif-step2\"><rect x=\"8\" y=\"80\" width=\"84\" height=\"4\" rx=\"2\" fill=\"#818cf8\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"85\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"26\" cy=\"74\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M32 76 L58 76\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M36 74 L12 68\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M58 76 L58 54 L72 54\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M58 76 L86 70\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M22 66 L12 66 M16 63 L11 66 L16 69\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M66 60 L80 68 M76 68 L81 68 L79 64\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>",
+  "w15": "<svg class=\"w-full h-full p-1.5\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"22\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 58 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 58 L42 70 L46 80\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 36 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><line x1=\"80\" y1=\"10\" x2=\"80\" y2=\"95\" stroke=\"#64748b\" stroke-width=\"4\"/><circle cx=\"50\" cy=\"18\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M50 24 L50 54\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 54 L50 82 L52 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 54 L42 66 L46 76\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M50 32 L80 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M44 88 L44 78 M41 81 L44 77 L47 81\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>"
 };
 
     // Materiales disponibles
@@ -1759,7 +1799,9 @@
       goma: ['Banda Larga 10-15kg', 'BANDA'],
       aro: ['Aro Pilates', 'ARO'],
       kettlebell: ['Kettlebell Pesada', 'KB'],
-      mancuernas: ['Mancuernas', 'MANC']
+      mancuernas: ['Mancuernas', 'MANC'],
+      silla: ['Silla', 'SILLA'],
+      pared: ['Pared', 'PARED']
     };
 
     // Nuevos 50 ejercicios sin saltos añadidos en la sesión previa
@@ -1778,8 +1820,8 @@
       ['a37','corporal','z','stand','Patada Frontal Baja Alterna','Extiende pierna al frente a baja altura, controlada, sin bloquear rodilla.','Patada a la altura de la rodilla con braceo.'],
       ['a38','corporal','pz','stand','Paso Atrás con Brazos al Frente','Pie atrás apoyando punta y brazos al frente; vuelve y cambia.','Convierte en zancada atrás corta.'],
       ['a39','corporal','z','stand','Twist Suave de Pies (Sin Girar Columna)','Talones giran a un lado y otro sobre la punta, brazos al pecho.','Añade pequeño descenso de cadera.'],
-      ['a40','corporal','pz','chair','Marcha Sentada Enérgica en Silla','Sentada al borde, espalda recta; marcha rápida con braceo.','Extiende una pierna al frente en cada paso.'],
-      ['a41','corporal','pz','chair','Boxeo Sentada con Pies Activos','Sentada al borde, puños al frente alternos mientras taloneas.','Levántate y siéntate cada 4 golpes.'],
+      ['a40','silla','pz','chair','Marcha Sentada Enérgica en Silla','Sentada al borde, espalda recta; marcha rápida con braceo.','Extiende una pierna al frente en cada paso.'],
+      ['a41','silla','pz','chair','Boxeo Sentada con Pies Activos','Sentada al borde, puños al frente alternos mientras taloneas.','Levántate y siéntate cada 4 golpes.'],
       ['a42','corporal','pz','stand','Paso Lateral Doble con Remo de Brazos','Dos pasos a un lado tirando de codos atrás; vuelve.','Paso más amplio con rodillas algo flexionadas.'],
       ['a43','corporal','z','stand','Molino Suave de Brazos con Marcha','Marcha en el sitio dibujando círculos amplios con los brazos.','Círculos en sentido contrario cada 8 tiempos.'],
       ['a44','esterilla','p','floor','Pataleo Suave Boca Arriba (Flutter)','Tumbada, lumbar pegada a la esterilla, pequeños pataleos con piernas altas.','Baja las piernas un poco sin despegar lumbar.'],
@@ -1792,24 +1834,24 @@
     ];
 
     const NEW_STRENGTH = [
-      ['s26','corporal','pz','chair','Levantarse y Sentarse de Silla sin Manos','Brazos cruzados al pecho, levántate empujando talones y siéntate lento.','Baja en 4 segundos y sube rápido.'],
-      ['s27','corporal','pz','wall','Flexión de Brazos en Pared','Manos en la pared a la altura del pecho; codos a 45º, cuerpo en bloque.','Aléjate más de la pared.'],
-      ['s28','corporal','p','stand','Elevación Lateral de Pierna de Pie (Glúteo Medio)','Apoyada en silla o pared, sube pierna al lado sin inclinar el tronco.','Pausa 2 seg arriba sin apoyo.'],
-      ['s29','corporal','p','stand','Extensión de Cadera de Pie (Patada Atrás)','Manos en silla, lleva la pierna recta atrás apretando glúteo, sin arquear.','Añade pulsos cortos de 2 cm arriba.'],
+      ['s26','silla','pz','chair','Levantarse y Sentarse de Silla sin Manos','Brazos cruzados al pecho, levántate empujando talones y siéntate lento.','Baja en 4 segundos y sube rápido.'],
+      ['s27','pared','pz','wall','Flexión de Brazos en Pared','Manos en la pared a la altura del pecho; codos a 45º, cuerpo en bloque.','Aléjate más de la pared.'],
+      ['s28','silla','p','stand','Elevación Lateral de Pierna de Pie (Glúteo Medio)','Apoyada en silla o pared, sube pierna al lado sin inclinar el tronco.','Pausa 2 seg arriba sin apoyo.'],
+      ['s29','silla','p','stand','Extensión de Cadera de Pie (Patada Atrás)','Manos en silla, lleva la pierna recta atrás apretando glúteo, sin arquear.','Añade pulsos cortos de 2 cm arriba.'],
       ['s30','corporal','pz','stand','Media Sentadilla con Brazos al Frente','Pies al ancho de caderas, baja poco empujando glúteos atrás.','Baja hasta muslos casi paralelos.'],
-      ['s31','corporal','p','stand','Elevación de Talones con Apoyo','Manos en silla, sube a puntillas lento y baja en 3 segundos.','A una pierna con apoyo ligero.'],
-      ['s32','corporal','p','wall','Deslizamiento de Brazos en Pared (Ángel)','Espalda y brazos en la pared, sube y baja brazos sin despegar codos.','Añade media sentadilla en pared.'],
-      ['s33','corporal','pz','stand','Zancada Atrás con Apoyo en Silla','Mano en silla, pie atrás y baja rodilla vertical; sube por talón delantero.','Sin apoyo de mano.'],
-      ['s34','corporal','p','chair','Elevación de Rodillas Sentada (Core)','Sentada al borde, manos en el asiento; sube ambas rodillas un poco.','Sube rodillas y extiende piernas al frente.'],
+      ['s31','silla','p','stand','Elevación de Talones con Apoyo','Manos en silla, sube a puntillas lento y baja en 3 segundos.','A una pierna con apoyo ligero.'],
+      ['s32','pared','p','wall','Deslizamiento de Brazos en Pared (Ángel)','Espalda y brazos en la pared, sube y baja brazos sin despegar codos.','Añade media sentadilla en pared.'],
+      ['s33','silla','pz','stand','Zancada Atrás con Apoyo en Silla','Mano en silla, pie atrás y baja rodilla vertical; sube por talón delantero.','Sin apoyo de mano.'],
+      ['s34','silla','p','chair','Elevación de Rodillas Sentada (Core)','Sentada al borde, manos en el asiento; sube ambas rodillas un poco.','Sube rodillas y extiende piernas al frente.'],
       ['s35','corporal','p','stand','Remo sin Material con Apriete de Escápulas','Brazos al frente, tira de codos atrás juntando escápulas 2 seg.','Inclinada 30º con espalda neutra.'],
-      ['s36','corporal','p','wall','Plancha de Pie en Pared','Antebrazos en pared, cuerpo inclinado en bloque; ombligo adentro.','Aleja los pies y alterna rodilla al pecho.'],
+      ['s36','pared','p','wall','Plancha de Pie en Pared','Antebrazos en pared, cuerpo inclinado en bloque; ombligo adentro.','Aleja los pies y alterna rodilla al pecho.'],
       ['s37','corporal','p','stand','Buenos Días sin Peso (Bisagra)','Manos en la cadera, inclina el tronco atrás glúteos con espalda recta.','Brazos cruzados al pecho y baja en 3 seg.'],
       ['s38','corporal','pz','stand','Sentadilla Sumo con Pulso','Pies anchos, puntas fuera; baja y haz pequeños rebotes controlados.','Sube a puntillas al final de cada repetición.'],
       ['s39','corporal','p','stand','Equilibrio a Una Pierna con Brazos en Cruz','Rodilla elevada a cadera, abdomen firme; cambia cada 15 seg.','Cierra los ojos o lleva la pierna atrás.'],
-      ['s40','corporal','p','chair','Fondos de Tríceps en Silla (Pies Cerca)','Manos en el borde de silla estable; dobla codos poco, hombros bajos.','Aleja los pies y baja más.'],
+      ['s40','silla','p','chair','Fondos de Tríceps en Silla (Pies Cerca)','Manos en el borde de silla estable; dobla codos poco, hombros bajos.','Aleja los pies y baja más.'],
       ['s41','corporal','pz','stand','Círculos de Brazos Isométricos','Brazos en cruz a la altura de hombros; círculos pequeños hacia delante y atrás.','Palmas hacia arriba y círculos más lentos.'],
       ['s42','corporal','p','stand','Aducción Isométrica de Palmas al Pecho','Palmas juntas frente al pecho, presiona 5 seg y relaja; hombros bajos.','Mantén la presión mientras subes a puntillas.'],
-      ['s43','corporal','p','wall','Puente de Glúteo con Pies en Pared (Tumbada)','Tumbada con pies en la pared, eleva pelvis apretando glúteos.','Una pierna estirada hacia el techo.'],
+      ['s43','pared','p','wall','Puente de Glúteo con Pies en Pared (Tumbada)','Tumbada con pies en la pared, eleva pelvis apretando glúteos.','Una pierna estirada hacia el techo.'],
       ['s44','esterilla','p','floor','Almeja (Clamshell) Tumbada de Lado','De lado, rodillas dobladas; abre la rodilla de arriba sin girar la pelvis.','Eleva los pies juntos y abre la rodilla.'],
       ['s45','esterilla','p','floor','Dead Bug Modificado','Boca arriba, rodillas a 90º; baja un talón al suelo con lumbar pegada.','Extiende brazo contrario a la vez.'],
       ['s46','goma','pz','stand','Press de Pecho con Banda por la Espalda','Banda por la espalda; empuja al frente a la altura del pecho.','Paso adelante en cada empuje.'],
@@ -2110,6 +2152,296 @@
     fullExerciseDatabase.aerobic.push(...DUMBBELL_AEROBIC);
     fullExerciseDatabase.strength.push(...DUMBBELL_STRENGTH);
 
+    // 10 NUEVOS EJERCICIOS DE SILLA
+    const CHAIR_AEROBIC = [
+  {
+    "id": "ch1",
+    "name": "Jumping Jack Sentada sin Impacto",
+    "type": "AERÓBICO",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "pz",
+    "cue": "Sentada al borde de la silla con columna erguida y ombligo hacia dentro. Inhala abriendo simultáneamente brazos en 'V' y piernas a los lados apoyando puntas; exhala reuniendo al centro con ritmo ágil y continuo.",
+    "advanced": "Aumenta la cadencia manteniendo los pies flotando en el aire sin tocar el suelo al abrir."
+  },
+  {
+    "id": "ch2",
+    "name": "Toque Alterno de Puntera al Asiento",
+    "type": "AERÓBICO",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "z",
+    "cue": "De pie frente a la silla a un paso corto. Eleva una rodilla flexionada rozando suavemente el borde del asiento con la puntera y alterna pies con rebote suave en metatarsos y braceo enérgico. Respira acompasada.",
+    "advanced": "Acelera el cambio de pies con una cadencia rápida y continua tipo paso de baile sin pausa abajo."
+  },
+  {
+    "id": "ch3",
+    "name": "Codo a Rodilla Contraria Sentada Dinámica",
+    "type": "AERÓBICO",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "pz",
+    "cue": "Sentada erguida con yemas de los dedos en las sienes. Exhala rotando el torso desde la cintura para acercar codo a rodilla opuesta elevada; inhala volviendo al centro y alterna de lado sin curvar la zona lumbar.",
+    "advanced": "Incrementa el ritmo manteniendo ambas piernas despegadas del suelo en suspensión ligera."
+  },
+  {
+    "id": "ch4",
+    "name": "Patinador Lateral Rítmico con Apoyo en Respaldo",
+    "type": "AERÓBICO",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "pz",
+    "cue": "De pie tras el respaldo de la silla apoyando yemas de los dedos. Da un paso lateral amplio y cruza la otra pierna por detrás en diagonal flexionando ambas rodillas. Exhala al cambiar de lado con ritmo fluido.",
+    "advanced": "Retira las manos del respaldo y añade braceo amplio cruzado de patinador coordinado con cada zancada."
+  },
+  {
+    "id": "ch5",
+    "name": "Repique Rápido de Pies Sentada con Brazos en V",
+    "type": "AERÓBICO",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "z",
+    "cue": "Sentada al borde con torso ligeramente inclinado hacia atrás y core muy activo. Ejecuta un repique rápido y suave de metatarsos en el suelo mientras elevas y desciendes brazos en 'V'. Respira profundo y sin pausas.",
+    "advanced": "Inclina el tronco 10 grados más hacia atrás sin tocar el respaldo y maximiza la velocidad de los pies."
+  }
+];
+    const CHAIR_STRENGTH = [
+  {
+    "id": "ch6",
+    "name": "Sentadilla Búlgara con Apoyo de Empeine en Silla",
+    "type": "FUERZA",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "p",
+    "cue": "De espaldas a la silla, apoya un empeine en el asiento y adelanta el pie de apoyo. Inhala descendiendo la rodilla trasera en vertical hasta 90º en pierna delantera; exhala empujando firme desde el talón delantero.",
+    "advanced": "Pausa isométrica de 2 segundos en el punto más bajo manteniendo brazos extendidos al frente."
+  },
+  {
+    "id": "ch7",
+    "name": "Plancha Frontal Inclinada con Manos en Asiento",
+    "type": "FUERZA",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "pz",
+    "cue": "Palmas en los bordes del asiento bajo hombros y pies atrás en apoyo sobre metatarsos. Mantén una línea recta perfecta desde la coronilla a los talones, empujando el pecho lejos del asiento con glúteos y abdomen firmes.",
+    "advanced": "Eleva un pie 5 cm del suelo de forma alterna manteniendo la pelvis completamente horizontal e inmóvil."
+  },
+  {
+    "id": "ch8",
+    "name": "Extensión de Rodilla Sentada con Pie en Flex",
+    "type": "FUERZA",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "p",
+    "cue": "Sentada alta sin apoyar la espalda, muslos paralelos. Exhala extendiendo una pierna al frente bloqueando suavemente cuádriceps con pie en flexión dorsal (talón proyectado); aguanta 2 segundos y desciende inhalando.",
+    "advanced": "Mantén la pierna estirada al frente y realiza 5 pequeños pulsos verticales controlados desde la cadera."
+  },
+  {
+    "id": "ch9",
+    "name": "Flexión Inclinada de Pecho en Asiento de Silla",
+    "type": "FUERZA",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "pz",
+    "cue": "Manos a la anchura de hombros en el asiento de una silla firme, cuerpo en plancha recta. Inhala bajando el esternón hacia el borde con codos a 45º; exhala empujando con palmas sin arquear zona lumbar.",
+    "advanced": "Desciende en 3 segundos lentos y empuja de forma enérgica con 1 segundo de bloqueo escapular arriba."
+  },
+  {
+    "id": "ch10",
+    "name": "Tijeras Horizontales de Piernas Sentada (Core Pilates)",
+    "type": "FUERZA",
+    "materialKey": "silla",
+    "material": "Silla",
+    "materialIcon": "SILLA",
+    "groups": "p",
+    "cue": "Sentada al borde de la silla sujetando los laterales del asiento, reclina el torso 20º con columna elongada. Eleva piernas a media altura y crúzalas de forma alterna en tijera horizontal exhalando al ritmo del movimiento.",
+    "advanced": "Realiza el cruce de piernas manteniendo los brazos en cruz flotando sin sujetar el asiento."
+  }
+];
+
+    // 15 NUEVOS EJERCICIOS DE PARED
+    const WALL_AEROBIC = [
+  {
+    "id": "w1",
+    "name": "Escalador de Pie con Apoyo en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "Manos en la pared al ancho de hombros con cuerpo inclinado en diagonal. Conduce rodillas alternas hacia el pecho en un pedaleo rítmico, continuo y sin impacto; exhala en cada elevación manteniendo la pelvis estable.",
+    "advanced": "Aumenta la cadencia a trote ágil sobre metatarsos manteniendo la columna alineada y abdomen compacto."
+  },
+  {
+    "id": "w2",
+    "name": "Jacks Laterales sin Impacto Frente a Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "z",
+    "cue": "De pie a medio metro de la pared. Da un paso lateral abriendo pierna mientras ambas manos tocan la pared arriba en 'V'; regresa al centro y abre al lado contrario con fluidez rítmica. Rodillas siempre flexibles.",
+    "advanced": "Flexiona más la rodilla de apoyo al abrir en una media sentadilla lateral dinámica en cada toque."
+  },
+  {
+    "id": "w3",
+    "name": "Paso Mambo con Toque Rítmico en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "z",
+    "cue": "A un paso largo de la pared, adelanta un pie tocando la pared con ambas palmas al frente; retrocede con paso cadencioso balanceando caderas y alterna de pie. Exhala en el empuje frontal activando el abdomen.",
+    "advanced": "Añade un doble toque rápido de palmas en pared con cambio de pierna más veloz y marcado."
+  },
+  {
+    "id": "w4",
+    "name": "Talones al Glúteo con Manos en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "Manos apoyadas a la altura de hombros descargando tensión de la columna. Flexiona rodillas de forma alterna llevando talones hacia los glúteos en una marcha ágil y continua. Inhala en 2 tiempos y exhala en 2.",
+    "advanced": "Aumenta la frecuencia de flexión manteniendo las rodillas orientadas en vertical hacia el suelo."
+  },
+  {
+    "id": "w5",
+    "name": "Elevación Rítmica de Rodilla Cruzada de Perfil a Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "z",
+    "cue": "De perfil a la pared con la mano interior apoyada a la altura del hombro. Eleva la rodilla exterior en diagonal hacia el ombligo con braceo enérgico del brazo libre. Exhala al subir la rodilla; cambia de perfil a mitad de tiempo.",
+    "advanced": "Sube a la punta del pie de apoyo al elevar la rodilla exterior para potenciar la impulsión articular."
+  },
+  {
+    "id": "w6",
+    "name": "Paso Lateral con Toque de Manos en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "Frente a la pared con rodillas ligeramente flexionadas. Da dos pasos laterales hacia la derecha rozando la pared con las palmas y repite hacia la izquierda en vaivén constante. Mantén la respiración acompasada.",
+    "advanced": "Desciende la cadera en postura de media sentadilla mantenida durante todo el desplazamiento lateral."
+  },
+  {
+    "id": "w7",
+    "name": "Talonazos Alternos Rápidos con Espalda Apoyada en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "z",
+    "cue": "Espalda apoyada contra la pared con rodillas en microflexión. Lanza toques rápidos de talón al frente de forma alterna, coordinando con un braceo activo y enérgico. Exhala rítmicamente en cada cambio de talón.",
+    "advanced": "Desliza la espalda 10 cm abajo en la pared incrementando la flexión de rodillas mientras taloneas."
+  },
+  {
+    "id": "w8",
+    "name": "Repique de Punteras con Empujes Dinámicos en Pared",
+    "type": "AERÓBICO",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "Manos apoyadas en la pared con cuerpo inclinado. Ejecuta un repique muy veloz de metatarsos en el suelo mientras flexionas y extiendes codos con empujes rítmicos y cortos. Respira de forma fluida y sin bloqueos.",
+    "advanced": "Aleja los pies 15 cm más de la pared aumentando la inclinación corporal y la cadencia de piernas."
+  }
+];
+    const WALL_STRENGTH = [
+  {
+    "id": "w9",
+    "name": "Sentadilla en Pared con Elevación de Talones",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "Espalda apoyada plana en la pared con rodillas flexionadas a 60-90º y pies al ancho de caderas. Exhala elevando ambos talones sobre metatarsos contrayendo gemelos y sóleo; aguanta 2 segundos y desciende inhalando.",
+    "advanced": "Mantén los talones elevados de forma continua durante toda la serie en isometría total."
+  },
+  {
+    "id": "w10",
+    "name": "Extensión de Tríceps en Pared con Antebrazos",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "p",
+    "cue": "De pie frente a la pared con cuerpo inclinado en bloque y antebrazos apoyados verticales a la altura de los ojos. Exhala empujando con las palmas para extender codos y separar antebrazos; inhala regresando lento.",
+    "advanced": "Aleja los pies medio paso más de la pared para incrementar el porcentaje de peso corporal a empujar."
+  },
+  {
+    "id": "w11",
+    "name": "Retracción Escapular en Pared (Serrato y Romboides)",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "p",
+    "cue": "Palmas en la pared al ancho de hombros con brazos rectos y codos extendidos sin bloquear. Inhala juntando escápulas atrás acercando el pecho; exhala empujando la pared separando escápulas y activando el serrato.",
+    "advanced": "Mantén la protracción escapular (empuje máximo) 3 segundos arriba con una sola mano apoyada en la pared."
+  },
+  {
+    "id": "w12",
+    "name": "Abducción Isométrica de Cadera contra Pared",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "p",
+    "cue": "De pie de perfil a la pared, flexiona la rodilla interior a 90º y presiona la cara externa del muslo contra la pared hacia fuera. Exhala sosteniendo la presión 5 segundos activando glúteo medio; inhala al relajar.",
+    "advanced": "Mantén la presión continua contra la pared mientras flexionas y extiendes ligeramente la rodilla de apoyo."
+  },
+  {
+    "id": "w13",
+    "name": "Plancha Lateral de Pie con Apoyo en Pared",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "p",
+    "cue": "De perfil a la pared a un paso de distancia, apoya el antebrazo a la altura del hombro formando una diagonal recta de cabeza a tobillos. Empuja la pared con el antebrazo activando oblicuos. Respira profundo y pausado.",
+    "advanced": "Despega la pierna exterior en abducción lateral sosteniendo 3 segundos en el aire sin rotar la pelvis."
+  },
+  {
+    "id": "w14",
+    "name": "Dead Bug con Empuje Isométrico en Pared",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "p",
+    "cue": "Tumbada boca arriba con la coronilla cerca de la pared, empuja las palmas contra la pared con brazos extendidos. Exhala extendiendo una pierna recta hacia el suelo sin despegar la zona lumbar; inhala regresando al centro.",
+    "advanced": "Desciende ambas piernas simultáneamente a 45º manteniendo la máxima presión isométrica de manos contra la pared."
+  },
+  {
+    "id": "w15",
+    "name": "Elevación de Talón a Una Pierna con Apoyo en Pared",
+    "type": "FUERZA",
+    "materialKey": "pared",
+    "material": "Pared",
+    "materialIcon": "PARED",
+    "groups": "pz",
+    "cue": "De pie frente a la pared con yemas de los dedos rozando la pared para equilibrio. A una pierna, exhala elevando el talón al máximo sobre el metatarso; aguanta 1 segundo y desciende en 3 segundos lentos.",
+    "advanced": "Realiza las repeticiones sin apoyar los dedos en la pared, utilizándola únicamente como referencia de seguridad."
+  }
+];
+
+    fullExerciseDatabase.aerobic.push(...CHAIR_AEROBIC, ...WALL_AEROBIC);
+    fullExerciseDatabase.strength.push(...CHAIR_STRENGTH, ...WALL_STRENGTH);
+
     // Plantillas de postura para los que no tienen SVG custom
     const POSE_FRAMES = {
       stand: ['<circle cx="50" cy="22" r="6" fill="#f8fafc"/><path d="M50 28 L50 58" stroke="#f8fafc" stroke-width="5" stroke-linecap="round"/><path d="M50 58 L44 90 M50 58 L56 90" stroke="#f8fafc" stroke-width="4.5" stroke-linecap="round"/><path d="M50 36 L40 50 M50 36 L60 50" stroke="#f8fafc" stroke-width="4.2" stroke-linecap="round"/>',
@@ -2167,6 +2499,8 @@
       goma: true,
       aro: true,
       mancuernas: true,
+      silla: true,
+      pared: true,
       corporal: true
     };
 
@@ -2273,7 +2607,7 @@
     }
 
     function updateMaterialUI() {
-      ['esterilla', 'kettlebell', 'goma', 'aro', 'mancuernas', 'corporal'].forEach(key => {
+      ['esterilla', 'kettlebell', 'goma', 'aro', 'mancuernas', 'silla', 'pared', 'corporal'].forEach(key => {
         const btn = document.getElementById(`matBtn-${key}`);
         const check = document.getElementById(`matCheck-${key}`);
         if (!btn || !check) return;
@@ -2818,6 +3152,8 @@
       if (mat.includes('Banda') || mat.includes('Goma')) return '🎗️';
       if (mat.includes('Aro')) return '⭕';
       if (mat.includes('Esterilla')) return '🧘';
+      if (mat.includes('Silla')) return '🪑';
+      if (mat.includes('Pared')) return '🧱';
       return '🤸';
     }
 
@@ -3338,7 +3674,7 @@
 
     function setCatalogFilter(f) {
       catalogFilter = f;
-      ['all', 'AERÓBICO', 'FUERZA', 'mancuernas', 'corporal', 'goma', 'aro', 'esterilla', 'kettlebell'].forEach(k => {
+      ['all', 'AERÓBICO', 'FUERZA', 'mancuernas', 'silla', 'pared', 'corporal', 'goma', 'aro', 'esterilla', 'kettlebell'].forEach(k => {
         const btn = document.getElementById(`catFilt-${k}`);
         if (!btn) return;
         if (catalogFilter === k) {
@@ -3605,7 +3941,7 @@
 
     function setSwapMatFilter(mat) {
       swapFilterMat = mat;
-      ['all', 'mancuernas', 'goma', 'aro', 'kettlebell', 'esterilla', 'corporal'].forEach(m => {
+      ['all', 'mancuernas', 'silla', 'pared', 'goma', 'aro', 'kettlebell', 'esterilla', 'corporal'].forEach(m => {
         const btn = document.getElementById(`swapFilterMat-${m}`);
         if (!btn) return;
         if (m === mat) {
