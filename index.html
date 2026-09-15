@@ -521,7 +521,7 @@
 
       #viewTimer {
         display: grid !important;
-        grid-template-columns: minmax(260px, 300px) 1fr !important;
+        grid-template-columns: minmax(300px, 340px) 1fr !important;
         grid-template-rows: 36px 1fr auto !important;
         grid-template-areas:
           "top top"
@@ -532,11 +532,11 @@
         height: 100dvh !important;
         min-height: 100dvh !important;
         max-height: 100dvh !important;
-        padding-top: max(env(safe-area-inset-top, 0px), 0.25rem) !important;
+        padding-top: max(env(safe-area-inset-top, 0px), 0.2rem) !important;
         padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.25rem) !important;
-        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1.25rem) !important;
-        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1.25rem) !important;
-        gap: 0 1rem !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1rem) !important;
+        gap: 0 1.25rem !important;
         overflow: hidden !important;
         align-items: center !important;
         justify-content: stretch !important;
@@ -575,28 +575,28 @@
         display: contents !important;
       }
 
-      /* 3. Columna izquierda: Círculo Temporizador */
+      /* 3. Columna izquierda: Círculo Temporizador MÁS GRANDE */
       #m1CircleWrapper {
         grid-area: circle !important;
         grid-row: 2 / 4 !important;
-        width: min(245px, calc(100dvh - 54px)) !important;
-        height: min(245px, calc(100dvh - 54px)) !important;
+        width: min(285px, calc(100dvh - 44px)) !important;
+        height: min(285px, calc(100dvh - 44px)) !important;
         margin: auto !important;
         align-self: center !important;
         justify-self: center !important;
       }
       #m1InnerDisc {
-        width: calc(100% - 30px) !important;
-        height: calc(100% - 30px) !important;
+        width: calc(100% - 24px) !important;
+        height: calc(100% - 24px) !important;
       }
       #m1Digits {
-        font-size: clamp(62px, 17vh, 88px) !important;
+        font-size: clamp(74px, 21vh, 100px) !important;
         line-height: 1 !important;
       }
       #m1PhaseBadge {
-        font-size: 10px !important;
-        padding: 0.15rem 0.75rem !important;
-        margin-bottom: 0.2rem !important;
+        font-size: 11px !important;
+        padding: 0.15rem 0.85rem !important;
+        margin-bottom: 0.25rem !important;
       }
 
       /* 4. Columna derecha - Arriba: Estadio del Ejercicio (SVG + Material + Nombre) */
@@ -609,57 +609,58 @@
         align-self: center !important;
         justify-self: center !important;
         margin: 0 !important;
-        padding: 0.25rem 0 !important;
+        padding: 0.15rem 0 !important;
         width: 100% !important;
-        max-width: 480px !important;
+        max-width: 500px !important;
       }
       #m1SvgStage {
-        width: 80px !important;
-        height: 80px !important;
+        width: 84px !important;
+        height: 84px !important;
       }
       #m1Material {
-        font-size: 10px !important;
-        padding: 0.15rem 0.6rem !important;
+        font-size: 10.5px !important;
+        padding: 0.15rem 0.7rem !important;
         margin-bottom: 0.25rem !important;
       }
       #m1Name {
-        font-size: clamp(1rem, 3.5vw, 1.25rem) !important;
-        line-height: 1.25 !important;
-        max-width: 420px !important;
+        font-size: clamp(1.05rem, 3.2vw, 1.35rem) !important;
+        line-height: 1.2 !important;
+        max-width: 440px !important;
         text-align: center !important;
       }
 
-      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio, Play, Rondas) */
+      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio y Rondas MÁS GRANDES y PEGADOS AL PLAY MÁS GRANDE) */
       #m1BottomDock {
         grid-area: dock !important;
-        width: 100% !important;
-        max-width: 440px !important;
+        width: auto !important;
+        max-width: 100% !important;
         margin: 0 auto !important;
-        padding: 0.25rem 0 0.35rem 0 !important;
+        padding: 0.2rem 0 0.35rem 0 !important;
         align-self: end !important;
         justify-self: center !important;
         display: flex !important;
         align-items: center !important;
-        justify-content: space-around !important;
-        gap: 0.75rem !important;
+        justify-content: center !important;
+        gap: 0.85rem !important; /* Más pegados al botón play */
       }
       .recuadro-titanium-ciclos,
       .recuadro-titanium-rondas {
-        width: 84px !important;
-        height: 66px !important;
+        width: 102px !important;
+        height: 78px !important;
+        border-radius: 1.1rem !important;
       }
       .recuadro-titanium-ciclos span.font-exercise,
       .recuadro-titanium-rondas span.font-exercise {
-        font-size: 34px !important;
+        font-size: 40px !important;
       }
       #m1PlayBtn.titanium-play-outer {
-        width: 76px !important;
-        height: 76px !important;
-        padding: 0.4rem !important;
+        width: 96px !important;
+        height: 96px !important;
+        padding: 0.5rem !important;
       }
       #m1PlayBtn svg {
-        width: 32px !important;
-        height: 32px !important;
+        width: 42px !important;
+        height: 42px !important;
       }
     }
   </style>
@@ -830,12 +831,12 @@
             <!-- RECUADRO EJERCICIO: TITANIO CNC DIAMOND-CUT DORADO/ÁMBAR -->
             <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
               
-              <!-- NÚMERO ACTIVO EN FUENTE MODELO D MULTILÍNEA 100% CENTRADO -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="font-exercise text-[42px] sm:text-[46px] text-yellow-100 leading-none tracking-normal drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="m1CurrentCycle">
+              <!-- NÚMERO Y TOTAL PERFECTAMENTE CENTRADOS SIMÉTRICAMENTE -->
+              <div class="absolute inset-0 flex items-center justify-center gap-1 pb-1">
+                <span class="font-exercise text-[40px] sm:text-[44px] text-yellow-100 leading-none tracking-normal drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="m1CurrentCycle">
                   1
                 </span>
-                <span class="absolute left-[calc(50%+17px)] sm:left-[calc(50%+19px)] bottom-3 sm:bottom-3.5 text-xs sm:text-sm font-black font-mono text-yellow-300 drop-shadow" id="m1TotalCycles">
+                <span class="text-xs sm:text-sm font-black font-mono text-yellow-300 drop-shadow self-end mb-2 sm:mb-2.5" id="m1TotalCycles">
                   /6
                 </span>
               </div>
@@ -882,12 +883,12 @@
             <!-- RECUADRO RONDAS: TITANIO CNC DIAMOND-CUT AZUL NEÓN -->
             <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
               
-              <!-- NÚMERO ACTIVO EN FUENTE MODELO D MULTILÍNEA 100% CENTRADO -->
-              <div class="absolute inset-0 flex items-center justify-center">
-                <span class="font-exercise text-[42px] sm:text-[46px] text-white leading-none tracking-normal drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="m1CurrentRound">
+              <!-- NÚMERO Y TOTAL PERFECTAMENTE CENTRADOS SIMÉTRICAMENTE -->
+              <div class="absolute inset-0 flex items-center justify-center gap-1 pb-1">
+                <span class="font-exercise text-[40px] sm:text-[44px] text-white leading-none tracking-normal drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="m1CurrentRound">
                   1
                 </span>
-                <span class="absolute left-[calc(50%+17px)] sm:left-[calc(50%+19px)] bottom-3 sm:bottom-3.5 text-xs sm:text-sm font-black font-mono text-blue-300 drop-shadow" id="m1TotalRounds">
+                <span class="text-xs sm:text-sm font-black font-mono text-blue-300 drop-shadow self-end mb-2 sm:mb-2.5" id="m1TotalRounds">
                   /3
                 </span>
               </div>
@@ -1247,28 +1248,28 @@
 
             <div class="grid grid-cols-2 gap-2">
               <!-- Cardio Stepper -->
-              <div class="p-2 sm:p-2.5 rounded-2xl bg-orange-500/15 border-2 border-orange-500/40 flex items-center justify-between shadow-sm">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-base">🏃</span>
-                  <span class="text-xs font-black uppercase text-orange-600 dark:text-orange-400">Cardio</span>
+              <div class="px-2 py-2 sm:px-3 sm:py-2.5 rounded-2xl bg-orange-500/15 border-2 border-orange-500/40 flex items-center justify-between shadow-sm min-w-0">
+                <div class="flex items-center gap-1 min-w-0 pr-1 shrink-0">
+                  <span class="text-sm shrink-0">🏃</span>
+                  <span class="text-[11px] sm:text-xs font-black uppercase text-orange-600 dark:text-orange-400 truncate">Cardio</span>
                 </div>
-                <div class="flex items-center gap-1.5">
-                  <button onclick="changeSessionAerobic(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">-</button>
-                  <span id="sessionAerobicCount" class="font-mono font-black text-sm text-orange-600 dark:text-orange-300 w-5 text-center">3</span>
-                  <button onclick="changeSessionAerobic(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">+</button>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button onclick="changeSessionAerobic(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionAerobicCount" class="font-mono font-black text-xs sm:text-sm text-orange-600 dark:text-orange-300 w-4 sm:w-5 text-center">3</span>
+                  <button onclick="changeSessionAerobic(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">+</button>
                 </div>
               </div>
 
-              <!-- Fuerza Stepper -->
-              <div class="p-2 sm:p-2.5 rounded-2xl bg-purple-500/15 border-2 border-purple-500/40 flex items-center justify-between shadow-sm">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-base">🏋️</span>
-                  <span class="text-xs font-black uppercase text-purple-600 dark:text-purple-400">Fuerza</span>
+              <!-- Fuerza Stepper (Adaptado con margen y dimensiones compactas para que no choque en el borde) -->
+              <div class="px-2 py-2 sm:px-3 sm:py-2.5 rounded-2xl bg-purple-500/15 border-2 border-purple-500/40 flex items-center justify-between shadow-sm min-w-0">
+                <div class="flex items-center gap-1 min-w-0 pr-1 shrink-0">
+                  <span class="text-sm shrink-0">🏋️</span>
+                  <span class="text-[11px] sm:text-xs font-black uppercase text-purple-600 dark:text-purple-400 truncate">Fuerza</span>
                 </div>
-                <div class="flex items-center gap-1.5">
-                  <button onclick="changeSessionStrength(-1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">-</button>
-                  <span id="sessionStrengthCount" class="font-mono font-black text-sm text-purple-600 dark:text-purple-300 w-5 text-center">3</span>
-                  <button onclick="changeSessionStrength(1)" class="w-7 h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">+</button>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button onclick="changeSessionStrength(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionStrengthCount" class="font-mono font-black text-xs sm:text-sm text-purple-600 dark:text-purple-300 w-4 sm:w-5 text-center">3</span>
+                  <button onclick="changeSessionStrength(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">+</button>
                 </div>
               </div>
             </div>
@@ -2019,11 +2020,11 @@
       "id": "s24",
       "name": "Flexiones Asistidas con Rodillas",
       "type": "FUERZA",
-      "materialKey": "corporal",
-      "material": "Peso Corporal",
-      "materialIcon": "BODY",
-      "cue": "Manos apoyadas al ancho de hombros; flexiona codos manteniendo cuerpo en bloque.",
-      "advanced": "Baja el pecho a 5 cm del suelo manteniendo el cuerpo firme."
+      "materialKey": "esterilla",
+      "material": "Esterillas",
+      "materialIcon": "EST",
+      "cue": "Rodillas apoyadas en la esterilla y manos al ancho de hombros; flexiona codos manteniendo el cuerpo en bloque.",
+      "advanced": "Baja el pecho a 5 cm de la esterilla manteniendo el cuerpo firme."
     },
     {
       "id": "s25",
@@ -3082,20 +3083,32 @@
         syncQuotasToTotal();
       }
 
+      const COMPACT_NAMES = {
+        mancuernas: 'Mancuernas',
+        kettlebell: 'KB Pesada',
+        goma: 'Goma',
+        aro: 'Aro',
+        esterilla: 'Esterilla',
+        silla: 'Silla',
+        pared: 'Pared',
+        corporal: 'Corporal'
+      };
+
       container.innerHTML = activeKeys.map(k => {
         const theme = MATERIAL_THEMES[k] || { emoji: '🤸', name: k, bgClasses: 'mat-card-corporal border-2' };
+        const displayName = COMPACT_NAMES[k] || theme.name;
         const count = circuitConfig.materialQuotas[k] || 0;
 
         return `
-          <div class="p-2 sm:p-2.5 rounded-2xl border-2 ${theme.bgClasses} flex items-center justify-between shadow-sm transition">
-            <div class="flex items-center gap-1.5 min-w-0 pr-1">
-              <span class="text-base shrink-0">${theme.emoji}</span>
-              <span class="font-black text-xs truncate text-slate-900 dark:text-white">${theme.name}</span>
+          <div class="px-2 py-1.5 sm:px-2.5 sm:py-2 rounded-2xl border-2 ${theme.bgClasses} flex items-center justify-between shadow-sm transition min-w-0">
+            <div class="flex items-center gap-1 min-w-0 pr-0.5">
+              <span class="text-sm shrink-0">${theme.emoji}</span>
+              <span class="font-black text-[11px] sm:text-xs text-slate-900 dark:text-white leading-tight truncate">${displayName}</span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
-              <button onclick="changeMaterialQuota('${k}', -1)" class="w-6 h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">-</button>
-              <span class="font-mono font-black text-xs w-4 text-center text-slate-900 dark:text-white">${count}</span>
-              <button onclick="changeMaterialQuota('${k}', 1)" class="w-6 h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">+</button>
+              <button onclick="changeMaterialQuota('${k}', -1)" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">-</button>
+              <span class="font-mono font-black text-xs w-3.5 sm:w-4 text-center text-slate-900 dark:text-white">${count}</span>
+              <button onclick="changeMaterialQuota('${k}', 1)" class="w-5.5 h-5.5 sm:w-6 sm:h-6 rounded-lg bg-black/20 hover:bg-black/35 text-white flex items-center justify-center font-black text-xs active:scale-90 transition shadow-sm">+</button>
             </div>
           </div>
         `;
