@@ -456,6 +456,8 @@
       box-shadow: 
         inset 0 4px 6px rgba(0, 0, 0, 0.95),
         inset 0 -1px 2px rgba(255, 255, 255, 0.2);
+    }
+
     /* Ocultación automática del top bar con foco en tiempo total */
     #m1LeftControls,
     #m1RightControls {
@@ -476,6 +478,190 @@
       transform: translate(-50%, -50%) scale(1) !important;
     }
 
+
+    /* =========================================================================
+       FEEDBACK VISUAL: PULSACIÓN CONTINUA DE 2 SEGUNDOS PARA REORDENAR
+       ========================================================================= */
+    .station-card-draggable {
+      touch-action: pan-y;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .station-card-draggable.is-holding {
+      border-color: rgba(245, 158, 11, 0.8) !important;
+      transform: scale(0.99);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25) !important;
+    }
+    .station-card-draggable.is-holding .station-hold-bar {
+      opacity: 1 !important;
+    }
+    .station-card-draggable.is-holding .station-hold-fill {
+      width: 100% !important;
+      transition: width 2s linear !important;
+    }
+    .station-card-draggable.is-dragging {
+      z-index: 50 !important;
+      opacity: 0.98;
+      border-color: #f59e0b !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 28px rgba(245, 158, 11, 0.5) !important;
+      touch-action: none !important;
+    }
+
+    /* =========================================================================
+       MODO HORIZONTAL (LANDSCAPE) EN IPHONE PARA LA PESTAÑA DEL TIMER
+       ========================================================================= */
+    @media (orientation: landscape) and (max-height: 550px) {
+      html, body, main, #deviceCard {
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        overflow: hidden !important;
+      }
+
+      #viewTimer {
+        display: grid !important;
+        grid-template-columns: minmax(260px, 300px) 1fr !important;
+        grid-template-rows: 36px 1fr auto !important;
+        grid-template-areas:
+          "top top"
+          "circle info"
+          "circle dock" !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100dvh !important;
+        min-height: 100dvh !important;
+        max-height: 100dvh !important;
+        padding-top: max(env(safe-area-inset-top, 0px), 0.25rem) !important;
+        padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.25rem) !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1.25rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1.25rem) !important;
+        gap: 0 1rem !important;
+        overflow: hidden !important;
+        align-items: center !important;
+        justify-content: stretch !important;
+      }
+
+      /* 1. Top bar compacto horizontal */
+      #m1TopBar {
+        grid-area: top !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 32px !important;
+        height: 32px !important;
+        margin: 0 !important;
+        padding: 0 0.5rem !important;
+      }
+      #m1LeftControls,
+      #m1RightControls {
+        padding: 0.15rem 0.4rem !important;
+        gap: 0.35rem !important;
+      }
+      #m1LeftControls button,
+      #m1RightControls button {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 11px !important;
+      }
+      #m1TotalCapsule {
+        padding: 0.2rem 0.6rem !important;
+      }
+      #m1Total {
+        font-size: 12px !important;
+      }
+
+      /* 2. Contenedor central se desglosa en el grid */
+      #m1CenterStage {
+        display: contents !important;
+      }
+
+      /* 3. Columna izquierda: Círculo Temporizador */
+      #m1CircleWrapper {
+        grid-area: circle !important;
+        grid-row: 2 / 4 !important;
+        width: min(245px, calc(100dvh - 54px)) !important;
+        height: min(245px, calc(100dvh - 54px)) !important;
+        margin: auto !important;
+        align-self: center !important;
+        justify-self: center !important;
+      }
+      #m1InnerDisc {
+        width: calc(100% - 30px) !important;
+        height: calc(100% - 30px) !important;
+      }
+      #m1Digits {
+        font-size: clamp(62px, 17vh, 88px) !important;
+        line-height: 1 !important;
+      }
+      #m1PhaseBadge {
+        font-size: 10px !important;
+        padding: 0.15rem 0.75rem !important;
+        margin-bottom: 0.2rem !important;
+      }
+
+      /* 4. Columna derecha - Arriba: Estadio del Ejercicio (SVG + Material + Nombre) */
+      #m1ExerciseInfoBlock {
+        grid-area: info !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        align-self: center !important;
+        justify-self: center !important;
+        margin: 0 !important;
+        padding: 0.25rem 0 !important;
+        width: 100% !important;
+        max-width: 480px !important;
+      }
+      #m1SvgStage {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      #m1Material {
+        font-size: 10px !important;
+        padding: 0.15rem 0.6rem !important;
+        margin-bottom: 0.25rem !important;
+      }
+      #m1Name {
+        font-size: clamp(1rem, 3.5vw, 1.25rem) !important;
+        line-height: 1.25 !important;
+        max-width: 420px !important;
+        text-align: center !important;
+      }
+
+      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio, Play, Rondas) */
+      #m1BottomDock {
+        grid-area: dock !important;
+        width: 100% !important;
+        max-width: 440px !important;
+        margin: 0 auto !important;
+        padding: 0.25rem 0 0.35rem 0 !important;
+        align-self: end !important;
+        justify-self: center !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-around !important;
+        gap: 0.75rem !important;
+      }
+      .recuadro-titanium-ciclos,
+      .recuadro-titanium-rondas {
+        width: 84px !important;
+        height: 66px !important;
+      }
+      .recuadro-titanium-ciclos span.font-exercise,
+      .recuadro-titanium-rondas span.font-exercise {
+        font-size: 34px !important;
+      }
+      #m1PlayBtn.titanium-play-outer {
+        width: 76px !important;
+        height: 76px !important;
+        padding: 0.4rem !important;
+      }
+      #m1PlayBtn svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
+    }
   </style>
 </head>
 <body id="mainBody" class="bg-black text-slate-100 font-sans min-h-screen w-full h-full flex flex-col items-center justify-start p-0 m-0 overflow-x-hidden antialiased select-none">
@@ -569,7 +755,7 @@
         </div>
 
         <!-- 2. ZONA CENTRAL: CÍRCULO MÁS GRANDE + DIBUJO + TÍTULO -->
-        <div class="flex-1 flex flex-col items-center justify-center z-10 w-full pt-0.5 pb-0.5">
+        <div id="m1CenterStage" class="flex-1 flex flex-col items-center justify-center z-10 w-full pt-0.5 pb-0.5">
           
           <div id="m1CircleWrapper" class="relative w-[320px] h-[320px] sm:w-[356px] sm:h-[356px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center -mt-2 sm:-mt-2.5">
             
@@ -636,7 +822,7 @@
              - BORDES TITANIO CON BISEL CNC DIAMOND-CUT
              - TEXTOS FUERA Y DEBAJO DEL RECUADRO
              ======================================================== -->
-        <div class="w-full flex items-center justify-between gap-2 pt-1 pb-0.5 z-20 shrink-0 mt-auto">
+        <div id="m1BottomDock" class="w-full flex items-center justify-between gap-2 pt-1 pb-0.5 z-20 shrink-0 mt-auto">
           
           <!-- COLUMNA IZQUIERDA: RECUADRO EJERCICIO + TEXTO DEBAJO -->
           <div class="flex flex-col items-center gap-1 shrink-0">
@@ -1115,7 +1301,7 @@
         </div>
 
         <div class="flex items-center justify-between px-1">
-          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado y arrastra para reordenar</span></span>
+          <span class="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><span>🖐️</span><span>Mantén pulsado 2s para mover</span></span>
           <button onclick="generateRandomWorkout(false); renderStationsViewUI();" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
             <span>🎲</span>
             <span>Regenerar todo</span>
@@ -4399,7 +4585,11 @@
         const cueText = st.cue || (isFree ? (isAero ? 'Estación cardiovascular libre a ritmo moderado/alto.' : 'Estación de tonificación y fuerza muscular libre.') : '');
 
         return `
-          <div data-station-idx="${idx}" class="station-card-draggable overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition-all hover:shadow-md">
+          <div data-station-idx="${idx}" class="station-card-draggable relative overflow-hidden rounded-2xl border ${matTheme.bgClasses} shadow-sm transition-all hover:shadow-md">
+            <!-- Barra de progreso de carga de 2 segundos -->
+            <div class="station-hold-bar absolute top-0 left-0 right-0 h-1.5 z-30 pointer-events-none overflow-hidden opacity-0">
+              <div class="station-hold-fill h-full bg-gradient-to-r from-amber-400 via-emerald-400 to-teal-400 w-0"></div>
+            </div>
             <!-- Cabecera de la estación con arrastre: Naranja (Cardio) o Morado (Fuerza) -->
             <div class="station-card-header ${isAero ? 'bg-orange-500 dark:bg-orange-600' : 'bg-purple-600 dark:bg-purple-700'} text-white px-3 py-2 flex items-center justify-between gap-2 shadow-sm cursor-grab select-none">
               <div class="flex items-center gap-2 flex-wrap min-w-0 pointer-events-none">
@@ -4462,7 +4652,7 @@
 
       cards.forEach((card, idx) => {
         const header = card.querySelector('.station-card-header');
-        const handle = card.querySelector('.station-drag-handle');
+        const fillBar = card.querySelector('.station-hold-fill');
         if (!header) return;
 
         let holdTimer = null;
@@ -4474,31 +4664,42 @@
         let currentTargetIdx = idx;
 
         function startHold(e) {
-          // Ignorar si el toque/clic es sobre el botón de sustituir
-          if (e.target.closest('button[onclick*="openSwapModal"]')) return;
+          // Ignorar si el toque/clic es sobre botones (ej: sustituir)
+          if (e.target.closest('button') || e.target.closest('a')) return;
 
-          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-          startClientY = clientY;
-          startClientX = clientX;
+          const touch = e.touches ? e.touches[0] : e;
+          startClientY = touch.clientY;
+          startClientX = touch.clientX;
 
-          const isDirectHandle = handle && (e.target === handle || handle.contains(e.target));
-          const delay = isDirectHandle ? 50 : 200;
+          // Iniciar animación de barra de progreso de 2 segundos
+          card.classList.add('is-holding');
+          if (fillBar) {
+            fillBar.style.transition = 'none';
+            fillBar.style.width = '0%';
+            void fillBar.offsetWidth; // forzar reflow
+            fillBar.style.transition = 'width 2s linear';
+            fillBar.style.width = '100%';
+          }
 
+          // Exactamente 2 segundos requeridos manteniendo el dedo
           holdTimer = setTimeout(() => {
-            activateDrag(e, clientY);
-          }, delay);
+            holdTimer = null;
+            activateDrag(e, startClientY);
+          }, 2000);
 
-          function cancelIfScrolling(ev) {
-            const curY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-            const curX = ev.touches ? ev.touches[0].clientX : ev.clientX;
-            if (Math.hypot(curX - clientX, curY - clientY) > 7) {
-              if (holdTimer) {
-                clearTimeout(holdTimer);
-                holdTimer = null;
-              }
-              cleanupPre();
+          function cancelIfMovedOrScrolled(ev) {
+            const curTouch = ev.touches ? ev.touches[0] : ev;
+            const curY = curTouch.clientY;
+            const curX = curTouch.clientX;
+            // Si el dedo se desplaza más de 12px (intento de scroll), cancelar inmediatamente
+            if (Math.hypot(curX - startClientX, curY - startClientY) > 12) {
+              cancelHold();
             }
+          }
+
+          function onWindowScroll() {
+            // Cancelar inmediatamente si se produce scroll en la pantalla
+            cancelHold();
           }
 
           function cancelHold() {
@@ -4506,30 +4707,44 @@
               clearTimeout(holdTimer);
               holdTimer = null;
             }
-            cleanupPre();
+            card.classList.remove('is-holding');
+            if (fillBar) {
+              fillBar.style.transition = 'none';
+              fillBar.style.width = '0%';
+            }
+            cleanupPreListeners();
           }
 
-          function cleanupPre() {
-            window.removeEventListener('pointermove', cancelIfScrolling);
-            window.removeEventListener('touchmove', cancelIfScrolling);
+          function cleanupPreListeners() {
+            window.removeEventListener('pointermove', cancelIfMovedOrScrolled);
+            window.removeEventListener('touchmove', cancelIfMovedOrScrolled);
             window.removeEventListener('pointerup', cancelHold);
             window.removeEventListener('touchend', cancelHold);
             window.removeEventListener('pointercancel', cancelHold);
             window.removeEventListener('touchcancel', cancelHold);
+            window.removeEventListener('scroll', onWindowScroll, true);
           }
 
-          window.addEventListener('pointermove', cancelIfScrolling, { passive: true });
-          window.addEventListener('touchmove', cancelIfScrolling, { passive: true });
+          window.addEventListener('pointermove', cancelIfMovedOrScrolled, { passive: true });
+          window.addEventListener('touchmove', cancelIfMovedOrScrolled, { passive: true });
           window.addEventListener('pointerup', cancelHold, { passive: true });
           window.addEventListener('touchend', cancelHold, { passive: true });
           window.addEventListener('pointercancel', cancelHold, { passive: true });
           window.addEventListener('touchcancel', cancelHold, { passive: true });
+          window.addEventListener('scroll', onWindowScroll, { passive: true, capture: true });
         }
 
         function activateDrag(ev, clientY) {
           isDragging = true;
+          card.classList.remove('is-holding');
+          if (fillBar) {
+            fillBar.style.transition = 'none';
+            fillBar.style.width = '0%';
+          }
+
+          // Vibración háptica contundente confirmando que el ejercicio ahora está listo para moverse
           if (navigator.vibrate) {
-            try { navigator.vibrate(35); } catch(err) {}
+            try { navigator.vibrate([40, 60, 40]); } catch(err) {}
           }
 
           // Calcular posiciones reales de todas las tarjetas
@@ -4549,7 +4764,8 @@
             if (!isDragging) return;
             if (mEv.cancelable) mEv.preventDefault();
 
-            const curY = mEv.touches ? mEv.touches[0].clientY : mEv.clientY;
+            const curTouch = mEv.touches ? mEv.touches[0] : mEv;
+            const curY = curTouch.clientY;
             const deltaY = curY - startClientY;
             card.style.transform = `translateY(${deltaY}px) scale(1.03)`;
 
@@ -4569,7 +4785,7 @@
             if (newTargetIdx !== currentTargetIdx) {
               currentTargetIdx = newTargetIdx;
               if (navigator.vibrate) {
-                try { navigator.vibrate(15); } catch(err) {}
+                try { navigator.vibrate(20); } catch(err) {}
               }
             }
 
@@ -4603,7 +4819,6 @@
             document.body.style.webkitUserSelect = '';
 
             if (currentTargetIdx !== idx) {
-              // Animación de caída hacia la ranura objetivo
               const targetSlotTop = itemRects[currentTargetIdx].top;
               const landingDelta = targetSlotTop - initialItemTop;
 
@@ -4611,7 +4826,7 @@
               card.style.transform = `translateY(${landingDelta}px) scale(1.0)`;
 
               if (navigator.vibrate) {
-                try { navigator.vibrate([20, 35, 20]); } catch(err) {}
+                try { navigator.vibrate([25, 40, 25]); } catch(err) {}
               }
 
               setTimeout(() => {
@@ -4623,7 +4838,6 @@
                 renderActiveUI();
               }, 210);
             } else {
-              // Vuelve a su origen suavemente
               card.style.transition = 'transform 0.2s cubic-bezier(0.2, 0, 0, 1)';
               card.style.transform = 'translateY(0px) scale(1.0)';
               cards.forEach(c => {
@@ -4645,8 +4859,8 @@
           window.addEventListener('touchcancel', onEnd, { passive: true });
         }
 
-        header.addEventListener('pointerdown', startHold, { passive: true });
-        header.addEventListener('touchstart', startHold, { passive: true });
+        // Permite iniciar la retención de 2s en la tarjeta
+        card.addEventListener('pointerdown', startHold, { passive: true });
       });
     }
 
