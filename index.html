@@ -177,8 +177,8 @@
         filter: drop-shadow(0 0 16px var(--phase-glow));
       }
       50% {
-        transform: scale(1.032);
-        filter: drop-shadow(0 0 38px var(--phase-glow));
+        transform: scale(1.065);
+        filter: drop-shadow(0 0 45px var(--phase-glow));
       }
       100% {
         transform: scale(1);
@@ -192,8 +192,8 @@
         opacity: 0.35;
       }
       50% {
-        transform: scale(1.09);
-        opacity: 0.80;
+        transform: scale(1.15);
+        opacity: 0.85;
       }
       100% {
         transform: scale(1);
@@ -328,10 +328,11 @@
             <!-- VISTA 1: TEMPORIZADOR CIRCULAR V29 (TITANIO + 60FPS + PULSO + DOCK SWAPPED) -->
       <section id="viewTimer" class="flex-1 flex flex-col px-3 sm:px-5 justify-between items-center relative overflow-hidden z-10 w-full max-w-xl mx-auto h-full min-h-[100dvh]" style="padding-top: max(env(safe-area-inset-top, 0px) + 0.75rem, 3.5rem); padding-bottom: max(env(safe-area-inset-bottom, 0px) + 0.5rem, 1.25rem);">
         
-        <!-- 1. TOP BAR: MUTE + REINICIAR + ANTERIOR + SIGUIENTE A LA IZQUIERDA Y TIEMPO TOTAL A LA DERECHA -->
-        <div class="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-20 shrink-0 px-2 pt-0.5 mb-1">
+        <!-- 1. TOP BAR AUTOHIDE & FOCUS MODE -->
+        <div id="m1TopBar" class="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-30 shrink-0 px-2 pt-0.5 mb-1 relative min-h-[44px]">
           
-          <div class="relative flex items-center gap-1 bg-black/45 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg">
+          <!-- DOCK IZQUIERDO: CONTROLES DE AUDIO / NAVEGACIÓN -->
+          <div id="m1LeftControls" class="relative flex items-center gap-1 bg-black/50 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg transition-all duration-500">
             <button type="button" onclick="toggleVolumePopover(event)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Ajustar Volumen y Silenciar">
               <span id="m1SoundIcon">🔊</span>
             </button>
@@ -383,15 +384,15 @@
             </button>
           </div>
 
-          <div class="flex items-center gap-1.5">
-            <!-- CÁPSULA TIEMPO TOTAL RESTANTE -->
-            <div class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg">
-              <span class="text-xs leading-none">⏳</span>
+          <!-- CÁPSULA TIEMPO TOTAL Y AJUSTES (SE CENTRA Y AGRANDA AL OCULTARSE EL RESTO) -->
+          <div id="m1TotalWrapper" class="flex items-center justify-end flex-1 transition-all duration-500 gap-1.5">
+            <div id="m1TotalCapsule" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg transition-all duration-500 origin-center">
+              <span class="text-xs sm:text-sm leading-none">⏳</span>
               <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
             </div>
 
-            <!-- BOTÓN AJUSTES A LA DERECHA DEL TEMPORIZADOR TOTAL -->
-            <button onclick="setMainView('config')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all active:scale-90" title="Configurar Entrenamiento">
+            <!-- BOTÓN AJUSTES -->
+            <button id="m1SettingsBtn" onclick="setMainView('config')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Configurar Entrenamiento">
               <span class="text-sm sm:text-base">⚙️</span>
             </button>
           </div>
@@ -431,8 +432,8 @@
 
           </div>
 
-          <!-- 3. BLOQUE DIBUJO Y TÍTULO MULTILÍNEA -->
-          <div class="flex flex-col items-center justify-center shrink-0 mt-1 sm:mt-1.5 mb-0.5">
+          <!-- 3. BLOQUE DIBUJO Y TÍTULO MULTILÍNEA (SEPARACIÓN ADAPTATIVA EN DESCANSO) -->
+          <div id="m1ExerciseInfoBlock" class="flex flex-col items-center justify-center shrink-0 mt-1 sm:mt-1.5 mb-0.5 transition-all duration-300">
             
             <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0 transition-all duration-300 ease-out" id="m1SvgStage">
               <!-- SVG animado limpio a ritmo de 3s -->
@@ -1076,13 +1077,13 @@
 
       if (isDarkMode) {
         htmlElem.classList.add('dark');
-        themeIcon.innerText = '☀️';
-        themeLabel.innerText = 'Claro';
+        if (themeIcon) themeIcon.innerText = '☀️';
+        if (themeLabel) themeLabel.innerText = 'Claro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#131b2c');
       } else {
         htmlElem.classList.remove('dark');
-        themeIcon.innerText = '🌙';
-        themeLabel.innerText = 'Oscuro';
+        if (themeIcon) themeIcon.innerText = '🌙';
+        if (themeLabel) themeLabel.innerText = 'Oscuro';
         if (bgTrack) bgTrack.setAttribute('stroke', '#e2e8f0');
       }
 
@@ -2548,6 +2549,68 @@
       return cleanExerciseSvg(svgStr);
     }
 
+    
+    // =========================================================================
+    // CONTROL AUTOMÁTICO DE VISIBILIDAD DEL TOP BAR (MODO FOCO INMERSIVO)
+    // =========================================================================
+    let topControlsTimer = null;
+    let isTopControlsHidden = false;
+
+    function resetTopControlsTimer() {
+      if (topControlsTimer) clearTimeout(topControlsTimer);
+      showTopControls();
+      if (isRunning) {
+        topControlsTimer = setTimeout(hideTopControls, 4000);
+      }
+    }
+
+    function hideTopControls() {
+      if (!isRunning) return; // Solo se oculta automáticamente mientras corre el entrenamiento
+      const left = document.getElementById('m1LeftControls');
+      const settings = document.getElementById('m1SettingsBtn');
+      const wrapper = document.getElementById('m1TotalWrapper');
+      const capsule = document.getElementById('m1TotalCapsule');
+      const popover = document.getElementById('timerVolumePopover');
+      if (popover) popover.classList.add('hidden');
+
+      if (left) left.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+      if (settings) settings.classList.add('opacity-0', 'pointer-events-none', '-translate-y-2');
+      if (wrapper) {
+        wrapper.classList.remove('justify-end', 'flex-1');
+        wrapper.classList.add('justify-center', 'w-full', 'absolute', 'inset-x-0', 'pointer-events-none');
+      }
+      if (capsule) {
+        capsule.classList.add('scale-115', 'sm:scale-125', 'px-5', 'py-2', 'bg-black/75', 'border-white/30', 'shadow-2xl', 'pointer-events-auto');
+      }
+      isTopControlsHidden = true;
+    }
+
+    function showTopControls() {
+      const left = document.getElementById('m1LeftControls');
+      const settings = document.getElementById('m1SettingsBtn');
+      const wrapper = document.getElementById('m1TotalWrapper');
+      const capsule = document.getElementById('m1TotalCapsule');
+
+      if (left) left.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+      if (settings) settings.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
+      if (wrapper) {
+        wrapper.classList.add('justify-end', 'flex-1');
+        wrapper.classList.remove('justify-center', 'w-full', 'absolute', 'inset-x-0', 'pointer-events-none');
+      }
+      if (capsule) {
+        capsule.classList.remove('scale-115', 'sm:scale-125', 'px-5', 'py-2', 'bg-black/75', 'border-white/30', 'shadow-2xl', 'pointer-events-auto');
+      }
+      isTopControlsHidden = false;
+    }
+
+    // Cualquier toque o click en la pantalla del timer reactiva los controles
+    document.addEventListener('pointerdown', function(e) {
+      const timerView = document.getElementById('viewTimer');
+      if (timerView && !timerView.classList.contains('hidden')) {
+        resetTopControlsTimer();
+      }
+    });
+
     function toggleVolumePopover(e) {
       if (e) e.stopPropagation();
       const pop = document.getElementById('timerVolumePopover');
@@ -2690,10 +2753,13 @@
 
       const isFreeMode = (circuitConfig.freeTimerMode || cur.isFree);
 
+      const m1InfoBlock = document.getElementById('m1ExerciseInfoBlock');
+
       if (isRest) {
-        if (m1Circle) m1Circle.className = "relative w-[354px] h-[354px] sm:w-[368px] sm:h-[368px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
-        if (m1InnerDisc) m1InnerDisc.className = "w-[300px] h-[300px] sm:w-[314px] sm:h-[314px] rounded-full bg-slate-950/90 border-2 border-white/25 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
-        if (digitsEl) digitsEl.className = "text-[102px] sm:text-[116px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200";
+        if (m1Circle) m1Circle.className = "relative w-[320px] h-[320px] sm:w-[356px] sm:h-[356px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
+        if (m1InnerDisc) m1InnerDisc.className = "w-[274px] h-[274px] sm:w-[304px] sm:h-[304px] rounded-full bg-slate-950/90 border-2 border-white/25 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
+        if (digitsEl) digitsEl.className = "text-[104px] sm:text-[126px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] transition-all duration-200";
+        if (m1InfoBlock) m1InfoBlock.className = "flex flex-col items-center justify-center shrink-0 mt-8 sm:mt-10 mb-0.5 transition-all duration-300";
         if (m1SvgStage) {
           m1SvgStage.className = "hidden";
           m1SvgStage.innerHTML = "";
@@ -2716,9 +2782,10 @@
           m1Name.className = "font-exercise text-lg sm:text-xl text-slate-200 leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all";
         }
       } else {
-        if (m1Circle) m1Circle.className = "relative w-[346px] h-[346px] sm:w-[362px] sm:h-[362px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
-        if (m1InnerDisc) m1InnerDisc.className = "w-[294px] h-[294px] sm:w-[308px] sm:h-[308px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
-        if (digitsEl) digitsEl.className = "text-8xl sm:text-[106px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] transition-all duration-200";
+        if (m1Circle) m1Circle.className = "relative w-[320px] h-[320px] sm:w-[356px] sm:h-[356px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ease-out origin-center";
+        if (m1InnerDisc) m1InnerDisc.className = "w-[274px] h-[274px] sm:w-[304px] sm:h-[304px] rounded-full bg-slate-950/85 border-2 border-white/20 shadow-2xl flex flex-col items-center justify-center z-10 text-center relative overflow-hidden transition-all duration-300 ease-out";
+        if (digitsEl) digitsEl.className = "text-[104px] sm:text-[126px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] transition-all duration-200";
+        if (m1InfoBlock) m1InfoBlock.className = "flex flex-col items-center justify-center shrink-0 mt-1 sm:mt-1.5 mb-0.5 transition-all duration-300";
         if (m1SvgStage) {
           m1SvgStage.className = "w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0 transition-all duration-300 ease-out";
           if (isFreeMode) {
@@ -3261,7 +3328,9 @@
 
       container.innerHTML = activeStations.map((st, idx) => {
         const isFree = !!st.isFree;
-        const matText = isFree ? 'LIBRE' : (st.material ? st.material.toUpperCase() : 'CORPORAL');
+        let matText = isFree ? 'LIBRE' : (st.material ? st.material.toUpperCase() : 'CORPORAL');
+        matText = matText.replace(/BANDA LARGA[^\w]*/gi, 'GOMA').replace(/BANDA DECATHLON/gi, 'GOMA').replace(/BANDA/gi, 'GOMA').replace(/\s*\d+KG/gi, '').trim();
+        if (matText === 'MANCUERNAS 2KG') matText = 'MANCUERNAS';
         const typeBadge = st.type === 'AERÓBICO' 
           ? '<span class="px-2 py-0.5 rounded-md bg-orange-500/20 text-orange-600 dark:text-orange-400 font-extrabold text-[10px]">CARDIO</span>'
           : (st.type === 'FUERZA' ? '<span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-600 dark:text-purple-400 font-extrabold text-[10px]">FUERZA</span>' : '<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-extrabold text-[10px]">ESTACIÓN</span>');
@@ -3576,7 +3645,8 @@
       document.getElementById('totalTimeEstimate').innerText = `${m}m ${s < 10 ? '0' : ''}${s}s`;
 
       const container = document.getElementById('activeStationsList');
-      container.innerHTML = activeStations.map((item, idx) => {
+      if (container) {
+        container.innerHTML = activeStations.map((item, idx) => {
         const isAero = item.type === 'AERÓBICO';
         return `
           <div class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex items-center justify-between gap-3 shadow-sm animate-pop">
@@ -3595,6 +3665,7 @@
           </div>
         `;
       }).join('');
+      }
     }
 
     function saveAndGoToTimer() {
