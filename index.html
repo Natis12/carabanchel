@@ -510,6 +510,17 @@
     }
 
     /* =========================================================================
+       DOCK DE TELEMETRÍA (VERTICAL / RETRATO): ELEMENTOS AGRUPADOS CERCA DEL PLAY
+       ========================================================================= */
+    #m1BottomDock {
+      justify-content: center !important;
+      gap: 0.75rem !important; /* Más cercanos al botón play en vertical */
+      max-width: 360px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* =========================================================================
        MODO HORIZONTAL (LANDSCAPE) EN IPHONE PARA LA PESTAÑA DEL TIMER
        ========================================================================= */
     @media (orientation: landscape) and (max-height: 550px) {
@@ -606,7 +617,7 @@
         margin-bottom: 0.25rem !important;
       }
 
-      /* 4. Columna derecha - Arriba: Estadio del Ejercicio (SVG + Material + Nombre) */
+      /* 4. Columna derecha - Arriba: Estadio del Ejercicio (Título arriba, Dibujo debajo) */
       #m1ExerciseInfoBlock {
         grid-area: info !important;
         display: flex !important;
@@ -616,24 +627,40 @@
         align-self: center !important;
         justify-self: center !important;
         margin: 0 !important;
-        padding: 0.15rem 0 !important;
+        padding: 0.1rem 0 !important;
         width: 100% !important;
         max-width: 500px !important;
+        gap: 0.35rem !important;
       }
-      #m1SvgStage {
-        width: 84px !important;
-        height: 84px !important;
+      /* Contenedor de Material y Título: orden 1 (ARRIBA) */
+      #m1ExerciseInfoBlock > div:last-child {
+        order: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        margin-top: 0 !important;
+        padding: 0 0.5rem !important;
       }
       #m1Material {
-        font-size: 10.5px !important;
-        padding: 0.15rem 0.7rem !important;
-        margin-bottom: 0.25rem !important;
+        font-size: 10px !important;
+        padding: 0.15rem 0.65rem !important;
+        margin-bottom: 0.2rem !important;
       }
       #m1Name {
         font-size: clamp(1.05rem, 3.2vw, 1.35rem) !important;
         line-height: 1.2 !important;
         max-width: 440px !important;
         text-align: center !important;
+      }
+      /* Dibujo SVG animado: orden 2 (DEBAJO DEL TÍTULO) */
+      #m1SvgStage {
+        order: 2 !important;
+        width: 80px !important;
+        height: 80px !important;
+        margin: 0 !important;
+      }
+      #m1SvgStage.hidden {
+        display: none !important;
       }
 
       /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio y Rondas un pelín más pequeños y más abajo, Play MÁS GRANDE) */
@@ -1204,7 +1231,7 @@
              - BORDES TITANIO CON BISEL CNC DIAMOND-CUT
              - TEXTOS FUERA Y DEBAJO DEL RECUADRO
              ======================================================== -->
-        <div id="m1BottomDock" class="w-full flex items-center justify-between gap-2 pt-1 pb-0.5 z-20 shrink-0 mt-auto">
+        <div id="m1BottomDock" class="w-full max-w-[360px] sm:max-w-[390px] mx-auto flex items-center justify-center gap-2.5 sm:gap-3.5 pt-1 pb-0.5 z-20 shrink-0 mt-auto">
           
           <!-- COLUMNA IZQUIERDA: RECUADRO EJERCICIO + TEXTO DEBAJO -->
           <div class="flex flex-col items-center gap-1 shrink-0">
