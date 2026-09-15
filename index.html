@@ -519,7 +519,14 @@
         overflow: hidden !important;
       }
 
-      #viewTimer {
+      /* Control estricto de visibilidad entre vistas en horizontal */
+      #viewTimer.hidden,
+      #viewConfig.hidden,
+      #viewStations.hidden {
+        display: none !important;
+      }
+
+      #viewTimer:not(.hidden) {
         display: grid !important;
         grid-template-columns: minmax(300px, 340px) 1fr !important;
         grid-template-rows: 36px 1fr auto !important;
@@ -629,38 +636,412 @@
         text-align: center !important;
       }
 
-      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio y Rondas MÁS GRANDES y PEGADOS AL PLAY MÁS GRANDE) */
+      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio y Rondas un pelín más pequeños y más abajo, Play MÁS GRANDE) */
       #m1BottomDock {
         grid-area: dock !important;
         width: auto !important;
         max-width: 100% !important;
         margin: 0 auto !important;
-        padding: 0.2rem 0 0.35rem 0 !important;
+        padding: 0 0 0.15rem 0 !important;
         align-self: end !important;
         justify-self: center !important;
         display: flex !important;
-        align-items: center !important;
+        align-items: flex-end !important; /* Alineados hacia abajo junto a la base del play */
         justify-content: center !important;
-        gap: 0.85rem !important; /* Más pegados al botón play */
+        gap: 0.75rem !important; /* Cercanos y armoniosos con el play */
       }
+      /* Columnas laterales de Ejercicio y Rondas desplazadas un poco más abajo */
+      #m1BottomDock > div:first-child,
+      #m1BottomDock > div:last-child {
+        align-self: flex-end !important;
+        margin-bottom: 2px !important;
+        transform: translateY(4px) !important;
+      }
+      /* Recuadros de Ejercicio y Rondas un pelín más pequeños */
       .recuadro-titanium-ciclos,
       .recuadro-titanium-rondas {
-        width: 102px !important;
-        height: 78px !important;
-        border-radius: 1.1rem !important;
+        width: 90px !important;
+        height: 70px !important;
+        border-radius: 0.95rem !important;
       }
       .recuadro-titanium-ciclos span.font-exercise,
       .recuadro-titanium-rondas span.font-exercise {
-        font-size: 40px !important;
+        font-size: 35px !important;
       }
+      #m1BottomDock span.uppercase {
+        font-size: 9.5px !important;
+        letter-spacing: 0.05em !important;
+      }
+      /* Botón Play MÁS GRANDE */
       #m1PlayBtn.titanium-play-outer {
-        width: 96px !important;
-        height: 96px !important;
-        padding: 0.5rem !important;
+        width: 108px !important;
+        height: 108px !important;
+        padding: 0.55rem !important;
       }
       #m1PlayBtn svg {
-        width: 42px !important;
-        height: 42px !important;
+        width: 48px !important;
+        height: 48px !important;
+      }
+
+      /* =========================================================================
+         PANTALLA DE AJUSTES (#viewConfig) EN MODO HORIZONTAL
+         ========================================================================= */
+      #viewConfig:not(.hidden) {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        max-height: 100dvh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        max-width: 860px !important;
+        margin: 0 auto !important;
+        padding-top: max(env(safe-area-inset-top, 0px) + 0.35rem, 0.6rem) !important;
+        padding-bottom: max(env(safe-area-inset-bottom, 0px) + 1.25rem, 3rem) !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1.25rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1.25rem) !important;
+        gap: 0.65rem !important;
+      }
+
+      /* Header compacto de Ajustes */
+      #viewConfig > div:first-child {
+        padding-top: 0.15rem !important;
+        padding-bottom: 0.3rem !important;
+        margin-bottom: 0.15rem !important;
+      }
+      #viewConfig > div:first-child button {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 0.75rem !important;
+      }
+      #viewConfig > div:first-child h2 {
+        font-size: 13px !important;
+      }
+
+      /* Perfil / Grupo de la clase */
+      #viewConfig > div:nth-child(2) {
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+        gap: 0.4rem !important;
+      }
+      #btnGroupPilates, #btnGroupZumba {
+        min-height: 38px !important;
+        padding: 0.35rem 0.6rem !important;
+        border-radius: 0.85rem !important;
+      }
+
+      /* Selector de Material disponible (8 materiales en 4 columnas x 2 filas) */
+      #guidedMaterialsSec {
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+      }
+      #guidedMaterialsSec > div.grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 0.35rem !important;
+      }
+      #guidedMaterialsSec button {
+        padding: 0.35rem 0.5rem !important;
+        min-height: 36px !important;
+        font-size: 11px !important;
+        border-radius: 0.75rem !important;
+      }
+
+      /* Series y Ejercicios */
+      #viewConfig > div:nth-child(4) {
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+        gap: 0.4rem !important;
+      }
+      #viewConfig > div:nth-child(4) > div.flex {
+        padding: 0.35rem 0.6rem !important;
+        border-radius: 0.85rem !important;
+      }
+      #viewConfig > div:nth-child(4) button {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 13px !important;
+        border-radius: 0.6rem !important;
+      }
+
+      /* Tiempos de trabajo, descansos y prep (4 columnas) */
+      #viewConfig .grid.grid-cols-2.sm\:grid-cols-4 {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 0.35rem !important;
+      }
+      #viewConfig .grid.grid-cols-2.sm\:grid-cols-4 > div {
+        padding: 0.4rem 0.35rem !important;
+        border-radius: 0.85rem !important;
+      }
+
+      /* Botón Generar y Badge de tiempo */
+      #cfgCircuitTimeBadge {
+        font-size: 14px !important;
+      }
+      #viewConfig button[onclick="handleGenerateAndShowStations()"] {
+        padding: 0.65rem 1rem !important;
+        min-height: 44px !important;
+        font-size: 13px !important;
+        border-radius: 1rem !important;
+      }
+      #viewConfig button[onclick="openCatalogModal()"] {
+        padding: 0.6rem 1rem !important;
+        min-height: 40px !important;
+        font-size: 12px !important;
+        border-radius: 0.85rem !important;
+      }
+      #viewConfig button[onclick="saveAndGoToTimer()"] {
+        padding: 0.6rem 1rem !important;
+        min-height: 40px !important;
+        font-size: 12px !important;
+        border-radius: 0.85rem !important;
+      }
+
+      /* =========================================================================
+         PANTALLA DE GENERAR ENTRENO / ESTACIONES (#viewStations) EN HORIZONTAL
+         ========================================================================= */
+      #viewStations:not(.hidden) {
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        max-height: 100dvh !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        max-width: 880px !important;
+        margin: 0 auto !important;
+        padding-top: max(env(safe-area-inset-top, 0px) + 0.35rem, 0.6rem) !important;
+        padding-bottom: max(env(safe-area-inset-bottom, 0px) + 1.25rem, 3.5rem) !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1.25rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1.25rem) !important;
+        gap: 0.65rem !important;
+      }
+
+      /* Header compacto de Estaciones */
+      #viewStations > div:first-child {
+        padding-top: 0.15rem !important;
+        padding-bottom: 0.3rem !important;
+        margin-bottom: 0.15rem !important;
+      }
+      #viewStations > div:first-child button {
+        min-height: 32px !important;
+        padding: 0.25rem 0.65rem !important;
+        font-size: 11px !important;
+        border-radius: 0.75rem !important;
+      }
+      #viewStations > div:first-child h2 {
+        font-size: 13px !important;
+      }
+
+      /* Panel de configuración de sesión */
+      #sessionConfigCard {
+        padding: 0.55rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+        gap: 0.4rem !important;
+      }
+
+      /* Grid de reparto de materiales en 3 o 4 columnas */
+      #sessionMaterialsGrid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) !important;
+        gap: 0.4rem !important;
+      }
+      #sessionMaterialsGrid > div {
+        padding: 0.35rem 0.5rem !important;
+        border-radius: 0.75rem !important;
+        min-height: 34px !important;
+      }
+
+      /* Botón regenerar con este reparto */
+      #sessionConfigCard button[onclick="applySessionQuotasAndRegenerate()"] {
+        padding: 0.45rem 0.75rem !important;
+        font-size: 11px !important;
+        min-height: 34px !important;
+        border-radius: 0.75rem !important;
+      }
+
+      /* Tarjetas de estaciones en horizontal */
+      .station-card-draggable {
+        border-radius: 1.1rem !important;
+      }
+      .station-card-draggable .station-card-header {
+        padding: 0.35rem 0.75rem !important;
+      }
+      .station-card-draggable > div:last-child {
+        padding: 0.5rem 0.75rem !important;
+        gap: 0.35rem !important;
+      }
+      .station-card-draggable h4 {
+        font-size: 14px !important;
+        line-height: 1.25 !important;
+      }
+      .station-card-draggable p {
+        font-size: 11px !important;
+        line-height: 1.3 !important;
+      }
+
+      /* =========================================================================
+         CATÁLOGO COMPLETO DE EJERCICIOS (#catalogModal) EN MODO HORIZONTAL
+         ========================================================================= */
+      #catalogModal {
+        padding: 0.25rem 0.75rem !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 0.75rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 0.75rem) !important;
+      }
+      #catalogModal > div {
+        width: 96% !important;
+        max-width: 920px !important;
+        height: calc(100dvh - 12px) !important;
+        max-height: calc(100dvh - 12px) !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+        gap: 0.3rem !important;
+      }
+      #catalogModal > div > div:first-child {
+        padding-bottom: 0.2rem !important;
+      }
+      #catalogModal h3 {
+        font-size: 12.5px !important;
+      }
+      #catalogModal > div > div:first-child p {
+        font-size: 10px !important;
+      }
+      #catalogModal button[onclick="closeCatalogModal()"] {
+        width: 26px !important;
+        height: 26px !important;
+        font-size: 15px !important;
+      }
+      #catalogSearch {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 11px !important;
+        min-height: 30px !important;
+        border-radius: 0.6rem !important;
+      }
+      #catalogModal .flex.items-center.gap-1\.5.overflow-x-auto {
+        gap: 0.2rem !important;
+        padding-bottom: 0.15rem !important;
+      }
+      #catalogModal .flex.items-center.gap-1\.5.overflow-x-auto button {
+        padding: 0.15rem 0.45rem !important;
+        font-size: 10px !important;
+        border-radius: 0.5rem !important;
+      }
+
+      /* Contenedor de 2 columnas de ejercicios para catálogo en horizontal */
+      #catalogListContainer {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.4rem !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 0.25rem !important;
+      }
+      #catalogListContainer > div {
+        border-radius: 0.85rem !important;
+      }
+      #catalogListContainer > div > div:first-child {
+        padding: 0.2rem 0.5rem !important;
+        font-size: 9.5px !important;
+      }
+      #catalogListContainer > div > div:last-child {
+        padding: 0.35rem 0.55rem !important;
+        gap: 0.45rem !important;
+      }
+      #catalogListContainer > div > div:last-child .w-16.h-16 {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 0.6rem !important;
+      }
+      #catalogListContainer h4 {
+        font-size: 11.5px !important;
+        line-height: 1.2 !important;
+      }
+      #catalogListContainer p {
+        font-size: 10px !important;
+        line-height: 1.25 !important;
+      }
+
+      /* =========================================================================
+         MODAL SUSTITUIR EJERCICIO (#swapModal) EN MODO HORIZONTAL
+         ========================================================================= */
+      #swapModal {
+        padding: 0.25rem 0.75rem !important;
+        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 0.75rem) !important;
+        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 0.75rem) !important;
+      }
+      #swapModal > div {
+        width: 96% !important;
+        max-width: 900px !important;
+        height: calc(100dvh - 12px) !important;
+        max-height: calc(100dvh - 12px) !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 1.1rem !important;
+        gap: 0.25rem !important;
+      }
+      #swapModal > div > div:first-child {
+        padding-bottom: 0.2rem !important;
+      }
+      #swapModal h3 {
+        font-size: 12px !important;
+      }
+      #swapModal #swapTargetStationTitle {
+        font-size: 10px !important;
+      }
+      #swapSearchInput {
+        padding: 0.25rem 0.55rem !important;
+        font-size: 11px !important;
+        border-radius: 0.55rem !important;
+        min-height: 28px !important;
+      }
+      #swapModal .flex.items-center.gap-1\.5.overflow-x-auto {
+        gap: 0.2rem !important;
+        padding-bottom: 0.15rem !important;
+      }
+      #swapModal .flex.items-center.gap-1\.5.overflow-x-auto button {
+        padding: 0.15rem 0.45rem !important;
+        font-size: 9.5px !important;
+        border-radius: 0.5rem !important;
+      }
+      #swapListContainer {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 0.35rem !important;
+        max-height: none !important;
+        flex: 1 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding-right: 0.25rem !important;
+      }
+      #swapListContainer > div {
+        border-radius: 0.85rem !important;
+      }
+      #swapListContainer > div > div:first-child {
+        padding: 0.15rem 0.45rem !important;
+        font-size: 9px !important;
+      }
+      #swapListContainer > div > div:last-child {
+        padding: 0.3rem 0.45rem !important;
+        gap: 0.35rem !important;
+      }
+      #swapListContainer > div > div:last-child .w-12.h-12 {
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 0.5rem !important;
+      }
+      #swapListContainer h4 {
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+      }
+      #swapListContainer p {
+        font-size: 9.5px !important;
+      }
+
+      /* Modal de Finalización en horizontal */
+      #completionModal > div {
+        max-height: calc(100dvh - 16px) !important;
+        overflow-y: auto !important;
+        padding: 0.75rem 1rem !important;
       }
     }
   </style>
