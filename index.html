@@ -4281,8 +4281,19 @@
       if (!activeStations.length) generateRandomWorkout(false);
       currentStationIdx = Math.max(0, Math.min(activeStations.length - 1, currentStationIdx));
       const cur = activeStations[currentStationIdx] || activeStations[0];
-      const nextIdx = (currentStationIdx + 1) % activeStations.length;
-      const nextEx = activeStations[nextIdx];
+      let nextIdx;
+      if (timerPhase === "PREP" || timerPhase === "REST_ROUND") {
+        // En preparación o descanso de fin de ronda, el ejercicio que va a comenzar inmediatamente es la estación 0 (currentStationIdx)
+        nextIdx = currentStationIdx;
+      } else if (timerPhase === "REST_SERIES") {
+        // En descanso entre series, currentStationIdx es la recién terminada; la siguiente en empezar es la siguiente
+        nextIdx = (currentStationIdx + 1) % activeStations.length;
+      } else {
+        // En trabajo o listo, la siguiente en orden
+        nextIdx = (currentStationIdx + 1) % activeStations.length;
+      }
+      nextIdx = Math.max(0, Math.min(activeStations.length - 1, nextIdx));
+      const nextEx = activeStations[nextIdx] || cur;
 
       const isRest = (timerPhase === 'REST_SERIES' || timerPhase === 'REST_ROUND' || timerPhase === 'PREP');
 
@@ -4697,10 +4708,15 @@
     function skipStep(delta) {
       triggerGlassTransition();
       if (delta > 0) {
-        const isLast = currentStationIdx >= activeStations.length - 1;
-        if (isLast && currentRound >= circuitConfig.rounds) return;
-        currentStationIdx = isLast ? 0 : currentStationIdx + 1;
-        if (isLast) currentRound++;
+        if (timerPhase === "PREP" || timerPhase === "REST_ROUND") {
+          // En preparación o descanso de fin de ronda, avanzar arranca la estación 0 anunciada sin saltársela
+          currentStationIdx = 0;
+        } else {
+          const isLast = currentStationIdx >= activeStations.length - 1;
+          if (isLast && currentRound >= circuitConfig.rounds) return;
+          currentStationIdx = isLast ? 0 : currentStationIdx + 1;
+          if (isLast) currentRound++;
+        }
       } else {
         if (currentStationIdx > 0) {
           currentStationIdx--;
