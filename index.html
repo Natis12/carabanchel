@@ -1645,13 +1645,57 @@
         <!-- PANEL DE CONTROL Y REPARTO DE LA SESIÓN: CARDIO/FUERZA Y CANTIDAD POR MATERIAL -->
         <div id="sessionConfigCard" class="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-3 shadow-sm">
           
-          <!-- Fila 1: Ajuste directo de Cardio y Fuerza -->
+          <!-- Fila 1: Estructura del Circuito: Series (Rondas) y Ciclos (Estaciones por Serie) -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between">
               <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                <span>⚡</span><span>Tipo de Ejercicio:</span>
+                <span>🎯</span><span>Estructura del Circuito:</span>
               </span>
-              <span id="sessionStationsSummary" class="text-xs font-mono font-black text-emerald-600 dark:text-emerald-400">6 Estaciones</span>
+              <span id="sessionStructureSummary" class="text-xs font-mono font-black text-emerald-600 dark:text-emerald-400">3 Rondas • 6 Ciclos</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <!-- Series (Rondas) Stepper -->
+              <div class="px-2 py-2 sm:px-3 sm:py-2.5 rounded-2xl bg-emerald-500/15 border-2 border-emerald-500/40 flex items-center justify-between shadow-sm min-w-0">
+                <div class="flex items-center gap-1 min-w-0 pr-1 shrink-0">
+                  <span class="text-sm shrink-0">🔄</span>
+                  <div class="min-w-0">
+                    <span class="text-[11px] sm:text-xs font-black uppercase text-emerald-700 dark:text-emerald-300 block truncate leading-tight">Rondas</span>
+                    <span class="text-[9px] text-emerald-600/80 dark:text-emerald-400/80 font-bold block truncate leading-tight">Series</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="changeSessionRounds(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-emerald-300 dark:border-emerald-500/50 flex items-center justify-center font-black text-xs text-emerald-700 dark:text-emerald-300 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionRoundsCount" class="font-mono font-black text-xs sm:text-sm text-emerald-700 dark:text-emerald-300 w-4 sm:w-5 text-center">3</span>
+                  <button type="button" onclick="changeSessionRounds(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-emerald-300 dark:border-emerald-500/50 flex items-center justify-center font-black text-xs text-emerald-700 dark:text-emerald-300 active:scale-95 transition shadow-sm">+</button>
+                </div>
+              </div>
+
+              <!-- Ciclos (Estaciones por Ronda) Stepper -->
+              <div class="px-2 py-2 sm:px-3 sm:py-2.5 rounded-2xl bg-cyan-500/15 border-2 border-cyan-500/40 flex items-center justify-between shadow-sm min-w-0">
+                <div class="flex items-center gap-1 min-w-0 pr-1 shrink-0">
+                  <span class="text-sm shrink-0">⚡</span>
+                  <div class="min-w-0">
+                    <span class="text-[11px] sm:text-xs font-black uppercase text-cyan-700 dark:text-cyan-300 block truncate leading-tight">Ciclos</span>
+                    <span class="text-[9px] text-cyan-600/80 dark:text-cyan-400/80 font-bold block truncate leading-tight">Estaciones</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1 shrink-0">
+                  <button type="button" onclick="changeSessionTotalCycles(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-cyan-500 hover:text-white border border-cyan-300 dark:border-cyan-500/50 flex items-center justify-center font-black text-xs text-cyan-700 dark:text-cyan-300 active:scale-95 transition shadow-sm">-</button>
+                  <span id="sessionTotalCyclesCount" class="font-mono font-black text-xs sm:text-sm text-cyan-700 dark:text-cyan-300 w-4 sm:w-5 text-center">6</span>
+                  <button type="button" onclick="changeSessionTotalCycles(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-cyan-500 hover:text-white border border-cyan-300 dark:border-cyan-500/50 flex items-center justify-center font-black text-xs text-cyan-700 dark:text-cyan-300 active:scale-95 transition shadow-sm">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila 2: Reparto de Cardio y Fuerza -->
+          <div class="pt-2 border-t border-slate-200 dark:border-slate-800/80 space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <span>⚖️</span><span>Reparto Cardio / Fuerza:</span>
+              </span>
+              <span id="sessionStationsSummary" class="text-[11px] font-mono font-bold text-slate-600 dark:text-slate-400">3 Cardio + 3 Fuerza</span>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
@@ -1662,9 +1706,9 @@
                   <span class="text-[11px] sm:text-xs font-black uppercase text-orange-600 dark:text-orange-400 truncate">Cardio</span>
                 </div>
                 <div class="flex items-center gap-1 shrink-0">
-                  <button onclick="changeSessionAerobic(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">-</button>
+                  <button type="button" onclick="changeSessionAerobic(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">-</button>
                   <span id="sessionAerobicCount" class="font-mono font-black text-xs sm:text-sm text-orange-600 dark:text-orange-300 w-4 sm:w-5 text-center">3</span>
-                  <button onclick="changeSessionAerobic(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">+</button>
+                  <button type="button" onclick="changeSessionAerobic(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-orange-500 hover:text-white border border-orange-300 dark:border-orange-500/50 flex items-center justify-center font-black text-xs text-orange-600 dark:text-orange-400 active:scale-95 transition shadow-sm">+</button>
                 </div>
               </div>
 
@@ -1675,9 +1719,9 @@
                   <span class="text-[11px] sm:text-xs font-black uppercase text-purple-600 dark:text-purple-400 truncate">Fuerza</span>
                 </div>
                 <div class="flex items-center gap-1 shrink-0">
-                  <button onclick="changeSessionStrength(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">-</button>
+                  <button type="button" onclick="changeSessionStrength(-1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">-</button>
                   <span id="sessionStrengthCount" class="font-mono font-black text-xs sm:text-sm text-purple-600 dark:text-purple-300 w-4 sm:w-5 text-center">3</span>
-                  <button onclick="changeSessionStrength(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">+</button>
+                  <button type="button" onclick="changeSessionStrength(1)" class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-600 hover:text-white border border-purple-300 dark:border-purple-500/50 flex items-center justify-center font-black text-xs text-purple-600 dark:text-purple-400 active:scale-95 transition shadow-sm">+</button>
                 </div>
               </div>
             </div>
@@ -3464,10 +3508,16 @@
       const sumEl = document.getElementById('sessionStationsSummary');
       const aeroCountEl = document.getElementById('sessionAerobicCount');
       const strengthCountEl = document.getElementById('sessionStrengthCount');
+      const roundsCountEl = document.getElementById('sessionRoundsCount');
+      const totalCyclesCountEl = document.getElementById('sessionTotalCyclesCount');
+      const structSummaryEl = document.getElementById('sessionStructureSummary');
       if (!container) return;
 
       const totalStations = circuitConfig.aerobicCount + circuitConfig.strengthCount;
-      if (sumEl) sumEl.innerText = `${totalStations} Estaciones (${circuitConfig.aerobicCount} Cardio + ${circuitConfig.strengthCount} Fuerza)`;
+      if (roundsCountEl) roundsCountEl.innerText = circuitConfig.rounds;
+      if (totalCyclesCountEl) totalCyclesCountEl.innerText = totalStations;
+      if (structSummaryEl) structSummaryEl.innerText = `${circuitConfig.rounds} Rondas • ${totalStations} Ciclos`;
+      if (sumEl) sumEl.innerText = `${circuitConfig.aerobicCount} Cardio + ${circuitConfig.strengthCount} Fuerza`;
       if (aeroCountEl) aeroCountEl.innerText = circuitConfig.aerobicCount;
       if (strengthCountEl) strengthCountEl.innerText = circuitConfig.strengthCount;
 
@@ -3521,6 +3571,47 @@
           </div>
         `;
       }).join('');
+    }
+
+    function changeSessionRounds(delta) {
+      const next = Math.max(1, Math.min(20, circuitConfig.rounds + delta));
+      if (next === circuitConfig.rounds) return;
+      circuitConfig.rounds = next;
+      saveStore();
+      renderSessionControls();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+    }
+
+    function changeSessionTotalCycles(delta) {
+      const curTotal = circuitConfig.aerobicCount + circuitConfig.strengthCount;
+      const nextTotal = Math.max(1, Math.min(30, curTotal + delta));
+      if (nextTotal === curTotal) return;
+      if (delta > 0) {
+        if (circuitConfig.aerobicCount <= circuitConfig.strengthCount) {
+          circuitConfig.aerobicCount++;
+        } else {
+          circuitConfig.strengthCount++;
+        }
+      } else {
+        if (circuitConfig.aerobicCount >= circuitConfig.strengthCount && circuitConfig.aerobicCount > 0) {
+          circuitConfig.aerobicCount--;
+        } else if (circuitConfig.strengthCount > 0) {
+          circuitConfig.strengthCount--;
+        } else if (circuitConfig.aerobicCount > 0) {
+          circuitConfig.aerobicCount--;
+        }
+      }
+      syncQuotasToTotal();
+      generateRandomWorkout(false);
+      saveStore();
+      renderSessionControls();
+      renderStationsViewUI();
+      renderConfigUI();
+      renderActiveUI();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
     }
 
     function changeSessionAerobic(delta) {
@@ -3780,43 +3871,231 @@
     }
 
     
-    // Screen Wake Lock API
-    let wakeLock = null;
+    // =========================================================================
+    // 7. MOTOR DE PANTALLA ACTIVA Y AUDIO (WAKE LOCK + BYPASS SILENCIO IPHONE)
+    // =========================================================================
+
+    // --- A. PANTALLA ACTIVA PERSISTENTE (SCREEN WAKE LOCK + IOS VIDEO FALLBACK) ---
+    let screenWakeLock = null;
+    let iosWakeLockVideo = null;
+
     async function requestWakeLock() {
-      try {
-        if ('wakeLock' in navigator) {
-          wakeLock = await navigator.wakeLock.request('screen');
-        }
-      } catch (err) {}
-    }
-    function releaseWakeLock() {
-      if (wakeLock) {
-        wakeLock.release().then(() => { wakeLock = null; }).catch(() => {});
+      // 1. API nativa Screen Wake Lock (Safari iOS 16.4+, Chrome, Edge, Android)
+      if ('wakeLock' in navigator && document.visibilityState === 'visible') {
+        try {
+          if (!screenWakeLock || screenWakeLock.released) {
+            screenWakeLock = await navigator.wakeLock.request('screen');
+            screenWakeLock.addEventListener('release', () => {
+              screenWakeLock = null;
+            });
+          }
+        } catch (e) {}
       }
+      // 2. Fallback iOS Safari / PWA Standalone con micro-video invisible
+      playIosKeepAwakeVideo();
     }
+
+    function playIosKeepAwakeVideo() {
+      try {
+        if (!iosWakeLockVideo) {
+          iosWakeLockVideo = document.createElement('video');
+          iosWakeLockVideo.setAttribute('playsinline', '');
+          iosWakeLockVideo.setAttribute('webkit-playsinline', '');
+          iosWakeLockVideo.muted = true;
+          iosWakeLockVideo.loop = true;
+          iosWakeLockVideo.style.position = 'fixed';
+          iosWakeLockVideo.style.width = '1px';
+          iosWakeLockVideo.style.height = '1px';
+          iosWakeLockVideo.style.top = '-20px';
+          iosWakeLockVideo.style.left = '-20px';
+          iosWakeLockVideo.style.opacity = '0.001';
+          iosWakeLockVideo.style.pointerEvents = 'none';
+          iosWakeLockVideo.style.zIndex = '-9999';
+          // Micro contenedor MP4 H.264 silencioso de 298 bytes para mantener despierto iOS Safari
+          iosWakeLockVideo.src = 'data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAAIZnJlZQAAAr9tZGF0AAACoAYF//+///AAAAMmF2Y0MBZAAK/+EAGWdkAAqs2V+WXAWyAAADAAIAAAMAYB4kSywBAAZo6+PLIsAAAAAYc3R0cwAAAAAAAAABAAAAAQAAAgAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAAEAAAABAAAAFHN0c3oAAAAAAAACtwAAAAEAAAAUc3RjbwAAAAAAAAABAAAAMAAAAGJ1ZHRhAAAAWm1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAALWlsc3QAAAAlqXRvbwAAAB1kYXRhAAAAAQAAAABMYXZmNTQuNjMuMTA0';
+          document.body.appendChild(iosWakeLockVideo);
+        }
+        if (iosWakeLockVideo.paused) {
+          const p = iosWakeLockVideo.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (e) {}
+    }
+
+    // Reactivar pantalla activa y audio al volver al primer plano
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible' && isRunning) requestWakeLock();
+      if (document.visibilityState === 'visible') {
+        requestWakeLock();
+        ensureAudioPlaybackSession();
+      }
+    });
+    window.addEventListener('focus', () => {
+      requestWakeLock();
+      ensureAudioPlaybackSession();
     });
 
-    // =========================================================================
-    // 7. MOTOR DE AUDIO (GONG METÁLICO FIJO + BEATS CON RUTEO A MASTERGAIN)
-    // =========================================================================
+    // En cualquier interacción inicial (primer toque o click), activar pantalla activa y desbloquear audio
+    ['touchstart', 'touchend', 'pointerdown', 'click'].forEach(evtName => {
+      window.addEventListener(evtName, () => {
+        requestWakeLock();
+        ensureAudioPlaybackSession();
+      }, { passive: true, once: false });
+    });
+
+
+    // --- B. MOTOR DE AUDIO (BYPASS PESTAÑA SILENCIO IPHONE + CANAL MULTIMEDIA) ---
     let audioCtx = null;
     let masterGain = null;
     let isMuted = false;
     let currentVolume = 0.85;
+
+    let iosSilentAudio = null;
+    let htmlBellAudio = null;
+    let htmlBeepStdAudio = null;
+    let htmlBeepHighAudio = null;
+
+    // Forzar categoría 'playback' en WebKit (iOS 15+) para que no lo afecte la pestaña física de silencio
+    function setAudioSessionPlayback() {
+      if ('audioSession' in navigator) {
+        try {
+          navigator.audioSession.type = 'playback';
+        } catch (e) {}
+      }
+    }
+
+    function ensureAudioPlaybackSession() {
+      setAudioSessionPlayback();
+      getAudioContext();
+      try {
+        if (!iosSilentAudio) {
+          iosSilentAudio = new Audio();
+          iosSilentAudio.setAttribute('playsinline', '');
+          iosSilentAudio.setAttribute('webkit-playsinline', '');
+          iosSilentAudio.setAttribute('x-webkit-airplay', 'deny');
+          iosSilentAudio.loop = true;
+          iosSilentAudio.volume = 0.01;
+          // Pista silenciosa de 48 bytes WAV para promover el audio a categoría playback
+          iosSilentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+        }
+        if (iosSilentAudio.paused) {
+          const p = iosSilentAudio.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (e) {}
+    }
+
+    function createWavBlobFromSamples(samples, sampleRate) {
+      sampleRate = sampleRate || 44100;
+      const numChannels = 1;
+      const bitDepth = 16;
+      const dataLength = samples.length * (bitDepth / 8);
+      const buffer = new ArrayBuffer(44 + dataLength);
+      const view = new DataView(buffer);
+
+      function writeStr(offset, str) {
+        for (let i = 0; i < str.length; i++) {
+          view.setUint8(offset + i, str.charCodeAt(i));
+        }
+      }
+
+      writeStr(0, 'RIFF');
+      view.setUint32(4, 36 + dataLength, true);
+      writeStr(8, 'WAVE');
+      writeStr(12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true); // PCM
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, sampleRate * numChannels * (bitDepth / 8), true);
+      view.setUint16(32, numChannels * (bitDepth / 8), true);
+      view.setUint16(34, bitDepth, true);
+      writeStr(36, 'data');
+      view.setUint32(40, dataLength, true);
+
+      let offset = 44;
+      for (let i = 0; i < samples.length; i++, offset += 2) {
+        const s = Math.max(-1, Math.min(1, samples[i]));
+        view.setInt16(offset, s < 0 ? Math.round(s * 0x8000) : Math.round(s * 0x7FFF), true);
+      }
+
+      return new Blob([view], { type: 'audio/wav' });
+    }
+
+    function initHtmlAudioElements() {
+      if (htmlBellAudio) return;
+      try {
+        const sampleRate = 44100;
+        
+        // 1. Campana de Boxeo / Gong Metálico (~1.7s)
+        const bellDur = 1.7;
+        const bellLen = Math.floor(sampleRate * bellDur);
+        const bellSamples = new Float32Array(bellLen);
+        const freqs = [587.33, 880, 1174.66, 1760];
+        const gains = [0.8, 0.45, 0.25, 0.15];
+        for (let i = 0; i < bellLen; i++) {
+          const t = i / sampleRate;
+          let val = 0;
+          for (let f = 0; f < freqs.length; f++) {
+            const attack = Math.min(1, t / 0.008);
+            const decay = Math.exp(-t * (3.5 / (1 - f * 0.12)));
+            const wave = f === 1 ? (2 / Math.PI) * Math.asin(Math.sin(2 * Math.PI * freqs[f] * t)) : Math.sin(2 * Math.PI * freqs[f] * t);
+            val += wave * gains[f] * attack * decay;
+          }
+          bellSamples[i] = val * 0.72;
+        }
+        const bellBlob = createWavBlobFromSamples(bellSamples, sampleRate);
+        htmlBellAudio = new Audio(URL.createObjectURL(bellBlob));
+        htmlBellAudio.setAttribute('playsinline', '');
+        htmlBellAudio.setAttribute('webkit-playsinline', '');
+        htmlBellAudio.setAttribute('x-webkit-airplay', 'deny');
+        htmlBellAudio.volume = isMuted ? 0 : currentVolume;
+
+        // 2. Beep Estándar (860 Hz)
+        const stdLen = Math.floor(sampleRate * 0.12);
+        const stdSamples = new Float32Array(stdLen);
+        for (let i = 0; i < stdLen; i++) {
+          const t = i / sampleRate;
+          const env = Math.exp(-t * 28);
+          stdSamples[i] = Math.sin(2 * Math.PI * 860 * t) * env * 0.95;
+        }
+        const stdBlob = createWavBlobFromSamples(stdSamples, sampleRate);
+        htmlBeepStdAudio = new Audio(URL.createObjectURL(stdBlob));
+        htmlBeepStdAudio.setAttribute('playsinline', '');
+        htmlBeepStdAudio.setAttribute('webkit-playsinline', '');
+        htmlBeepStdAudio.setAttribute('x-webkit-airplay', 'deny');
+        htmlBeepStdAudio.volume = isMuted ? 0 : currentVolume;
+
+        // 3. Beep Agudo (1020 Hz)
+        const highLen = Math.floor(sampleRate * 0.12);
+        const highSamples = new Float32Array(highLen);
+        for (let i = 0; i < highLen; i++) {
+          const t = i / sampleRate;
+          const env = Math.exp(-t * 28);
+          highSamples[i] = Math.sin(2 * Math.PI * 1020 * t) * env * 0.95;
+        }
+        const highBlob = createWavBlobFromSamples(highSamples, sampleRate);
+        htmlBeepHighAudio = new Audio(URL.createObjectURL(highBlob));
+        htmlBeepHighAudio.setAttribute('playsinline', '');
+        htmlBeepHighAudio.setAttribute('webkit-playsinline', '');
+        htmlBeepHighAudio.setAttribute('x-webkit-airplay', 'deny');
+        htmlBeepHighAudio.volume = isMuted ? 0 : currentVolume;
+      } catch (e) {
+        console.warn('HTML5 Audio init fallback:', e);
+      }
+    }
 
     function getAudioContext() {
       if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
         masterGain = audioCtx.createGain();
-        masterGain.gain.value = currentVolume;
+        masterGain.gain.value = isMuted ? 0 : currentVolume;
         masterGain.connect(audioCtx.destination);
       }
       if (audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      setAudioSessionPlayback();
     }
 
     function changeVolume(val) {
@@ -3830,6 +4109,9 @@
       if (masterGain && !isMuted && audioCtx) {
         masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
       }
+      if (htmlBellAudio) htmlBellAudio.volume = isMuted ? 0 : currentVolume;
+      if (htmlBeepStdAudio) htmlBeepStdAudio.volume = isMuted ? 0 : currentVolume;
+      if (htmlBeepHighAudio) htmlBeepHighAudio.volume = isMuted ? 0 : currentVolume;
     }
 
     function toggleMute() {
@@ -3845,6 +4127,10 @@
 
       if (isMuted) {
         if (masterGain && audioCtx) masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+        if (htmlBellAudio) htmlBellAudio.volume = 0;
+        if (htmlBeepStdAudio) htmlBeepStdAudio.volume = 0;
+        if (htmlBeepHighAudio) htmlBeepHighAudio.volume = 0;
+
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/20 text-red-500 border border-red-500/40 text-xs font-bold shrink-0 min-h-[40px]';
         if (icon) icon.innerText = '🔇';
         if (text) text.innerText = 'Silencio';
@@ -3854,6 +4140,10 @@
         if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-red-500/25 hover:bg-red-500/35 active:scale-95 border border-red-500/40 text-red-200 flex items-center justify-center gap-1.5 text-xs font-bold transition';
       } else {
         if (masterGain && audioCtx) masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
+        if (htmlBellAudio) htmlBellAudio.volume = currentVolume;
+        if (htmlBeepStdAudio) htmlBeepStdAudio.volume = currentVolume;
+        if (htmlBeepHighAudio) htmlBeepHighAudio.volume = currentVolume;
+
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold shrink-0 shadow-sm min-h-[40px]';
         if (icon) icon.innerText = '🔊';
         if (text) text.innerText = 'Audio';
@@ -3866,51 +4156,84 @@
 
     function playBeep(freq = 880) {
       if (isMuted) return;
-      getAudioContext();
+      ensureAudioPlaybackSession();
+      initHtmlAudioElements();
+
+      // Canal HTML5 Audio (reproduce en modo multimedia, ignorando la pestaña física de silencio de iPhone)
       try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.9, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
-        osc.connect(gain);
-        gain.connect(masterGain);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.12);
+        const audioEl = (freq >= 1000) ? htmlBeepHighAudio : htmlBeepStdAudio;
+        if (audioEl) {
+          audioEl.volume = currentVolume;
+          audioEl.currentTime = 0;
+          const p = audioEl.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (e) {}
+
+      // Síntesis Web Audio en paralelo
+      try {
+        getAudioContext();
+        if (audioCtx) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.9, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+          osc.connect(gain);
+          gain.connect(masterGain);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.12);
+        }
       } catch (e) {}
     }
 
     // Campana de Boxeo / Gong Metálico (Sonido único oficial)
     function playBoxingBell() {
       if (isMuted) return;
-      getAudioContext();
+      ensureAudioPlaybackSession();
+      initHtmlAudioElements();
+
+      // Canal HTML5 Audio (reproduce en modo multimedia, ignorando la pestaña física de silencio de iPhone)
       try {
-        const now = audioCtx.currentTime;
-        const freqs = [587.33, 880, 1174.66, 1760];
-        const gains = [0.8, 0.45, 0.25, 0.15];
-        const dur = 1.7;
+        if (htmlBellAudio) {
+          htmlBellAudio.volume = currentVolume;
+          htmlBellAudio.currentTime = 0;
+          const p = htmlBellAudio.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        }
+      } catch (e) {}
 
-        freqs.forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = idx === 0 ? 'sine' : (idx === 1 ? 'triangle' : 'sine');
-          osc.frequency.setValueAtTime(freq, now);
-          
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(gains[idx], now + 0.008);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + dur * (1 - idx * 0.12));
+      // Síntesis Web Audio en paralelo
+      try {
+        getAudioContext();
+        if (audioCtx) {
+          const now = audioCtx.currentTime;
+          const freqs = [587.33, 880, 1174.66, 1760];
+          const gains = [0.8, 0.45, 0.25, 0.15];
+          const dur = 1.7;
 
-          osc.connect(gain);
-          gain.connect(masterGain); // Conectado a masterGain para volumen consistente
-          osc.start(now);
-          osc.stop(now + dur);
-        });
-      } catch(e) {}
+          freqs.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = idx === 0 ? 'sine' : (idx === 1 ? 'triangle' : 'sine');
+            osc.frequency.setValueAtTime(freq, now);
+            
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(gains[idx], now + 0.008);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + dur * (1 - idx * 0.12));
+
+            osc.connect(gain);
+            gain.connect(masterGain);
+            osc.start(now);
+            osc.stop(now + dur);
+          });
+        }
+      } catch (e) {}
     }
 
     function testBoxingBell() {
-      getAudioContext();
+      ensureAudioPlaybackSession();
       playBoxingBell();
     }
 
@@ -4573,7 +4896,6 @@
 
     function pauseWorkout() {
       isRunning = false;
-      releaseWakeLock();
       if (rafId) {
         cancelAnimationFrame(rafId);
         rafId = null;
@@ -4991,7 +5313,7 @@
 
       const totalSec = computeTotalRemainingSeconds();
       if (subTitle) {
-        subTitle.innerText = `${activeStations.length} Estaciones • ${formatTimeMMSS(totalSec)}`;
+        subTitle.innerText = `${circuitConfig.rounds} Series • ${activeStations.length} Estaciones • ${formatTimeMMSS(totalSec)}`;
       }
 
       const counts = (groupData().counts || {});
@@ -5703,6 +6025,8 @@
     generateRandomWorkout(false);
     applyTheme();
     resetTopControlsTimer();
+    requestWakeLock();
+    setAudioSessionPlayback();
   </script>
 </body>
 </html>
