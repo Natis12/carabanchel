@@ -1150,11 +1150,17 @@
             </div>
           </div>
 
-          <!-- DOCK DERECHO: TIEMPO TOTAL NORMAL + AJUSTES -->
+          <!-- DOCK DERECHO: TIEMPO TOTAL NORMAL + LISTA DE EJERCICIOS + AJUSTES -->
           <div id="m1RightControls" class="flex items-center justify-end transition-all duration-500 ease-out gap-1.5">
             <div id="m1TotalCapsule" class="flex items-center px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg transition-all duration-500">
               <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
             </div>
+
+            <!-- BOTÓN LISTA DE EJERCICIOS EN VIVO -->
+            <button id="m1StationsListBtn" type="button" onclick="openActiveWorkoutListModal()" class="h-8 sm:h-9 px-2.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center gap-1 text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Ver y Editar Ejercicios del Circuito">
+              <span class="text-xs sm:text-sm">📋</span>
+              <span class="text-[10px] sm:text-[11px] font-black uppercase text-emerald-400">Lista</span>
+            </button>
 
             <!-- BOTÓN AJUSTES -->
             <button id="m1SettingsBtn" onclick="setMainView('config')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Configurar Entrenamiento">
@@ -1236,8 +1242,8 @@
           <!-- COLUMNA IZQUIERDA: RECUADRO EJERCICIO + TEXTO DEBAJO -->
           <div class="flex flex-col items-center gap-1 shrink-0">
             
-            <!-- RECUADRO EJERCICIO: TITANIO CNC DIAMOND-CUT DORADO/ÁMBAR -->
-            <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
+            <!-- RECUADRO EJERCICIO: TITANIO CNC DIAMOND-CUT DORADO/ÁMBAR (PULSAR PARA ABRIR LISTA) -->
+            <div onclick="openActiveWorkoutListModal()" class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl transition-transform active:scale-95 overflow-hidden cursor-pointer" title="Ver y Editar Lista de Ejercicios">
               
               <!-- NÚMERO Y TOTAL PERFECTAMENTE CENTRADOS SIMÉTRICAMENTE -->
               <div class="absolute inset-0 flex items-center justify-center gap-1 pb-1">
@@ -1257,9 +1263,10 @@
             </div>
 
             <!-- TEXTO FUERA Y DEBAJO DEL RECUADRO: EJERCICIO -->
-            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-yellow-300 drop-shadow-md whitespace-nowrap">
-              EJERCICIO
-            </span>
+            <button type="button" onclick="openActiveWorkoutListModal()" class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-yellow-300 drop-shadow-md whitespace-nowrap flex items-center gap-1 hover:text-yellow-200 transition" title="Ver lista de ejercicios">
+              <span>EJERCICIO</span>
+              <span class="text-[8px] bg-yellow-400/25 px-1 py-0.2 rounded text-yellow-200 font-mono">LISTA</span>
+            </button>
 
           </div>
 
@@ -1636,10 +1643,20 @@
             </div>
           </div>
 
-          <button onclick="launchTimerFromStations()" class="px-4 py-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 active:scale-95 transition min-h-[40px]">
-            <span>▶️</span>
-            <span>Iniciar Timer</span>
-          </button>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="openSavedCircuitsModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center gap-1 active:scale-95 transition min-h-[38px] border border-slate-200 dark:border-slate-700" title="Ver circuitos guardados">
+              <span>📂</span>
+              <span class="hidden sm:inline">Guardados</span>
+            </button>
+            <button type="button" onclick="openSaveCircuitModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs flex items-center gap-1 active:scale-95 transition min-h-[38px] border border-slate-200 dark:border-slate-700" title="Guardar este circuito">
+              <span>💾</span>
+              <span class="hidden sm:inline">Guardar</span>
+            </button>
+            <button onclick="launchTimerFromStations()" class="px-3.5 py-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 active:scale-95 transition min-h-[38px]">
+              <span>▶️</span>
+              <span>Iniciar</span>
+            </button>
+          </div>
         </div>
 
         <!-- PANEL DE CONTROL Y REPARTO DE LA SESIÓN: CARDIO/FUERZA Y CANTIDAD POR MATERIAL -->
@@ -1762,8 +1779,47 @@
         </div>
 
         <!-- Lista de tarjetas de estación -->
-        <div id="dedicatedStationsList" class="space-y-2.5 pb-6">
+        <div id="dedicatedStationsList" class="space-y-2.5 pb-2">
           <!-- Render dinámico con thumbnails, nombres limpios y botón sustituir -->
+        </div>
+
+        <!-- TARJETA FINAL DE RESUMEN, AJUSTE DE RONDAS Y ACCIÓN -->
+        <div id="stationsBottomSummaryCard" class="p-4 bg-slate-50 dark:bg-slate-900/95 border-2 border-emerald-500/30 rounded-3xl space-y-3.5 shadow-md">
+          <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🏁</span>
+              <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200">Resumen Final del Circuito</span>
+            </div>
+            <span id="bottomTotalDurationBadge" class="text-xs font-mono font-black text-emerald-600 dark:text-emerald-400">12m 20s</span>
+          </div>
+
+          <!-- Selector Directo de Rondas (Series) -->
+          <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex items-center gap-2.5">
+              <span class="text-lg">🔄</span>
+              <div>
+                <span class="text-xs sm:text-sm font-black uppercase tracking-wider text-slate-900 dark:text-white block">Número de Series (Rondas)</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400">Vueltas completas al circuito</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="changeSessionRounds(-1)" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white text-slate-800 dark:text-slate-200 font-black text-sm active:scale-95 transition shadow-sm border border-slate-300 dark:border-slate-700">-</button>
+              <span id="bottomSessionRoundsCount" class="font-mono font-black text-base text-emerald-600 dark:text-emerald-400 w-6 text-center">3</span>
+              <button type="button" onclick="changeSessionRounds(1)" class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white text-slate-800 dark:text-slate-200 font-black text-sm active:scale-95 transition shadow-sm border border-slate-300 dark:border-slate-700">+</button>
+            </div>
+          </div>
+
+          <!-- Botones de Acción: Guardar Circuito e Iniciar Timer -->
+          <div class="grid grid-cols-2 gap-2.5 pt-1">
+            <button type="button" onclick="openSaveCircuitModal()" class="py-3 px-3 rounded-2xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border-2 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-black text-xs uppercase tracking-wider active:scale-95 transition flex items-center justify-center gap-1.5 shadow-sm">
+              <span>💾</span>
+              <span>Guardar</span>
+            </button>
+            <button type="button" onclick="launchTimerFromStations()" class="py-3 px-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/25 active:scale-95 transition flex items-center justify-center gap-1.5">
+              <span>▶️</span>
+              <span>Iniciar Timer</span>
+            </button>
+          </div>
         </div>
       </section>
 
@@ -1837,12 +1893,121 @@
       </div>
 
       <div class="space-y-2 pt-2">
-        <button onclick="confirmSaveWorkout()" class="w-full py-4 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm uppercase tracking-wider shadow-lg active:scale-95 transition flex items-center justify-center gap-2">
+        <button onclick="confirmSaveWorkout()" class="w-full py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition flex items-center justify-center gap-2">
           <span>💾</span>
-          <span>GUARDAR ENTRENAMIENTO</span>
+          <span>GUARDAR EN HISTORIAL DE CLASES</span>
+        </button>
+        <button onclick="openSaveCircuitModal()" class="w-full py-3 rounded-2xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-700 dark:text-amber-300 font-black text-xs uppercase tracking-wider active:scale-95 transition flex items-center justify-center gap-2">
+          <span>⭐</span>
+          <span>GUARDAR COMO CIRCUITO REUTILIZABLE</span>
         </button>
         <button onclick="dismissWorkoutWithoutSaving()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:text-slate-900 dark:hover:text-white transition">
-          No guardar y volver
+          Cerrar y volver
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GUARDAR CIRCUITO ACTUAL CON NOMBRE PERSONALIZADO -->
+  <div id="saveCircuitModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[70] flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-2xl space-y-4 max-h-[90vh] flex flex-col animate-pop">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+        <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase flex items-center gap-2">
+          <span>💾</span>
+          <span>Guardar Circuito</span>
+        </h3>
+        <button onclick="closeSaveCircuitModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center font-bold text-sm transition">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-300 mb-1">Nombre del Circuito:</label>
+          <input type="text" id="saveCircuitNameInput" placeholder="Ej: Circuito Funcional 6 Estaciones" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div id="saveCircuitSummaryBox" class="p-3 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-1.5 text-xs">
+          <!-- Inyectado dinámicamente -->
+        </div>
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <button onclick="confirmSaveNewCircuit()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/25 active:scale-95 transition flex items-center justify-center gap-2">
+          <span>💾</span>
+          <span>Confirmar y Guardar</span>
+        </button>
+        <button onclick="closeSaveCircuitModal()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-bold hover:text-slate-900 dark:hover:text-white transition">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LISTADO DE CIRCUITOS GUARDADOS Y RECARGA SIN EMPEZAR -->
+  <div id="savedCircuitsModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 hidden">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-2xl space-y-3.5 max-h-[90vh] flex flex-col animate-pop">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+        <div>
+          <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase flex items-center gap-2">
+            <span>📂</span>
+            <span>Circuitos Guardados</span>
+            <span id="savedCircuitsCountBadge" class="text-[10px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-black uppercase">0</span>
+          </h3>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400">Carga cualquier circuito para revisarlo o editarlo sin empezarlo</p>
+        </div>
+        <button onclick="closeSavedCircuitsModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center font-bold text-sm transition">✕</button>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button onclick="openSaveCircuitModal()" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center gap-1.5 active:scale-95 transition">
+          <span>➕</span>
+          <span>Guardar circuito actual</span>
+        </button>
+      </div>
+
+      <!-- Contenedor scroll de circuitos guardados -->
+      <div id="savedCircuitsListContainer" class="flex-1 overflow-y-auto space-y-2.5 pr-1 max-h-[55vh]">
+        <!-- Inyectado dinámicamente -->
+      </div>
+
+      <div class="pt-1 border-t border-slate-200 dark:border-slate-800">
+        <button onclick="closeSavedCircuitsModal()" class="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 transition">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LISTADO COMPLETO Y EDICIÓN DE EJERCICIOS DURANTE EL ENTRENAMIENTO ACTIVO -->
+  <div id="activeWorkoutListModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-5 hidden">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-5 shadow-2xl space-y-3.5 max-h-[92vh] flex flex-col animate-pop">
+      <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+        <div>
+          <h3 class="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase flex items-center gap-2">
+            <span>📋</span>
+            <span>Estaciones del Entrenamiento</span>
+          </h3>
+          <p id="activeWorkoutModalSubtitle" class="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">Ronda 1 de 3 • Estación 1 de 6</p>
+        </div>
+        <button onclick="closeActiveWorkoutListModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center font-bold text-sm transition">✕</button>
+      </div>
+
+      <div class="flex items-center justify-between text-xs px-1 text-slate-500 dark:text-slate-400 font-medium">
+        <span>Sustituye o salta a cualquier estación en vivo:</span>
+        <button onclick="openSaveCircuitModal()" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
+          <span>💾</span>
+          <span>Guardar circuito</span>
+        </button>
+      </div>
+
+      <!-- Contenedor scroll de estaciones activas con estado EN CURSO / COMPLETADA / PRÓXIMA -->
+      <div id="activeWorkoutStationsList" class="flex-1 overflow-y-auto space-y-2.5 pr-1 max-h-[58vh]">
+        <!-- Inyectado dinámicamente -->
+      </div>
+
+      <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+        <button onclick="closeActiveWorkoutListModal()" class="flex-1 py-3 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-md shadow-emerald-500/25 active:scale-95 transition flex items-center justify-center gap-2">
+          <span>←</span>
+          <span>Volver al Temporizador</span>
         </button>
       </div>
     </div>
@@ -1888,7 +2053,7 @@
   </div>
 
   <!-- MODAL CAMBIAR EJERCICIO CON FILTROS (CARDIO, FUERZA Y MATERIAL) -->
-  <div id="swapModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+  <div id="swapModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[60] flex items-center justify-center p-3 sm:p-4 hidden">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-4 space-y-3 shadow-2xl flex flex-col max-h-[90vh]">
       
       <!-- Cabecera -->
@@ -5035,7 +5200,10 @@
           currentStationIdx = 0;
         } else {
           const isLast = currentStationIdx >= activeStations.length - 1;
-          if (isLast && currentRound >= circuitConfig.rounds) return;
+          if (isLast && currentRound >= circuitConfig.rounds) {
+            openCompletionModal();
+            return;
+          }
           currentStationIdx = isLast ? 0 : currentStationIdx + 1;
           if (isLast) currentRound++;
         }
@@ -5065,20 +5233,36 @@
     // =========================================================================
     function openCompletionModal() {
       pauseWorkout();
-      const gInfo = GROUPS[appStore.group];
-      document.getElementById('completeGroupLabel').innerText = `${gInfo.icon} ${gInfo.name}`;
-      document.getElementById('completeStationsLabel').innerText = `${activeStations.length} Estaciones • ${circuitConfig.rounds} Rondas`;
-      document.getElementById('completeDurationLabel').innerText = document.getElementById('totalTimeEstimate').innerText;
+      const gInfo = GROUPS[appStore.group] || { icon: '🏋️', name: 'Entrenamiento' };
+      const groupLbl = document.getElementById('completeGroupLabel');
+      if (groupLbl) groupLbl.innerText = `${gInfo.icon} ${gInfo.name}`;
+      
+      const stationsLbl = document.getElementById('completeStationsLabel');
+      if (stationsLbl) stationsLbl.innerText = `${activeStations.length} Estaciones • ${circuitConfig.rounds} Rondas`;
+
+      const durationLbl = document.getElementById('completeDurationLabel');
+      if (durationLbl) {
+        const singleRoundSec = (activeStations.length * circuitConfig.workTime) + (Math.max(0, activeStations.length - 1) * circuitConfig.restTime);
+        const fullSec = circuitConfig.prepTime + (singleRoundSec * circuitConfig.rounds) + (Math.max(0, circuitConfig.rounds - 1) * circuitConfig.roundRestTime);
+        durationLbl.innerText = formatTimeMMSS(fullSec);
+      }
 
       const listElem = document.getElementById('completeExercisesList');
-      listElem.innerHTML = completedExercisesInClass.map((ex, i) => `
-        <div class="flex items-center justify-between py-1 border-b border-slate-200 dark:border-slate-800">
-          <span class="font-bold text-slate-800 dark:text-slate-200 truncate mr-2">${i+1}. ${ex.name}</span>
-          <span class="font-mono text-[10px] text-slate-500 dark:text-slate-400 shrink-0">${ex.material}</span>
-        </div>
-      `).join('');
+      const exercisesToShow = (completedExercisesInClass && completedExercisesInClass.length > 0)
+        ? completedExercisesInClass
+        : activeStations;
 
-      document.getElementById('completionModal').classList.remove('hidden');
+      if (listElem) {
+        listElem.innerHTML = exercisesToShow.map((ex, i) => `
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-200 dark:border-slate-800">
+            <span class="font-bold text-slate-800 dark:text-slate-200 truncate mr-2">${i+1}. ${ex.name}</span>
+            <span class="font-mono text-[10px] text-slate-500 dark:text-slate-400 shrink-0">${ex.material || ex.type}</span>
+          </div>
+        `).join('');
+      }
+
+      const modal = document.getElementById('completionModal');
+      if (modal) modal.classList.remove('hidden');
     }
 
     function confirmSaveWorkout() {
@@ -5237,43 +5421,312 @@
       `).join('');
     }
 
-    function saveCurrentAsFavorite() {
-      const input = document.getElementById('favCircuitName');
-      const name = (input.value || '').trim();
-      if (!name) {
-        alert('Por favor introduce un nombre para el circuito.');
-        return;
+    function openSaveCircuitModal() {
+      const input = document.getElementById('saveCircuitNameInput');
+      const box = document.getElementById('saveCircuitSummaryBox');
+      const modal = document.getElementById('saveCircuitModal');
+      if (!modal) return;
+
+      const dateStr = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+      const defaultName = `Circuito ${activeStations.length} Estaciones (${circuitConfig.rounds} Rondas) - ${dateStr}`;
+      if (input) input.value = defaultName;
+
+      if (box) {
+        const activeKeys = getActiveMaterialKeys();
+        const matIcons = activeKeys.map(k => (MATERIAL_THEMES[k] ? MATERIAL_THEMES[k].emoji : '🤸')).join(' ');
+
+        box.innerHTML = `
+          <div class="flex justify-between items-center text-slate-700 dark:text-slate-200 font-bold">
+            <span>Estaciones y Series:</span>
+            <span class="font-mono text-emerald-600 dark:text-emerald-400">${activeStations.length} Estaciones • ${circuitConfig.rounds} Rondas</span>
+          </div>
+          <div class="flex justify-between items-center text-slate-700 dark:text-slate-200">
+            <span class="text-slate-500">Tiempos:</span>
+            <span class="font-mono font-bold">${circuitConfig.workTime}s trabajo • ${circuitConfig.restTime}s descanso</span>
+          </div>
+          <div class="flex justify-between items-center text-slate-700 dark:text-slate-200">
+            <span class="text-slate-500">Reparto:</span>
+            <span><strong class="text-orange-600 dark:text-orange-400">${circuitConfig.aerobicCount} Cardio</strong> + <strong class="text-purple-600 dark:text-purple-400">${circuitConfig.strengthCount} Fuerza</strong></span>
+          </div>
+          <div class="flex justify-between items-center text-slate-700 dark:text-slate-200">
+            <span class="text-slate-500">Materiales:</span>
+            <span>${matIcons}</span>
+          </div>
+        `;
       }
+
+      modal.classList.remove('hidden');
+      if (input) {
+        setTimeout(() => { input.focus(); input.select(); }, 100);
+      }
+    }
+
+    function closeSaveCircuitModal() {
+      const modal = document.getElementById('saveCircuitModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function confirmSaveNewCircuit() {
+      const input = document.getElementById('saveCircuitNameInput');
+      let name = (input ? input.value : '').trim();
+      if (!name) {
+        name = `Circuito ${activeStations.length} Estaciones (${circuitConfig.rounds} Rondas)`;
+      }
+
       if (!appStore.favorites) appStore.favorites = [];
-      appStore.favorites.push({
-        name,
+      appStore.favorites.unshift({
+        id: 'circ_' + Date.now(),
+        name: name,
+        date: new Date().toISOString(),
         stations: activeStations.map(s => ({ ...s })),
         config: { ...circuitConfig },
         group: appStore.group
       });
+
       saveStore();
-      input.value = '';
+      closeSaveCircuitModal();
       renderFavoritesList();
-      alert(`⭐ Circuito "${name}" guardado en favoritos.`);
+      renderSavedCircuitsList();
+      alert(`⭐ Circuito "${name}" guardado correctamente.`);
+    }
+
+    function openSavedCircuitsModal() {
+      renderSavedCircuitsList();
+      const modal = document.getElementById('savedCircuitsModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeSavedCircuitsModal() {
+      const modal = document.getElementById('savedCircuitsModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderSavedCircuitsList() {
+      const container = document.getElementById('savedCircuitsListContainer');
+      const badge = document.getElementById('savedCircuitsCountBadge');
+      const favs = appStore.favorites || [];
+
+      if (badge) badge.innerText = favs.length;
+      if (!container) return;
+
+      if (!favs.length) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-slate-400 dark:text-slate-500 space-y-2">
+            <span class="text-4xl block">📂</span>
+            <p class="text-xs font-bold">No tienes circuitos guardados todavía.</p>
+            <p class="text-[11px]">Genera o personaliza un circuito y pulsa "Guardar Circuito" para tenerlo listo siempre.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = favs.map((fav, idx) => {
+        const stCount = (fav.stations || []).length;
+        const rounds = fav.config ? (fav.config.rounds || 3) : 3;
+        const work = fav.config ? (fav.config.workTime || 40) : 40;
+        const rest = fav.config ? (fav.config.restTime || 15) : 15;
+        const dateFormatted = fav.date ? new Date(fav.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+        
+        const mats = [...new Set((fav.stations || []).map(s => s.materialKey).filter(Boolean))];
+        const matIcons = mats.map(k => (MATERIAL_THEMES[k] ? MATERIAL_THEMES[k].emoji : '')).filter(Boolean).join(' ');
+
+        return `
+          <div class="p-3.5 bg-slate-50 dark:bg-slate-950/80 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-sm transition hover:border-emerald-500/40">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <h4 class="font-black text-xs sm:text-sm text-slate-900 dark:text-white leading-tight truncate">${fav.name}</h4>
+                <div class="flex items-center gap-1.5 text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 font-medium">
+                  <span>${dateFormatted}</span>
+                  <span>•</span>
+                  <span>${matIcons}</span>
+                </div>
+              </div>
+              <button onclick="deleteFavoriteCircuit(${idx})" class="w-7 h-7 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 flex items-center justify-center font-bold text-xs shrink-0 active:scale-90 transition" title="Eliminar circuito guardado">
+                🗑️
+              </button>
+            </div>
+
+            <div class="flex items-center gap-1.5 flex-wrap text-[11px]">
+              <span class="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-extrabold font-mono">${stCount} Estaciones</span>
+              <span class="px-2 py-0.5 rounded-md bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 font-extrabold font-mono">${rounds} Rondas</span>
+              <span class="px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold font-mono">${work}s / ${rest}s</span>
+            </div>
+
+            <div class="pt-1">
+              <button onclick="loadFavoriteCircuit(${idx})" class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-sm active:scale-95 transition flex items-center justify-center gap-1.5">
+                <span>📥</span>
+                <span>Cargar Circuito (Revisar sin empezar)</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function saveCurrentAsFavorite() {
+      openSaveCircuitModal();
     }
 
     function loadFavoriteCircuit(idx) {
       const fav = appStore.favorites[idx];
       if (!fav) return;
+
       activeStations = fav.stations.map(s => ({ ...s }));
       if (fav.config) circuitConfig = Object.assign(circuitConfig, fav.config);
+      
+      // Reseteo limpio en estado READY: No se arranca el temporizador automáticamente
+      pauseWorkout();
+      currentRound = 1;
+      currentStationIdx = 0;
+      timerPhase = 'READY';
+      phaseTotalTime = circuitConfig.workTime;
+      timeLeft = phaseTotalTime;
+      completedExercisesInClass = [];
+      lastSecondReported = null;
+
+      saveStore();
       renderConfigUI();
+      renderStationsViewUI();
       renderActiveUI();
-      alert(`✅ Circuito "${fav.name}" cargado.`);
-      setMainView('timer');
+      closeSavedCircuitsModal();
+      
+      // Abre la pantalla de Estaciones para que el usuario pueda verlas y editarlas tranquilamente
+      setMainView('stations');
+      alert(`✅ Circuito "${fav.name}" cargado (${activeStations.length} estaciones, ${circuitConfig.rounds} rondas). Listo para revisar o iniciar.`);
     }
 
     function deleteFavoriteCircuit(idx) {
-      if (confirm('¿Eliminar este circuito favorito?')) {
+      if (confirm('¿Eliminar este circuito guardado?')) {
         appStore.favorites.splice(idx, 1);
         saveStore();
         renderFavoritesList();
+        renderSavedCircuitsList();
       }
+    }
+
+    // =========================================================================
+    // MODAL DE ESTACIONES DEL ENTRENAMIENTO EN CURSO (VER Y EDITAR EN VIVO)
+    // =========================================================================
+    function openActiveWorkoutListModal() {
+      renderActiveWorkoutList();
+      const modal = document.getElementById('activeWorkoutListModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeActiveWorkoutListModal() {
+      const modal = document.getElementById('activeWorkoutListModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function renderActiveWorkoutList() {
+      const container = document.getElementById('activeWorkoutStationsList');
+      const subtitle = document.getElementById('activeWorkoutModalSubtitle');
+      if (!container) return;
+
+      if (subtitle) {
+        subtitle.innerText = `Ronda ${currentRound} de ${circuitConfig.rounds} • Estación actual #${currentStationIdx + 1} de ${activeStations.length}`;
+      }
+
+      container.innerHTML = activeStations.map((st, idx) => {
+        const isCurrent = (idx === currentStationIdx);
+        const isPast = (idx < currentStationIdx);
+        const isAero = st.type === 'AERÓBICO';
+        const isFree = !!st.isFree;
+        const matTheme = isFree ? {
+          name: 'Libre',
+          emoji: '⏱️',
+          bgClasses: 'bg-slate-50/90 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800',
+          thumbBorder: 'border-slate-300 dark:border-slate-700'
+        } : getMaterialTheme(st.materialKey, st.material);
+
+        const thumb = isFree
+          ? (isAero
+              ? `<div class="w-12 h-12 rounded-xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center text-orange-500 text-xl font-black shrink-0">🏃‍♀️</div>`
+              : `<div class="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-500 text-xl font-black shrink-0">🏋️‍♀️</div>`)
+          : (st.customPhoto
+              ? `<img src="${st.customPhoto}" class="w-12 h-12 rounded-xl object-cover border ${matTheme.thumbBorder} shrink-0">`
+              : `<div class="w-12 h-12 rounded-xl bg-slate-900 border ${matTheme.thumbBorder} flex items-center justify-center overflow-hidden p-0.5 shrink-0 shadow-inner">${getExerciseSVG(st.id, st.name, st.materialKey)}</div>`);
+
+        const statusBadge = isCurrent
+          ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-slate-950 flex items-center gap-1 shadow-sm"><span class="w-1.5 h-1.5 rounded-full bg-slate-950 animate-ping"></span>▶ EN CURSO</span>`
+          : (isPast
+              ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">✓ Realizada</span>`
+              : `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">Próxima</span>`);
+
+        return `
+          <div class="p-3 rounded-2xl border ${isCurrent ? 'border-emerald-500 bg-emerald-500/5 shadow-md' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950'} space-y-2 transition">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5">
+                <span class="w-5 h-5 rounded-md ${isCurrent ? 'bg-emerald-500 text-slate-950' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'} flex items-center justify-center font-mono font-black text-xs">#${idx + 1}</span>
+                <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${isAero ? 'bg-orange-500/15 text-orange-600 dark:text-orange-400' : 'bg-purple-500/15 text-purple-600 dark:text-purple-400'}">${isAero ? '🏃 CARDIO' : '🏋️ FUERZA'}</span>
+                <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400">${matTheme.emoji} ${isFree ? 'LIBRE' : matTheme.name}</span>
+              </div>
+              ${statusBadge}
+            </div>
+
+            <div class="flex items-center gap-3">
+              ${thumb}
+              <div class="flex-1 min-w-0">
+                <h4 class="text-xs sm:text-sm font-black text-slate-900 dark:text-white leading-tight truncate">${st.name}</h4>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">${st.cue || ''}</p>
+              </div>
+            </div>
+
+            <!-- Botones de Acción: Sustituir, Saltar a estación, y Reordenar -->
+            <div class="flex items-center justify-between pt-1 border-t border-slate-100 dark:border-slate-800/60 gap-2">
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="moveActiveStation(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center font-black text-xs disabled:opacity-30 disabled:pointer-events-none active:scale-90" title="Subir">▲</button>
+                <button type="button" onclick="moveActiveStation(${idx}, 1)" ${idx === activeStations.length - 1 ? 'disabled' : ''} class="w-6 h-6 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center font-black text-xs disabled:opacity-30 disabled:pointer-events-none active:scale-90" title="Bajar">▼</button>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                ${!isCurrent ? `
+                  <button type="button" onclick="jumpToStation(${idx})" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-xs font-bold active:scale-95 transition">
+                    Ir a este
+                  </button>
+                ` : ''}
+                <button type="button" onclick="openSwapModal(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold active:scale-95 transition flex items-center gap-1">
+                  <span>⇄</span>
+                  <span>Cambiar</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function jumpToStation(idx) {
+      if (idx < 0 || idx >= activeStations.length) return;
+      currentStationIdx = idx;
+      phaseTotalTime = circuitConfig.workTime;
+      timeLeft = phaseTotalTime;
+      phaseEndTime = Date.now() + (timeLeft * 1000);
+      lastSecondReported = null;
+      timerPhase = 'WORK';
+      triggerGlassTransition();
+      renderActiveUI();
+      renderActiveWorkoutList();
+      closeActiveWorkoutListModal();
+    }
+
+    function moveActiveStation(idx, dir) {
+      const targetIdx = idx + dir;
+      if (targetIdx < 0 || targetIdx >= activeStations.length) return;
+      const temp = activeStations[idx];
+      activeStations[idx] = activeStations[targetIdx];
+      activeStations[targetIdx] = temp;
+
+      if (currentStationIdx === idx) {
+        currentStationIdx = targetIdx;
+      } else if (currentStationIdx === targetIdx) {
+        currentStationIdx = idx;
+      }
+
+      saveStore();
+      renderActiveUI();
+      renderActiveWorkoutList();
+      renderStationsViewUI();
     }
 
     // =========================================================================
@@ -5315,6 +5768,11 @@
       if (subTitle) {
         subTitle.innerText = `${circuitConfig.rounds} Series • ${activeStations.length} Estaciones • ${formatTimeMMSS(totalSec)}`;
       }
+
+      const bRoundsEl = document.getElementById('bottomSessionRoundsCount');
+      if (bRoundsEl) bRoundsEl.innerText = circuitConfig.rounds;
+      const bDurEl = document.getElementById('bottomTotalDurationBadge');
+      if (bDurEl) bDurEl.innerText = formatTimeMMSS(totalSec);
 
       const counts = (groupData().counts || {});
 
@@ -5742,6 +6200,8 @@
           activeStations[swapTargetIndex].customPhoto = e.target.result;
           renderConfigUI();
           renderActiveUI();
+          renderStationsViewUI();
+          renderActiveWorkoutList();
           alert('¡Foto guardada con éxito en esta estación!');
           closeSwapModal();
         };
@@ -5759,6 +6219,7 @@
           renderConfigUI();
           renderActiveUI();
           renderStationsViewUI();
+          renderActiveWorkoutList();
         }
       }
       closeSwapModal();
@@ -5781,6 +6242,7 @@
         renderConfigUI();
         renderActiveUI();
         renderStationsViewUI();
+        renderActiveWorkoutList();
       }
       closeSwapModal();
     }

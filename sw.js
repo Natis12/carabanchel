@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sergio-fit-v25';
+const CACHE_NAME = 'sergio-fit-v26';
 const ASSETS = [
   './',
   './index.html',
