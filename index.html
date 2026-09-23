@@ -1096,33 +1096,48 @@
               <span id="m1SoundIcon">🔊</span>
             </button>
 
-            <!-- POPOVER FLOTANTE DE VOLUMEN (0-100) Y MUTE -->
-            <div id="timerVolumePopover" class="hidden absolute top-11 left-0 z-50 w-64 bg-slate-950/95 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 shadow-2xl space-y-3 text-white text-left origin-top-left transition-all">
+            <!-- POPOVER FLOTANTE DE VOLUMEN (0-150%) Y BOTÓN MAESTRO -->
+            <div id="timerVolumePopover" class="hidden absolute top-11 left-0 z-50 w-72 bg-slate-950/95 backdrop-blur-xl border border-white/20 rounded-2xl p-3.5 shadow-2xl space-y-3 text-white text-left origin-top-left transition-all">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="text-sm">🔊</span>
                   <span class="text-xs font-black uppercase tracking-wider text-slate-200">Volumen General</span>
                 </div>
-                <span id="timerVolVal" class="font-mono font-black text-xs text-emerald-400">85%</span>
+                <span id="timerVolVal" class="font-mono font-black text-xs text-emerald-400">100%</span>
               </div>
 
-              <!-- Deslizador de 0 a 100 -->
+              <!-- Deslizador de 0 a 150% con Boost -->
               <div class="space-y-1">
-                <input type="range" id="timerVolSlider" min="0" max="100" value="85" oninput="changeVolume(this.value)" class="w-full accent-emerald-500 bg-white/20 rounded-lg h-2 cursor-pointer">
+                <input type="range" id="timerVolSlider" min="0" max="150" step="5" value="100" oninput="changeVolume(this.value)" class="w-full accent-emerald-500 bg-white/20 rounded-lg h-2 cursor-pointer">
                 <div class="flex justify-between text-[10px] text-slate-400 font-mono">
                   <span>0%</span>
                   <span>50%</span>
                   <span>100%</span>
+                  <span class="text-amber-400 font-bold">150% Boost</span>
                 </div>
               </div>
 
-              <!-- Controles Rápidos: Mute + Test Gong -->
-              <div class="flex items-center gap-2 pt-1 border-t border-white/10">
-                <button type="button" onclick="toggleMute()" id="timerMuteBtn" class="flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1.5 text-xs font-bold transition">
+              <!-- BOTÓN MAESTRO: ACTIVAR Y DESBLOQUEAR TODO EL AUDIO -->
+              <div class="pt-1.5 border-t border-white/10 space-y-2">
+                <button type="button" onclick="activateMasterAudio()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 via-emerald-500 to-teal-500 hover:from-amber-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition flex items-center justify-center gap-1.5" title="Reactivar y probar todo el sistema de audio sin reiniciar la app">
+                  <span>⚡</span>
+                  <span>Activar Audio Maestro</span>
+                </button>
+                <div id="masterAudioSuccessBadge" class="hidden text-center py-1 px-2 rounded-xl bg-emerald-500/25 border border-emerald-500/40 text-[10px] font-black text-emerald-300">
+                  ✅ Audio Maestro Activo y Probado
+                </div>
+              </div>
+
+              <!-- Controles Rápidos: Mute + Test Beep + Test Gong -->
+              <div class="flex items-center gap-1.5 pt-1 border-t border-white/10">
+                <button type="button" onclick="toggleMute()" id="timerMuteBtn" class="flex-1 py-1.5 px-2 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1 text-[11px] font-bold transition">
                   <span id="timerMuteIcon">🔊</span>
                   <span id="timerMuteText">Silenciar</span>
                 </button>
-                <button type="button" onclick="playBoxingBell()" class="py-1.5 px-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold active:scale-95 transition" title="Probar sonido">
+                <button type="button" onclick="playBeep(1175)" class="py-1.5 px-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-[11px] font-bold active:scale-95 transition" title="Probar Beep Cuenta Atrás">
+                  ⏱️ Beep
+                </button>
+                <button type="button" onclick="playBoxingBell()" class="py-1.5 px-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold active:scale-95 transition" title="Probar Gong">
                   🔔 Gong
                 </button>
               </div>
@@ -1596,17 +1611,40 @@
             </button>
           </div>
 
-          <!-- Control de Volumen Principal -->
-          <div class="bg-white dark:bg-slate-950/70 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2 shadow-sm">
+          <!-- Control de Volumen Principal y Audio Maestro -->
+          <div class="bg-white dark:bg-slate-950/70 p-3.5 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3 shadow-sm">
             <div class="flex items-center justify-between text-xs sm:text-sm font-bold">
-              <span class="text-slate-700 dark:text-slate-300">Volumen del Gong</span>
-              <span id="volVal" class="font-mono font-black text-emerald-600 dark:text-emerald-400">85%</span>
+              <span class="text-slate-700 dark:text-slate-300">Volumen del Gong y Cuenta Atrás</span>
+              <span id="volVal" class="font-mono font-black text-emerald-600 dark:text-emerald-400">100%</span>
             </div>
-            <input type="range" min="0" max="100" value="85" oninput="changeVolume(this.value)" class="w-full accent-emerald-500 bg-slate-200 dark:bg-slate-800 cursor-pointer">
-            <div class="flex items-center justify-between pt-1">
-              <span class="text-[11px] text-slate-400 dark:text-slate-500">Sintetizado nativo (no corta tu Spotify).</span>
-              <button onclick="testBoxingBell()" class="px-3 py-1.5 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-xs active:scale-95 transition shadow-sm">
-                ▶️ Probar Gong
+            
+            <div class="space-y-1">
+              <input type="range" id="cfgVolSlider" min="0" max="150" step="5" value="100" oninput="changeVolume(this.value)" class="w-full accent-emerald-500 bg-slate-200 dark:bg-slate-800 cursor-pointer h-2 rounded-lg">
+              <div class="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 font-mono">
+                <span>0%</span>
+                <span>50%</span>
+                <span>100%</span>
+                <span class="text-amber-500 font-bold">150% Boost</span>
+              </div>
+            </div>
+
+            <!-- BOTÓN MAESTRO: REACTIVAR TODO SIN REINICIAR APP -->
+            <div class="pt-1.5 border-t border-slate-200 dark:border-slate-800/80 space-y-2">
+              <button type="button" onclick="activateMasterAudio()" class="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-amber-500 via-emerald-500 to-teal-500 hover:from-amber-400 hover:to-teal-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-md active:scale-95 transition flex items-center justify-center gap-2" title="Reactivar y probar todo el sistema de audio sin reiniciar la app">
+                <span>⚡</span>
+                <span>Activar / Desbloquear Audio Maestro</span>
+              </button>
+              <div id="cfgMasterAudioBadge" class="hidden text-center py-1.5 px-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-xs font-bold text-emerald-600 dark:text-emerald-300">
+                ✅ ¡Audio Maestro Activado y Desbloqueado al Máximo!
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1 text-xs">
+              <button onclick="playBeep(1175)" class="px-3 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-xs active:scale-95 transition flex items-center gap-1">
+                ⏱️ Probar Beep
+              </button>
+              <button onclick="testBoxingBell()" class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs active:scale-95 transition shadow-sm flex items-center gap-1">
+                🔔 Probar Gong
               </button>
             </div>
           </div>
@@ -3598,6 +3636,7 @@
     let appStore = {
       group: 'pilates',
       dark: true,
+      volume: 100,
       groups: {
         pilates: { counts: {}, history: [] },
         zumba: { counts: {}, history: [] }
@@ -3621,6 +3660,7 @@
       groupData().config = circuitConfig;
       groupData().materials = activeMaterials;
       appStore.dark = isDarkMode;
+      appStore.volume = Math.round(currentVolume * 100);
       try { localStorage.setItem(STORE_KEY, JSON.stringify(appStore)); } catch (e) {}
     }
 
@@ -4243,8 +4283,9 @@
     // --- B. MOTOR DE AUDIO (BYPASS PESTAÑA SILENCIO IPHONE + CANAL MULTIMEDIA) ---
     let audioCtx = null;
     let masterGain = null;
+    let masterCompressor = null;
     let isMuted = false;
-    let currentVolume = 0.85;
+    let currentVolume = (typeof appStore !== 'undefined' && appStore.volume !== undefined ? appStore.volume : 100) / 100;
 
     let iosSilentAudio = null;
     let htmlBellAudio = null;
@@ -4319,96 +4360,170 @@
     }
 
     function initHtmlAudioElements() {
-      if (htmlBellAudio) return;
+      if (htmlBellAudio && htmlBeepStdAudio && htmlBeepHighAudio) return;
       try {
         const sampleRate = 44100;
         
-        // 1. Campana de Boxeo / Gong Metálico (~1.7s)
-        const bellDur = 1.7;
-        const bellLen = Math.floor(sampleRate * bellDur);
-        const bellSamples = new Float32Array(bellLen);
-        const freqs = [587.33, 880, 1174.66, 1760];
-        const gains = [0.8, 0.45, 0.25, 0.15];
-        for (let i = 0; i < bellLen; i++) {
-          const t = i / sampleRate;
-          let val = 0;
-          for (let f = 0; f < freqs.length; f++) {
-            const attack = Math.min(1, t / 0.008);
-            const decay = Math.exp(-t * (3.5 / (1 - f * 0.12)));
-            const wave = f === 1 ? (2 / Math.PI) * Math.asin(Math.sin(2 * Math.PI * freqs[f] * t)) : Math.sin(2 * Math.PI * freqs[f] * t);
-            val += wave * gains[f] * attack * decay;
+        // 1. Campana de Boxeo / Gong Metálico (~1.7s) con 4 armónicos resonantes
+        if (!htmlBellAudio) {
+          const bellDur = 1.7;
+          const bellLen = Math.floor(sampleRate * bellDur);
+          const bellSamples = new Float32Array(bellLen);
+          const freqs = [587.33, 880, 1174.66, 1760];
+          const gains = [0.85, 0.45, 0.25, 0.15];
+          for (let i = 0; i < bellLen; i++) {
+            const t = i / sampleRate;
+            let val = 0;
+            for (let f = 0; f < freqs.length; f++) {
+              const attack = Math.min(1, t / 0.008);
+              const decay = Math.exp(-t * (3.5 / (1 - f * 0.12)));
+              const wave = f === 1 ? (2 / Math.PI) * Math.asin(Math.sin(2 * Math.PI * freqs[f] * t)) : Math.sin(2 * Math.PI * freqs[f] * t);
+              val += wave * gains[f] * attack * decay;
+            }
+            bellSamples[i] = val * 0.72;
           }
-          bellSamples[i] = val * 0.72;
+          const bellBlob = createWavBlobFromSamples(bellSamples, sampleRate);
+          htmlBellAudio = new Audio(URL.createObjectURL(bellBlob));
+          htmlBellAudio.setAttribute('playsinline', '');
+          htmlBellAudio.setAttribute('webkit-playsinline', '');
+          htmlBellAudio.setAttribute('x-webkit-airplay', 'deny');
+          htmlBellAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
         }
-        const bellBlob = createWavBlobFromSamples(bellSamples, sampleRate);
-        htmlBellAudio = new Audio(URL.createObjectURL(bellBlob));
-        htmlBellAudio.setAttribute('playsinline', '');
-        htmlBellAudio.setAttribute('webkit-playsinline', '');
-        htmlBellAudio.setAttribute('x-webkit-airplay', 'deny');
-        htmlBellAudio.volume = isMuted ? 0 : currentVolume;
 
-        // 2. Beep Estándar (860 Hz)
-        const stdLen = Math.floor(sampleRate * 0.12);
-        const stdSamples = new Float32Array(stdLen);
-        for (let i = 0; i < stdLen; i++) {
-          const t = i / sampleRate;
-          const env = Math.exp(-t * 28);
-          stdSamples[i] = Math.sin(2 * Math.PI * 860 * t) * env * 0.95;
+        // 2. Beep Estándar Dual-Tone Potente (880 Hz + 1760 Hz armónico, 0.18s)
+        if (!htmlBeepStdAudio) {
+          const stdDur = 0.18;
+          const stdLen = Math.floor(sampleRate * stdDur);
+          const stdSamples = new Float32Array(stdLen);
+          for (let i = 0; i < stdLen; i++) {
+            const t = i / sampleRate;
+            const attack = Math.min(1, t / 0.005);
+            const env = attack * Math.exp(-t * 18);
+            const fund = Math.sin(2 * Math.PI * 880 * t) * 0.70;
+            const harm = Math.sin(2 * Math.PI * 1760 * t) * 0.35;
+            stdSamples[i] = (fund + harm) * env;
+          }
+          const stdBlob = createWavBlobFromSamples(stdSamples, sampleRate);
+          htmlBeepStdAudio = new Audio(URL.createObjectURL(stdBlob));
+          htmlBeepStdAudio.setAttribute('playsinline', '');
+          htmlBeepStdAudio.setAttribute('webkit-playsinline', '');
+          htmlBeepStdAudio.setAttribute('x-webkit-airplay', 'deny');
+          htmlBeepStdAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
         }
-        const stdBlob = createWavBlobFromSamples(stdSamples, sampleRate);
-        htmlBeepStdAudio = new Audio(URL.createObjectURL(stdBlob));
-        htmlBeepStdAudio.setAttribute('playsinline', '');
-        htmlBeepStdAudio.setAttribute('webkit-playsinline', '');
-        htmlBeepStdAudio.setAttribute('x-webkit-airplay', 'deny');
-        htmlBeepStdAudio.volume = isMuted ? 0 : currentVolume;
 
-        // 3. Beep Agudo (1020 Hz)
-        const highLen = Math.floor(sampleRate * 0.12);
-        const highSamples = new Float32Array(highLen);
-        for (let i = 0; i < highLen; i++) {
-          const t = i / sampleRate;
-          const env = Math.exp(-t * 28);
-          highSamples[i] = Math.sin(2 * Math.PI * 1020 * t) * env * 0.95;
+        // 3. Beep Agudo / Final Dual-Tone Penetrante (1175 Hz + 2350 Hz armónico, 0.28s)
+        if (!htmlBeepHighAudio) {
+          const highDur = 0.28;
+          const highLen = Math.floor(sampleRate * highDur);
+          const highSamples = new Float32Array(highLen);
+          for (let i = 0; i < highLen; i++) {
+            const t = i / sampleRate;
+            const attack = Math.min(1, t / 0.005);
+            const env = attack * Math.exp(-t * 12);
+            const fund = Math.sin(2 * Math.PI * 1175 * t) * 0.75;
+            const harm = Math.sin(2 * Math.PI * 2350 * t) * 0.40;
+            highSamples[i] = (fund + harm) * env;
+          }
+          const highBlob = createWavBlobFromSamples(highSamples, sampleRate);
+          htmlBeepHighAudio = new Audio(URL.createObjectURL(highBlob));
+          htmlBeepHighAudio.setAttribute('playsinline', '');
+          htmlBeepHighAudio.setAttribute('webkit-playsinline', '');
+          htmlBeepHighAudio.setAttribute('x-webkit-airplay', 'deny');
+          htmlBeepHighAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
         }
-        const highBlob = createWavBlobFromSamples(highSamples, sampleRate);
-        htmlBeepHighAudio = new Audio(URL.createObjectURL(highBlob));
-        htmlBeepHighAudio.setAttribute('playsinline', '');
-        htmlBeepHighAudio.setAttribute('webkit-playsinline', '');
-        htmlBeepHighAudio.setAttribute('x-webkit-airplay', 'deny');
-        htmlBeepHighAudio.volume = isMuted ? 0 : currentVolume;
       } catch (e) {
         console.warn('HTML5 Audio init fallback:', e);
       }
     }
 
-    function getAudioContext() {
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-        masterGain = audioCtx.createGain();
-        masterGain.gain.value = isMuted ? 0 : currentVolume;
-        masterGain.connect(audioCtx.destination);
+    function playHtmlSound(audioTemplate) {
+      if (!audioTemplate || isMuted) return;
+      const safeVol = Math.min(1.0, Math.max(0.0, currentVolume));
+      try {
+        const clone = audioTemplate.cloneNode(true);
+        clone.volume = safeVol;
+        const p = clone.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {
+            try {
+              audioTemplate.currentTime = 0;
+              audioTemplate.volume = safeVol;
+              const p2 = audioTemplate.play();
+              if (p2 && typeof p2.catch === 'function') p2.catch(() => {});
+            } catch (err2) {}
+          });
+        }
+      } catch (e) {
+        try {
+          audioTemplate.currentTime = 0;
+          audioTemplate.volume = safeVol;
+          const p = audioTemplate.play();
+          if (p && typeof p.catch === 'function') p.catch(() => {});
+        } catch (err) {}
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+    }
+
+    function getAudioContext() {
+      if (!audioCtx || audioCtx.state === 'closed') {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return null;
+        audioCtx = new AudioContextClass();
+      }
+
+      if (!masterGain && audioCtx) {
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(isMuted ? 0 : currentVolume, audioCtx.currentTime);
+
+        // Compresor dinámico: permite boost al 150% (+3.5 dB) sin distorsión digital ni chasquidos
+        masterCompressor = audioCtx.createDynamicsCompressor();
+        masterCompressor.threshold.setValueAtTime(-4, audioCtx.currentTime);
+        masterCompressor.knee.setValueAtTime(6, audioCtx.currentTime);
+        masterCompressor.ratio.setValueAtTime(6, audioCtx.currentTime);
+        masterCompressor.attack.setValueAtTime(0.003, audioCtx.currentTime);
+        masterCompressor.release.setValueAtTime(0.12, audioCtx.currentTime);
+
+        masterGain.connect(masterCompressor);
+        masterCompressor.connect(audioCtx.destination);
+      }
+
+      if (audioCtx && (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted')) {
+        audioCtx.resume().catch(() => {});
       }
       setAudioSessionPlayback();
+      return audioCtx;
     }
 
     function changeVolume(val) {
+      val = Math.max(0, Math.min(150, Math.round(Number(val) || 0)));
       currentVolume = val / 100;
-      const volEl = document.getElementById('volVal');
-      if (volEl) volEl.innerText = val + '%';
-      const timerVolEl = document.getElementById('timerVolVal');
-      if (timerVolEl) timerVolEl.innerText = val + '%';
-      const timerSlider = document.getElementById('timerVolSlider');
-      if (timerSlider) timerSlider.value = val;
-      if (masterGain && !isMuted && audioCtx) {
-        masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
+
+      if (typeof appStore !== 'undefined') {
+        appStore.volume = val;
+        saveStore();
       }
-      if (htmlBellAudio) htmlBellAudio.volume = isMuted ? 0 : currentVolume;
-      if (htmlBeepStdAudio) htmlBeepStdAudio.volume = isMuted ? 0 : currentVolume;
-      if (htmlBeepHighAudio) htmlBeepHighAudio.volume = isMuted ? 0 : currentVolume;
+
+      const displayStr = val > 100 ? `${val}% 🚀` : `${val}%`;
+      const volEl = document.getElementById('volVal');
+      if (volEl) volEl.innerText = displayStr;
+      const timerVolEl = document.getElementById('timerVolVal');
+      if (timerVolEl) timerVolEl.innerText = displayStr;
+
+      const cfgSlider = document.getElementById('cfgVolSlider');
+      if (cfgSlider && Number(cfgSlider.value) !== val) cfgSlider.value = val;
+      const timerSlider = document.getElementById('timerVolSlider');
+      if (timerSlider && Number(timerSlider.value) !== val) timerSlider.value = val;
+
+      if (masterGain && audioCtx) {
+        try {
+          masterGain.gain.setValueAtTime(isMuted ? 0 : currentVolume, audioCtx.currentTime);
+        } catch (e) {}
+      }
+
+      // Clampear SIEMPRE a [0.0, 1.0] en HTML5 Audio para evitar DOMException
+      const htmlVol = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
+      if (htmlBellAudio) try { htmlBellAudio.volume = htmlVol; } catch (e) {}
+      if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = htmlVol; } catch (e) {}
+      if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = htmlVol; } catch (e) {}
     }
 
     function toggleMute() {
@@ -4423,10 +4538,12 @@
       const timerMuteBtn = document.getElementById('timerMuteBtn');
 
       if (isMuted) {
-        if (masterGain && audioCtx) masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
-        if (htmlBellAudio) htmlBellAudio.volume = 0;
-        if (htmlBeepStdAudio) htmlBeepStdAudio.volume = 0;
-        if (htmlBeepHighAudio) htmlBeepHighAudio.volume = 0;
+        if (masterGain && audioCtx) {
+          try { masterGain.gain.setValueAtTime(0, audioCtx.currentTime); } catch (e) {}
+        }
+        if (htmlBellAudio) try { htmlBellAudio.volume = 0; } catch (e) {}
+        if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = 0; } catch (e) {}
+        if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = 0; } catch (e) {}
 
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/20 text-red-500 border border-red-500/40 text-xs font-bold shrink-0 min-h-[40px]';
         if (icon) icon.innerText = '🔇';
@@ -4436,10 +4553,13 @@
         if (timerMuteText) timerMuteText.innerText = 'Activar Sonido';
         if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-red-500/25 hover:bg-red-500/35 active:scale-95 border border-red-500/40 text-red-200 flex items-center justify-center gap-1.5 text-xs font-bold transition';
       } else {
-        if (masterGain && audioCtx) masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime);
-        if (htmlBellAudio) htmlBellAudio.volume = currentVolume;
-        if (htmlBeepStdAudio) htmlBeepStdAudio.volume = currentVolume;
-        if (htmlBeepHighAudio) htmlBeepHighAudio.volume = currentVolume;
+        if (masterGain && audioCtx) {
+          try { masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime); } catch (e) {}
+        }
+        const htmlVol = Math.min(1.0, Math.max(0.0, currentVolume));
+        if (htmlBellAudio) try { htmlBellAudio.volume = htmlVol; } catch (e) {}
+        if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = htmlVol; } catch (e) {}
+        if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = htmlVol; } catch (e) {}
 
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold shrink-0 shadow-sm min-h-[40px]';
         if (icon) icon.innerText = '🔊';
@@ -4456,31 +4576,43 @@
       ensureAudioPlaybackSession();
       initHtmlAudioElements();
 
-      // Canal HTML5 Audio (reproduce en modo multimedia, ignorando la pestaña física de silencio de iPhone)
-      try {
-        const audioEl = (freq >= 1000) ? htmlBeepHighAudio : htmlBeepStdAudio;
-        if (audioEl) {
-          audioEl.volume = currentVolume;
-          audioEl.currentTime = 0;
-          const p = audioEl.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        }
-      } catch (e) {}
+      // 1. Canal HTML5 Audio (reproduce en modo multimedia ignorando pestaña de silencio de iPhone)
+      const audioEl = (freq >= 1000) ? htmlBeepHighAudio : htmlBeepStdAudio;
+      playHtmlSound(audioEl);
 
-      // Síntesis Web Audio en paralelo
+      // 2. Canal Web Audio dual-tone en paralelo para máxima nitidez y volumen boost
       try {
         getAudioContext();
-        if (audioCtx) {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.9, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
-          osc.connect(gain);
-          gain.connect(masterGain);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.12);
+        if (audioCtx && masterGain) {
+          const now = audioCtx.currentTime;
+          const dur = freq >= 1000 ? 0.28 : 0.18;
+          const harmonicFreq = freq * 2;
+
+          // Oscilador 1: fundamental triangular (cuerpo y presencia)
+          const osc1 = audioCtx.createOscillator();
+          const gain1 = audioCtx.createGain();
+          osc1.type = 'triangle';
+          osc1.frequency.setValueAtTime(freq, now);
+          gain1.gain.setValueAtTime(0.0001, now);
+          gain1.gain.linearRampToValueAtTime(0.85, now + 0.005);
+          gain1.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+          osc1.connect(gain1);
+          gain1.connect(masterGain);
+          osc1.start(now);
+          osc1.stop(now + dur);
+
+          // Oscilador 2: armónico superior sinusoidal (brillo que destaca en altavoces de móvil)
+          const osc2 = audioCtx.createOscillator();
+          const gain2 = audioCtx.createGain();
+          osc2.type = 'sine';
+          osc2.frequency.setValueAtTime(harmonicFreq, now);
+          gain2.gain.setValueAtTime(0.0001, now);
+          gain2.gain.linearRampToValueAtTime(0.40, now + 0.005);
+          gain2.gain.exponentialRampToValueAtTime(0.0001, now + dur);
+          osc2.connect(gain2);
+          gain2.connect(masterGain);
+          osc2.start(now);
+          osc2.stop(now + dur);
         }
       } catch (e) {}
     }
@@ -4491,23 +4623,16 @@
       ensureAudioPlaybackSession();
       initHtmlAudioElements();
 
-      // Canal HTML5 Audio (reproduce en modo multimedia, ignorando la pestaña física de silencio de iPhone)
-      try {
-        if (htmlBellAudio) {
-          htmlBellAudio.volume = currentVolume;
-          htmlBellAudio.currentTime = 0;
-          const p = htmlBellAudio.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        }
-      } catch (e) {}
+      // 1. Canal HTML5 Audio
+      playHtmlSound(htmlBellAudio);
 
-      // Síntesis Web Audio en paralelo
+      // 2. Síntesis Web Audio en paralelo con 4 armónicos resonantes
       try {
         getAudioContext();
-        if (audioCtx) {
+        if (audioCtx && masterGain) {
           const now = audioCtx.currentTime;
           const freqs = [587.33, 880, 1174.66, 1760];
-          const gains = [0.8, 0.45, 0.25, 0.15];
+          const gains = [0.85, 0.45, 0.25, 0.15];
           const dur = 1.7;
 
           freqs.forEach((freq, idx) => {
@@ -4532,6 +4657,49 @@
     function testBoxingBell() {
       ensureAudioPlaybackSession();
       playBoxingBell();
+    }
+
+    // Botón Maestro: Desbloquea y fuerza todo el sistema de audio sin recargar
+    function activateMasterAudio() {
+      if (isMuted) toggleMute();
+
+      // Forzar categoría playback en iOS
+      setAudioSessionPlayback();
+
+      // Forzar reinicio / reactivación limpia del AudioContext
+      try {
+        if (audioCtx && typeof audioCtx.resume === 'function') {
+          audioCtx.resume();
+        } else {
+          getAudioContext();
+        }
+      } catch (e) {}
+
+      // Re-inicializar elementos HTML5 si fuera necesario
+      initHtmlAudioElements();
+      ensureAudioPlaybackSession();
+
+      // Probar de inmediato con un doble tono maestro audible
+      playBeep(880);
+      setTimeout(() => {
+        playBeep(1175);
+      }, 100);
+
+      // Mostrar badge de confirmación visual
+      showMasterAudioFeedback();
+    }
+
+    function showMasterAudioFeedback() {
+      const popoverBadge = document.getElementById('masterAudioSuccessBadge');
+      const cfgBadge = document.getElementById('cfgMasterAudioBadge');
+      [popoverBadge, cfgBadge].forEach(b => {
+        if (b) {
+          b.classList.remove('hidden');
+          setTimeout(() => {
+            b.classList.add('hidden');
+          }, 3500);
+        }
+      });
     }
 
     // =========================================================================
@@ -5134,7 +5302,7 @@
         updateCircleZoomAnimation();
 
         if (timeLeft <= 3 && timeLeft > 0) {
-          playBeep(timeLeft === 1 ? 1020 : 860);
+          playBeep(timeLeft === 1 ? 1175 : 880);
         }
 
         const totalSecRemaining = computeTotalRemainingSeconds();
@@ -6642,6 +6810,7 @@
     resetTopControlsTimer();
     requestWakeLock();
     setAudioSessionPlayback();
+    changeVolume(appStore.volume !== undefined ? appStore.volume : 100);
   </script>
 </body>
 </html>
