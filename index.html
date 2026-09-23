@@ -1295,8 +1295,8 @@
           <!-- COLUMNA DERECHA: RECUADRO RONDAS + TEXTO DEBAJO -->
           <div class="flex flex-col items-center gap-1 shrink-0">
             
-            <!-- RECUADRO RONDAS: TITANIO CNC DIAMOND-CUT AZUL NEÓN -->
-            <div class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl transition-transform active:scale-95 overflow-hidden">
+            <!-- RECUADRO RONDAS: TITANIO CNC DIAMOND-CUT AZUL NEÓN (PULSAR PARA ABRIR LISTA Y AJUSTAR) -->
+            <div onclick="openActiveWorkoutListModal()" class="w-[98px] sm:w-[106px] h-[78px] sm:h-[84px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl transition-transform active:scale-95 overflow-hidden cursor-pointer" title="Ver Lista y Ajustar Rondas / Tiempos">
               
               <!-- NÚMERO Y TOTAL PERFECTAMENTE CENTRADOS SIMÉTRICAMENTE -->
               <div class="absolute inset-0 flex items-center justify-center gap-1 pb-1">
@@ -1316,9 +1316,10 @@
             </div>
 
             <!-- TEXTO FUERA Y DEBAJO DEL RECUADRO: RONDAS -->
-            <span class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-blue-300 drop-shadow-md whitespace-nowrap">
-              RONDAS
-            </span>
+            <button type="button" onclick="openActiveWorkoutListModal()" class="text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-blue-300 drop-shadow-md whitespace-nowrap flex items-center gap-1 hover:text-blue-200 transition" title="Modificar Rondas y Tiempos">
+              <span>RONDAS</span>
+              <span class="text-[8px] bg-blue-400/25 px-1 py-0.2 rounded text-blue-200 font-mono">AJUSTAR</span>
+            </button>
 
           </div>
 
@@ -1809,6 +1810,39 @@
             </div>
           </div>
 
+          <!-- Selectores Directos de Tiempos: Trabajo, Descanso, Descanso de Ronda -->
+          <div class="grid grid-cols-3 gap-2">
+            <!-- Trabajo -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center justify-between gap-1.5 text-center">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400">🏃 Trabajo</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustSetting('workTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">-</button>
+                <span id="bottomWorkTimeVal" class="font-mono font-black text-xs text-emerald-600 dark:text-emerald-400 w-7 text-center">30s</span>
+                <button type="button" onclick="adjustSetting('workTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">+</button>
+              </div>
+            </div>
+
+            <!-- Descanso Estación -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center justify-between gap-1.5 text-center">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400">⏱️ Descanso</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustSetting('restTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">-</button>
+                <span id="bottomRestTimeVal" class="font-mono font-black text-xs text-amber-600 dark:text-amber-400 w-7 text-center">10s</span>
+                <button type="button" onclick="adjustSetting('restTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">+</button>
+              </div>
+            </div>
+
+            <!-- Descanso Ronda -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col items-center justify-between gap-1.5 text-center">
+              <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400">🔄 Desc. Ronda</span>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustSetting('roundRestTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">-</button>
+                <span id="bottomRoundRestTimeVal" class="font-mono font-black text-xs text-cyan-600 dark:text-cyan-400 w-7 text-center">20s</span>
+                <button type="button" onclick="adjustSetting('roundRestTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs active:scale-95 transition">+</button>
+              </div>
+            </div>
+          </div>
+
           <!-- Botones de Acción: Guardar Circuito e Iniciar Timer -->
           <div class="grid grid-cols-2 gap-2.5 pt-1">
             <button type="button" onclick="openSaveCircuitModal()" class="py-3 px-3 rounded-2xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border-2 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-black text-xs uppercase tracking-wider active:scale-95 transition flex items-center justify-center gap-1.5 shadow-sm">
@@ -1991,16 +2025,83 @@
         <button onclick="closeActiveWorkoutListModal()" class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center font-bold text-sm transition">✕</button>
       </div>
 
+      <!-- PANEL DE TIEMPOS Y RONDAS EN VIVO -->
+      <div class="p-3 bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-2.5 shadow-sm shrink-0">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-black uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+              <span>⏱️</span>
+              <span>Ajustar Tiempos y Rondas</span>
+            </span>
+            <span id="activeWorkoutTotalTimeBadge" class="text-[10px] font-mono font-black text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">14:25</span>
+          </div>
+          <button type="button" onclick="openSaveCircuitModal()" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
+            <span>💾</span>
+            <span>Guardar</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
+          <!-- 1. Rondas / Series -->
+          <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
+            <div class="min-w-0 pr-1">
+              <span class="text-[9px] text-slate-500 dark:text-slate-400 block font-bold leading-tight">Series</span>
+              <span class="font-bold text-[11px] text-slate-800 dark:text-slate-200 truncate">Rondas</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" onclick="adjustSetting('rounds', -1)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">-</button>
+              <span id="activeListRoundsVal" class="font-mono font-black text-xs text-emerald-600 dark:text-emerald-400 w-4 text-center">3</span>
+              <button type="button" onclick="adjustSetting('rounds', 1)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">+</button>
+            </div>
+          </div>
+
+          <!-- 2. Trabajo -->
+          <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
+            <div class="min-w-0 pr-1">
+              <span class="text-[9px] text-slate-500 dark:text-slate-400 block font-bold leading-tight">Trabajo</span>
+              <span class="font-bold text-[11px] text-emerald-600 dark:text-emerald-400 truncate">Activo</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" onclick="adjustSetting('workTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">-</button>
+              <span id="activeListWorkTimeVal" class="font-mono font-black text-xs text-emerald-600 dark:text-emerald-400 w-7 text-center">30s</span>
+              <button type="button" onclick="adjustSetting('workTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">+</button>
+            </div>
+          </div>
+
+          <!-- 3. Descanso entre estaciones -->
+          <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
+            <div class="min-w-0 pr-1">
+              <span class="text-[9px] text-slate-500 dark:text-slate-400 block font-bold leading-tight">Descanso</span>
+              <span class="font-bold text-[11px] text-amber-600 dark:text-amber-400 truncate">Estación</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" onclick="adjustSetting('restTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">-</button>
+              <span id="activeListRestTimeVal" class="font-mono font-black text-xs text-amber-600 dark:text-amber-400 w-7 text-center">10s</span>
+              <button type="button" onclick="adjustSetting('restTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">+</button>
+            </div>
+          </div>
+
+          <!-- 4. Descanso entre rondas -->
+          <div class="p-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
+            <div class="min-w-0 pr-1">
+              <span class="text-[9px] text-slate-500 dark:text-slate-400 block font-bold leading-tight">Descanso</span>
+              <span class="font-bold text-[11px] text-cyan-600 dark:text-cyan-400 truncate">Ronda</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0">
+              <button type="button" onclick="adjustSetting('roundRestTime', -5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">-</button>
+              <span id="activeListRoundRestTimeVal" class="font-mono font-black text-xs text-cyan-600 dark:text-cyan-400 w-7 text-center">20s</span>
+              <button type="button" onclick="adjustSetting('roundRestTime', 5)" class="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white border border-slate-300 dark:border-slate-700 flex items-center justify-center font-black text-xs text-slate-700 dark:text-slate-300 active:scale-95 transition">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="flex items-center justify-between text-xs px-1 text-slate-500 dark:text-slate-400 font-medium">
         <span>Sustituye o salta a cualquier estación en vivo:</span>
-        <button onclick="openSaveCircuitModal()" class="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1">
-          <span>💾</span>
-          <span>Guardar circuito</span>
-        </button>
       </div>
 
       <!-- Contenedor scroll de estaciones activas con estado EN CURSO / COMPLETADA / PRÓXIMA -->
-      <div id="activeWorkoutStationsList" class="flex-1 overflow-y-auto space-y-2.5 pr-1 max-h-[58vh]">
+      <div id="activeWorkoutStationsList" class="flex-1 overflow-y-auto space-y-2.5 pr-1 max-h-[50vh]">
         <!-- Inyectado dinámicamente -->
       </div>
 
@@ -3739,15 +3840,7 @@
     }
 
     function changeSessionRounds(delta) {
-      const next = Math.max(1, Math.min(20, circuitConfig.rounds + delta));
-      if (next === circuitConfig.rounds) return;
-      circuitConfig.rounds = next;
-      saveStore();
-      renderSessionControls();
-      renderStationsViewUI();
-      renderConfigUI();
-      renderActiveUI();
-      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
+      adjustSetting('rounds', delta);
     }
 
     function changeSessionTotalCycles(delta) {
@@ -3999,40 +4092,79 @@
     // =========================================================================
     function adjustSetting(field, delta) {
       if (field === 'rounds') {
-        circuitConfig.rounds = Math.max(1, Math.min(20, circuitConfig.rounds + delta));
+        const minR = Math.max(1, currentRound || 1);
+        const next = Math.max(minR, Math.min(20, circuitConfig.rounds + delta));
+        if (next === circuitConfig.rounds) return;
+        circuitConfig.rounds = next;
       }
       if (field === 'workTime') {
-        circuitConfig.workTime = Math.max(5, circuitConfig.workTime + delta);
-        if (!isRunning && (timerPhase === 'WORK' || timerPhase === 'READY')) {
-          phaseTotalTime = circuitConfig.workTime;
-          timeLeft = circuitConfig.workTime;
+        const next = Math.max(5, circuitConfig.workTime + delta);
+        if (next === circuitConfig.workTime) return;
+        circuitConfig.workTime = next;
+        if (timerPhase === 'WORK' || timerPhase === 'READY') {
+          if (isRunning) {
+            phaseTotalTime = Math.max(5, phaseTotalTime + delta);
+            phaseEndTime += (delta * 1000);
+            timeLeft = Math.max(0, Math.ceil((phaseEndTime - Date.now()) / 1000));
+          } else {
+            phaseTotalTime = circuitConfig.workTime;
+            timeLeft = circuitConfig.workTime;
+          }
         }
       }
       if (field === 'restTime') {
-        circuitConfig.restTime = Math.max(5, circuitConfig.restTime + delta);
-        if (!isRunning && timerPhase === 'REST_SERIES') {
-          phaseTotalTime = circuitConfig.restTime;
-          timeLeft = circuitConfig.restTime;
+        const next = Math.max(5, circuitConfig.restTime + delta);
+        if (next === circuitConfig.restTime) return;
+        circuitConfig.restTime = next;
+        if (timerPhase === 'REST_SERIES') {
+          if (isRunning) {
+            phaseTotalTime = Math.max(5, phaseTotalTime + delta);
+            phaseEndTime += (delta * 1000);
+            timeLeft = Math.max(0, Math.ceil((phaseEndTime - Date.now()) / 1000));
+          } else {
+            phaseTotalTime = circuitConfig.restTime;
+            timeLeft = circuitConfig.restTime;
+          }
         }
       }
       if (field === 'roundRestTime') {
-        circuitConfig.roundRestTime = Math.max(5, circuitConfig.roundRestTime + delta);
-        if (!isRunning && timerPhase === 'REST_ROUND') {
-          phaseTotalTime = circuitConfig.roundRestTime;
-          timeLeft = circuitConfig.roundRestTime;
+        const next = Math.max(5, circuitConfig.roundRestTime + delta);
+        if (next === circuitConfig.roundRestTime) return;
+        circuitConfig.roundRestTime = next;
+        if (timerPhase === 'REST_ROUND') {
+          if (isRunning) {
+            phaseTotalTime = Math.max(5, phaseTotalTime + delta);
+            phaseEndTime += (delta * 1000);
+            timeLeft = Math.max(0, Math.ceil((phaseEndTime - Date.now()) / 1000));
+          } else {
+            phaseTotalTime = circuitConfig.roundRestTime;
+            timeLeft = circuitConfig.roundRestTime;
+          }
         }
       }
       if (field === 'prepTime') {
-        circuitConfig.prepTime = Math.max(3, circuitConfig.prepTime + delta);
-        if (!isRunning && timerPhase === 'PREP') {
-          phaseTotalTime = circuitConfig.prepTime;
-          timeLeft = circuitConfig.prepTime;
+        const next = Math.max(3, circuitConfig.prepTime + delta);
+        if (next === circuitConfig.prepTime) return;
+        circuitConfig.prepTime = next;
+        if (timerPhase === 'PREP') {
+          if (isRunning) {
+            phaseTotalTime = Math.max(3, phaseTotalTime + delta);
+            phaseEndTime += (delta * 1000);
+            timeLeft = Math.max(0, Math.ceil((phaseEndTime - Date.now()) / 1000));
+          } else {
+            phaseTotalTime = circuitConfig.prepTime;
+            timeLeft = circuitConfig.prepTime;
+          }
         }
       }
 
       saveStore();
       renderConfigUI();
       renderActiveUI();
+      renderStationsViewUI();
+      renderActiveWorkoutList();
+      renderSessionControls();
+      if (navigator.vibrate) try { navigator.vibrate(15); } catch(e) {}
     }
 
     
@@ -5627,6 +5759,21 @@
         subtitle.innerText = `Ronda ${currentRound} de ${circuitConfig.rounds} • Estación actual #${currentStationIdx + 1} de ${activeStations.length}`;
       }
 
+      const roundsVal = document.getElementById('activeListRoundsVal');
+      if (roundsVal) roundsVal.innerText = circuitConfig.rounds;
+      const workVal = document.getElementById('activeListWorkTimeVal');
+      if (workVal) workVal.innerText = circuitConfig.workTime + 's';
+      const restVal = document.getElementById('activeListRestTimeVal');
+      if (restVal) restVal.innerText = circuitConfig.restTime + 's';
+      const roundRestVal = document.getElementById('activeListRoundRestTimeVal');
+      if (roundRestVal) roundRestVal.innerText = circuitConfig.roundRestTime + 's';
+
+      const totalBadge = document.getElementById('activeWorkoutTotalTimeBadge');
+      if (totalBadge) {
+        const totalSec = computeTotalRemainingSeconds();
+        totalBadge.innerText = formatTimeMMSS(totalSec);
+      }
+
       container.innerHTML = activeStations.map((st, idx) => {
         const isCurrent = (idx === currentStationIdx);
         const isPast = (idx < currentStationIdx);
@@ -5773,6 +5920,12 @@
       if (bRoundsEl) bRoundsEl.innerText = circuitConfig.rounds;
       const bDurEl = document.getElementById('bottomTotalDurationBadge');
       if (bDurEl) bDurEl.innerText = formatTimeMMSS(totalSec);
+      const bWorkEl = document.getElementById('bottomWorkTimeVal');
+      if (bWorkEl) bWorkEl.innerText = circuitConfig.workTime + 's';
+      const bRestEl = document.getElementById('bottomRestTimeVal');
+      if (bRestEl) bRestEl.innerText = circuitConfig.restTime + 's';
+      const bRoundRestEl = document.getElementById('bottomRoundRestTimeVal');
+      if (bRoundRestEl) bRoundRestEl.innerText = circuitConfig.roundRestTime + 's';
 
       const counts = (groupData().counts || {});
 
