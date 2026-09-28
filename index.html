@@ -1124,7 +1124,11 @@
                   <span>Activar Audio Maestro</span>
                 </button>
                 <div id="masterAudioSuccessBadge" class="hidden text-center py-1 px-2 rounded-xl bg-emerald-500/25 border border-emerald-500/40 text-[10px] font-black text-emerald-300">
-                  ✅ Audio Maestro Activo y Probado
+                  ✅ Audio Maestro Activo (Mezclando con Spotify 🎵)
+                </div>
+                <div class="text-[10px] text-slate-400 text-center flex items-center justify-center gap-1 font-medium">
+                  <span>🎵</span>
+                  <span>Compatible con Spotify (no pausa tu música)</span>
                 </div>
               </div>
 
@@ -1635,7 +1639,11 @@
                 <span>Activar / Desbloquear Audio Maestro</span>
               </button>
               <div id="cfgMasterAudioBadge" class="hidden text-center py-1.5 px-2 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-xs font-bold text-emerald-600 dark:text-emerald-300">
-                ✅ ¡Audio Maestro Activado y Desbloqueado al Máximo!
+                ✅ ¡Audio Maestro Activado (Mezcla con Spotify 🎵)!
+              </div>
+              <div class="text-[11px] text-slate-500 dark:text-slate-400 text-center flex items-center justify-center gap-1 font-medium">
+                <span>🎵</span>
+                <span>100% Compatible con Spotify y música de fondo (no se pausa)</span>
               </div>
             </div>
 
@@ -4259,207 +4267,46 @@
       } catch (e) {}
     }
 
-    // Reactivar pantalla activa y audio al volver al primer plano
+    // Reactivar pantalla activa y reanudar AudioContext si estuviera suspendido
+    function unlockAudioContextOnGesture() {
+      requestWakeLock();
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+    }
+
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
-        requestWakeLock();
-        ensureAudioPlaybackSession();
+        unlockAudioContextOnGesture();
       }
     });
     window.addEventListener('focus', () => {
-      requestWakeLock();
-      ensureAudioPlaybackSession();
+      unlockAudioContextOnGesture();
     });
 
     // En cualquier interacción inicial (primer toque o click), activar pantalla activa y desbloquear audio
     ['touchstart', 'touchend', 'pointerdown', 'click'].forEach(evtName => {
       window.addEventListener(evtName, () => {
-        requestWakeLock();
-        ensureAudioPlaybackSession();
+        unlockAudioContextOnGesture();
       }, { passive: true, once: false });
     });
 
 
-    // --- B. MOTOR DE AUDIO (BYPASS PESTAÑA SILENCIO IPHONE + CANAL MULTIMEDIA) ---
+    // --- B. MOTOR DE AUDIO (100% COMPATIBLE CON SPOTIFY Y MÚSICA EN SEGUNDO PLANO) ---
     let audioCtx = null;
     let masterGain = null;
     let masterCompressor = null;
     let isMuted = false;
     let currentVolume = (typeof appStore !== 'undefined' && appStore.volume !== undefined ? appStore.volume : 100) / 100;
 
-    let iosSilentAudio = null;
-    let htmlBellAudio = null;
-    let htmlBeepStdAudio = null;
-    let htmlBeepHighAudio = null;
-
-    // Forzar categoría 'playback' en WebKit (iOS 15+) para que no lo afecte la pestaña física de silencio
-    function setAudioSessionPlayback() {
+    // Configurar sesión de audio en categoría 'ambient' (WebKit / iOS 16.4+)
+    // Esto asegura a nivel de sistema operativo que el audio del timer se mezcla
+    // en directo con Spotify, Apple Music y podcasts SIN PAUSARLOS JAMÁS.
+    function setAudioSessionAmbient() {
       if ('audioSession' in navigator) {
         try {
-          navigator.audioSession.type = 'playback';
+          navigator.audioSession.type = 'ambient';
         } catch (e) {}
-      }
-    }
-
-    function ensureAudioPlaybackSession() {
-      setAudioSessionPlayback();
-      getAudioContext();
-      try {
-        if (!iosSilentAudio) {
-          iosSilentAudio = new Audio();
-          iosSilentAudio.setAttribute('playsinline', '');
-          iosSilentAudio.setAttribute('webkit-playsinline', '');
-          iosSilentAudio.setAttribute('x-webkit-airplay', 'deny');
-          iosSilentAudio.loop = true;
-          iosSilentAudio.volume = 0.01;
-          // Pista silenciosa de 48 bytes WAV para promover el audio a categoría playback
-          iosSilentAudio.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-        }
-        if (iosSilentAudio.paused) {
-          const p = iosSilentAudio.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        }
-      } catch (e) {}
-    }
-
-    function createWavBlobFromSamples(samples, sampleRate) {
-      sampleRate = sampleRate || 44100;
-      const numChannels = 1;
-      const bitDepth = 16;
-      const dataLength = samples.length * (bitDepth / 8);
-      const buffer = new ArrayBuffer(44 + dataLength);
-      const view = new DataView(buffer);
-
-      function writeStr(offset, str) {
-        for (let i = 0; i < str.length; i++) {
-          view.setUint8(offset + i, str.charCodeAt(i));
-        }
-      }
-
-      writeStr(0, 'RIFF');
-      view.setUint32(4, 36 + dataLength, true);
-      writeStr(8, 'WAVE');
-      writeStr(12, 'fmt ');
-      view.setUint32(16, 16, true);
-      view.setUint16(20, 1, true); // PCM
-      view.setUint16(22, numChannels, true);
-      view.setUint32(24, sampleRate, true);
-      view.setUint32(28, sampleRate * numChannels * (bitDepth / 8), true);
-      view.setUint16(32, numChannels * (bitDepth / 8), true);
-      view.setUint16(34, bitDepth, true);
-      writeStr(36, 'data');
-      view.setUint32(40, dataLength, true);
-
-      let offset = 44;
-      for (let i = 0; i < samples.length; i++, offset += 2) {
-        const s = Math.max(-1, Math.min(1, samples[i]));
-        view.setInt16(offset, s < 0 ? Math.round(s * 0x8000) : Math.round(s * 0x7FFF), true);
-      }
-
-      return new Blob([view], { type: 'audio/wav' });
-    }
-
-    function initHtmlAudioElements() {
-      if (htmlBellAudio && htmlBeepStdAudio && htmlBeepHighAudio) return;
-      try {
-        const sampleRate = 44100;
-        
-        // 1. Campana de Boxeo / Gong Metálico (~1.7s) con 4 armónicos resonantes
-        if (!htmlBellAudio) {
-          const bellDur = 1.7;
-          const bellLen = Math.floor(sampleRate * bellDur);
-          const bellSamples = new Float32Array(bellLen);
-          const freqs = [587.33, 880, 1174.66, 1760];
-          const gains = [0.85, 0.45, 0.25, 0.15];
-          for (let i = 0; i < bellLen; i++) {
-            const t = i / sampleRate;
-            let val = 0;
-            for (let f = 0; f < freqs.length; f++) {
-              const attack = Math.min(1, t / 0.008);
-              const decay = Math.exp(-t * (3.5 / (1 - f * 0.12)));
-              const wave = f === 1 ? (2 / Math.PI) * Math.asin(Math.sin(2 * Math.PI * freqs[f] * t)) : Math.sin(2 * Math.PI * freqs[f] * t);
-              val += wave * gains[f] * attack * decay;
-            }
-            bellSamples[i] = val * 0.72;
-          }
-          const bellBlob = createWavBlobFromSamples(bellSamples, sampleRate);
-          htmlBellAudio = new Audio(URL.createObjectURL(bellBlob));
-          htmlBellAudio.setAttribute('playsinline', '');
-          htmlBellAudio.setAttribute('webkit-playsinline', '');
-          htmlBellAudio.setAttribute('x-webkit-airplay', 'deny');
-          htmlBellAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
-        }
-
-        // 2. Beep Estándar Dual-Tone Potente (880 Hz + 1760 Hz armónico, 0.18s)
-        if (!htmlBeepStdAudio) {
-          const stdDur = 0.18;
-          const stdLen = Math.floor(sampleRate * stdDur);
-          const stdSamples = new Float32Array(stdLen);
-          for (let i = 0; i < stdLen; i++) {
-            const t = i / sampleRate;
-            const attack = Math.min(1, t / 0.005);
-            const env = attack * Math.exp(-t * 18);
-            const fund = Math.sin(2 * Math.PI * 880 * t) * 0.70;
-            const harm = Math.sin(2 * Math.PI * 1760 * t) * 0.35;
-            stdSamples[i] = (fund + harm) * env;
-          }
-          const stdBlob = createWavBlobFromSamples(stdSamples, sampleRate);
-          htmlBeepStdAudio = new Audio(URL.createObjectURL(stdBlob));
-          htmlBeepStdAudio.setAttribute('playsinline', '');
-          htmlBeepStdAudio.setAttribute('webkit-playsinline', '');
-          htmlBeepStdAudio.setAttribute('x-webkit-airplay', 'deny');
-          htmlBeepStdAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
-        }
-
-        // 3. Beep Agudo / Final Dual-Tone Penetrante (1175 Hz + 2350 Hz armónico, 0.28s)
-        if (!htmlBeepHighAudio) {
-          const highDur = 0.28;
-          const highLen = Math.floor(sampleRate * highDur);
-          const highSamples = new Float32Array(highLen);
-          for (let i = 0; i < highLen; i++) {
-            const t = i / sampleRate;
-            const attack = Math.min(1, t / 0.005);
-            const env = attack * Math.exp(-t * 12);
-            const fund = Math.sin(2 * Math.PI * 1175 * t) * 0.75;
-            const harm = Math.sin(2 * Math.PI * 2350 * t) * 0.40;
-            highSamples[i] = (fund + harm) * env;
-          }
-          const highBlob = createWavBlobFromSamples(highSamples, sampleRate);
-          htmlBeepHighAudio = new Audio(URL.createObjectURL(highBlob));
-          htmlBeepHighAudio.setAttribute('playsinline', '');
-          htmlBeepHighAudio.setAttribute('webkit-playsinline', '');
-          htmlBeepHighAudio.setAttribute('x-webkit-airplay', 'deny');
-          htmlBeepHighAudio.volume = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
-        }
-      } catch (e) {
-        console.warn('HTML5 Audio init fallback:', e);
-      }
-    }
-
-    function playHtmlSound(audioTemplate) {
-      if (!audioTemplate || isMuted) return;
-      const safeVol = Math.min(1.0, Math.max(0.0, currentVolume));
-      try {
-        const clone = audioTemplate.cloneNode(true);
-        clone.volume = safeVol;
-        const p = clone.play();
-        if (p && typeof p.catch === 'function') {
-          p.catch(() => {
-            try {
-              audioTemplate.currentTime = 0;
-              audioTemplate.volume = safeVol;
-              const p2 = audioTemplate.play();
-              if (p2 && typeof p2.catch === 'function') p2.catch(() => {});
-            } catch (err2) {}
-          });
-        }
-      } catch (e) {
-        try {
-          audioTemplate.currentTime = 0;
-          audioTemplate.volume = safeVol;
-          const p = audioTemplate.play();
-          if (p && typeof p.catch === 'function') p.catch(() => {});
-        } catch (err) {}
       }
     }
 
@@ -4489,7 +4336,7 @@
       if (audioCtx && (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted')) {
         audioCtx.resume().catch(() => {});
       }
-      setAudioSessionPlayback();
+      setAudioSessionAmbient();
       return audioCtx;
     }
 
@@ -4518,12 +4365,6 @@
           masterGain.gain.setValueAtTime(isMuted ? 0 : currentVolume, audioCtx.currentTime);
         } catch (e) {}
       }
-
-      // Clampear SIEMPRE a [0.0, 1.0] en HTML5 Audio para evitar DOMException
-      const htmlVol = isMuted ? 0 : Math.min(1.0, Math.max(0.0, currentVolume));
-      if (htmlBellAudio) try { htmlBellAudio.volume = htmlVol; } catch (e) {}
-      if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = htmlVol; } catch (e) {}
-      if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = htmlVol; } catch (e) {}
     }
 
     function toggleMute() {
@@ -4541,9 +4382,6 @@
         if (masterGain && audioCtx) {
           try { masterGain.gain.setValueAtTime(0, audioCtx.currentTime); } catch (e) {}
         }
-        if (htmlBellAudio) try { htmlBellAudio.volume = 0; } catch (e) {}
-        if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = 0; } catch (e) {}
-        if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = 0; } catch (e) {}
 
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-500/20 text-red-500 border border-red-500/40 text-xs font-bold shrink-0 min-h-[40px]';
         if (icon) icon.innerText = '🔇';
@@ -4551,15 +4389,11 @@
         if (m1Sound) m1Sound.innerText = '🔇';
         if (timerMuteIcon) timerMuteIcon.innerText = '🔇';
         if (timerMuteText) timerMuteText.innerText = 'Activar Sonido';
-        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-red-500/25 hover:bg-red-500/35 active:scale-95 border border-red-500/40 text-red-200 flex items-center justify-center gap-1.5 text-xs font-bold transition';
+        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-red-500/25 hover:bg-red-500/35 active:scale-95 border border-red-500/40 text-red-200 flex items-center justify-center gap-1 text-[11px] font-bold transition';
       } else {
         if (masterGain && audioCtx) {
           try { masterGain.gain.setValueAtTime(currentVolume, audioCtx.currentTime); } catch (e) {}
         }
-        const htmlVol = Math.min(1.0, Math.max(0.0, currentVolume));
-        if (htmlBellAudio) try { htmlBellAudio.volume = htmlVol; } catch (e) {}
-        if (htmlBeepStdAudio) try { htmlBeepStdAudio.volume = htmlVol; } catch (e) {}
-        if (htmlBeepHighAudio) try { htmlBeepHighAudio.volume = htmlVol; } catch (e) {}
 
         if (btn) btn.className = 'flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold shrink-0 shadow-sm min-h-[40px]';
         if (icon) icon.innerText = '🔊';
@@ -4567,20 +4401,16 @@
         if (m1Sound) m1Sound.innerText = '🔊';
         if (timerMuteIcon) timerMuteIcon.innerText = '🔊';
         if (timerMuteText) timerMuteText.innerText = 'Silenciar';
-        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1.5 text-xs font-bold transition';
+        if (timerMuteBtn) timerMuteBtn.className = 'flex-1 py-1.5 px-2.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center gap-1 text-[11px] font-bold transition';
       }
     }
 
+    // Beep Dual-Tone generado 100% por Web Audio API
+    // Se mezcla limpiamente sobre la música de fondo de Spotify
     function playBeep(freq = 880) {
       if (isMuted) return;
-      ensureAudioPlaybackSession();
-      initHtmlAudioElements();
+      setAudioSessionAmbient();
 
-      // 1. Canal HTML5 Audio (reproduce en modo multimedia ignorando pestaña de silencio de iPhone)
-      const audioEl = (freq >= 1000) ? htmlBeepHighAudio : htmlBeepStdAudio;
-      playHtmlSound(audioEl);
-
-      // 2. Canal Web Audio dual-tone en paralelo para máxima nitidez y volumen boost
       try {
         getAudioContext();
         if (audioCtx && masterGain) {
@@ -4588,7 +4418,7 @@
           const dur = freq >= 1000 ? 0.28 : 0.18;
           const harmonicFreq = freq * 2;
 
-          // Oscilador 1: fundamental triangular (cuerpo y presencia)
+          // Oscilador 1: fundamental triangular (cuerpo y pegada audible sobre Spotify)
           const osc1 = audioCtx.createOscillator();
           const gain1 = audioCtx.createGain();
           osc1.type = 'triangle';
@@ -4601,7 +4431,7 @@
           osc1.start(now);
           osc1.stop(now + dur);
 
-          // Oscilador 2: armónico superior sinusoidal (brillo que destaca en altavoces de móvil)
+          // Oscilador 2: armónico superior sinusoidal (brillo que resalta sobre la música)
           const osc2 = audioCtx.createOscillator();
           const gain2 = audioCtx.createGain();
           osc2.type = 'sine';
@@ -4617,16 +4447,12 @@
       } catch (e) {}
     }
 
-    // Campana de Boxeo / Gong Metálico (Sonido único oficial)
+    // Campana de Boxeo / Gong Metálico (Sonido único oficial en Web Audio)
+    // 4 armónicos resonantes que destacan con fuerza sobre cualquier lista de Spotify
     function playBoxingBell() {
       if (isMuted) return;
-      ensureAudioPlaybackSession();
-      initHtmlAudioElements();
+      setAudioSessionAmbient();
 
-      // 1. Canal HTML5 Audio
-      playHtmlSound(htmlBellAudio);
-
-      // 2. Síntesis Web Audio en paralelo con 4 armónicos resonantes
       try {
         getAudioContext();
         if (audioCtx && masterGain) {
@@ -4655,16 +4481,15 @@
     }
 
     function testBoxingBell() {
-      ensureAudioPlaybackSession();
       playBoxingBell();
     }
 
-    // Botón Maestro: Desbloquea y fuerza todo el sistema de audio sin recargar
+    // Botón Maestro: Desbloquea y fuerza todo el sistema de audio sin pausar Spotify
     function activateMasterAudio() {
       if (isMuted) toggleMute();
 
-      // Forzar categoría playback en iOS
-      setAudioSessionPlayback();
+      // Forzar categoría ambient para convivir perfectamente con Spotify
+      setAudioSessionAmbient();
 
       // Forzar reinicio / reactivación limpia del AudioContext
       try {
@@ -4675,11 +4500,7 @@
         }
       } catch (e) {}
 
-      // Re-inicializar elementos HTML5 si fuera necesario
-      initHtmlAudioElements();
-      ensureAudioPlaybackSession();
-
-      // Probar de inmediato con un doble tono maestro audible
+      // Probar de inmediato con un doble tono maestro audible sobre la música
       playBeep(880);
       setTimeout(() => {
         playBeep(1175);
@@ -6809,7 +6630,7 @@
     applyTheme();
     resetTopControlsTimer();
     requestWakeLock();
-    setAudioSessionPlayback();
+    setAudioSessionAmbient();
     changeVolume(appStore.volume !== undefined ? appStore.volume : 100);
   </script>
 </body>
