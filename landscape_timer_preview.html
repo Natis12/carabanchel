@@ -199,6 +199,7 @@
       font-variant-numeric: tabular-nums;
       display: inline-block;
       user-select: none;
+      transform: translateY(20px);
     }
 
     /* Animación de 2 pasos SVG para ejercicios */
@@ -228,9 +229,9 @@
       <div>
         <h1 class="font-bold text-white text-xs sm:text-sm leading-tight flex items-center gap-1.5">
           <span>Modelo 1 Refinado</span>
-          <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/40 font-black">NÚMEROS MÁS GRANDES + AUTO-HIDE</span>
+          <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/40 font-black">NÚMEROS GIGANTES + TOTAL Y TÍTULO FIJOS</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Play a la derecha (compacto) • Dibujo a la izquierda • Borde perimetral • Auto-ocultar tras inactividad</p>
+        <p class="text-[10px] text-slate-400">Play a la derecha (único que se auto-oculta) • Título, Total, Ejercicios y Rondas SIEMPRE VISIBLES • Borde láser perimetral</p>
       </div>
     </div>
 
@@ -289,7 +290,7 @@
       <!-- ==========================================================
            CONTENEDOR DE LA PANTALLA COMPLETA CON EL FONDO ORIGINAL
            ========================================================== -->
-      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden flex flex-col justify-between pt-2 pb-2 pl-9 pr-6 transition-all duration-500">
+      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden flex flex-col justify-between pt-4 pb-4 pl-12 pr-8 sm:pt-5 sm:pb-5 sm:pl-14 sm:pr-9 transition-all duration-500">
         
         <!-- ========================================================
              BORDE DEL TEMPORIZADOR EXACTO POR LOS BORDES DEL TELÉFONO
@@ -315,8 +316,8 @@
         <div class="absolute -inset-10 pointer-events-none opacity-45 transition-all duration-500" 
              style="background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%);"></div>
 
-        <!-- 1. BARRA SUPERIOR (SIEMPRE VISIBLE - NUNCA SE OCULTA) -->
-        <div id="topBarControls" class="flex items-center justify-between z-20 w-full pt-0.5 px-1 shrink-0">
+        <!-- 1. BARRA SUPERIOR (SIEMPRE VISIBLE - CON MARGEN CUIDADO AL BORDE) -->
+        <div id="topBarControls" class="flex items-center justify-between z-20 w-full pt-1 px-1 shrink-0">
           
           <!-- Izquierda: Material Badge y Tipo -->
           <div class="flex items-center gap-1.5 shrink-0">
@@ -330,7 +331,7 @@
 
           <!-- Centro: FASE ACTUAL + TÍTULO DEL EJERCICIO (SIEMPRE VISIBLE) -->
           <div class="flex items-center justify-center gap-2 px-2 overflow-hidden">
-            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full shadow-md font-mono shrink-0" style="background-color: var(--phase-ring); color: #022c22;">
+            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3.5 py-0.5 rounded-full shadow-md font-mono shrink-0" style="background-color: var(--phase-ring); color: #022c22;">
               TRABAJO
             </span>
             <h3 id="topExerciseTitle" class="font-exercise text-sm sm:text-base text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[340px] sm:max-w-[420px]">
@@ -338,10 +339,10 @@
             </h3>
           </div>
 
-          <!-- Derecha: Tiempo Total + Salto de Ejercicios -->
+          <!-- Derecha: Tiempo Total (SIEMPRE VISIBLE) + Salto de Ejercicios -->
           <div class="flex items-center gap-1.5 shrink-0">
-            <div class="flex items-center px-2.5 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md shadow-lg">
-              <span class="text-[9px] text-slate-400 mr-1 font-bold">TOTAL:</span>
+            <div id="totalTimeCapsule" class="flex items-center px-3 py-1 rounded-full bg-black/60 border border-white/20 backdrop-blur-md shadow-lg" title="Tiempo Total de Entrenamiento (Siempre Visible)">
+              <span class="text-[9px] text-slate-400 mr-1.5 font-bold tracking-wider">TOTAL:</span>
               <span class="text-xs font-mono font-black text-emerald-400" id="totalClockText">14:25</span>
             </div>
             <button onclick="skipExercise(-1)" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-white transition active:scale-90" title="Anterior">⏮</button>
@@ -351,7 +352,7 @@
 
         <!-- 2. ZONA CENTRAL:
              - IZQUIERDA: DIBUJO DEL EJERCICIO ANIMADO (SIEMPRE VISIBLE)
-             - CENTRO: NÚMEROS AÚN MÁS GRANDES QUE APENAS DEJAN ESPACIOS (SIN 'SEGUNDOS')
+             - CENTRO: NÚMEROS AÚN MÁS GRANDES DESPLAZADOS MÁS ABAJO
              - DERECHA: BOTÓN PLAY/PAUSE COMPACTO (ÚNICO ELEMENTO QUE SE AUTO-OCULTA A LOS 3.5s) -->
         <div class="flex-1 flex items-center justify-between relative my-auto z-20 w-full px-1 overflow-visible">
           
@@ -362,7 +363,7 @@
             </div>
           </div>
 
-          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES QUE OCUPAN CASI TODO EL ESPACIO -->
+          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES QUE OCUPAN CASI TODO EL ESPACIO (DESPLAZADOS UN POCO MÁS ABAJO) -->
           <div class="flex-1 flex items-center justify-center text-center px-1 my-auto overflow-visible">
             <span id="giantDigits" class="text-[320px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_24px_70px_rgba(0,0,0,0.95)] transition-all duration-200 select-none">
               30
@@ -390,49 +391,40 @@
         </div>
 
         <!-- 3. ESQUINAS INFERIORES:
-             - ABAJO IZQUIERDA: EJERCICIO CON SU NÚMERO Y BARRA SEGMENTADA (TITANIO ORO)
-             - ABAJO DERECHA: RONDAS CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL)
-             - SIEMPRE VISIBLES (NUNCA SE OCULTAN) -->
+             - ABAJO IZQUIERDA: EJERCICIO LATERAL CON SU NÚMERO Y BARRA SEGMENTADA (TITANIO ORO)
+             - ABAJO DERECHA: RONDAS LATERAL CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL)
+             - DESPEJAN COMPLETAMENTE EL CENTRO PARA QUE EL NÚMERO TENGA TOTAL ESPACIO -->
         <div id="bottomDockControls" class="w-full flex items-end justify-between z-20 pb-0.5 px-1 shrink-0">
           
-          <!-- ESQUINA INFERIOR IZQUIERDA: RECUADRO EJERCICIO -->
-          <div class="flex items-center gap-2">
+          <!-- ESQUINA INFERIOR IZQUIERDA: EJERCICIO (LATERAL) -->
+          <div class="flex flex-col items-start gap-1 shrink-0">
+            <span class="text-[9px] sm:text-[10px] font-black uppercase text-amber-300 tracking-wider pl-1 drop-shadow">EJERCICIO 1 DE 6</span>
             <!-- RECUADRO TITANIO ORO -->
-            <div class="w-[88px] sm:w-[96px] h-[66px] sm:h-[72px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
-              <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[34px] sm:text-[38px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
-                <span class="text-xs sm:text-sm font-black font-mono text-yellow-300 self-end mb-2">/6</span>
+            <div class="w-[84px] sm:w-[92px] h-[62px] sm:h-[68px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
+              <div class="flex items-center justify-center gap-0.5 pb-1">
+                <span class="font-exercise text-[32px] sm:text-[36px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
+                <span class="text-xs font-black font-mono text-yellow-300 self-end mb-1.5">/6</span>
               </div>
               <!-- Micro-barra segmentada -->
-              <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1 px-1">
-                <span class="w-2.5 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
-                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2.5 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              <div class="absolute bottom-1 inset-x-0 flex items-center justify-center gap-1 px-1">
+                <span class="w-2 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
               </div>
-            </div>
-
-            <!-- Textos descriptivos -->
-            <div class="flex flex-col text-left">
-              <span class="text-[10px] sm:text-[11px] font-black uppercase text-yellow-300 tracking-wider">EJERCICIO</span>
-              <span class="text-[9px] text-yellow-400/80 font-mono font-bold">Estación 1 de 6</span>
             </div>
           </div>
 
-          <!-- ESQUINA INFERIOR DERECHA: RECUADRO RONDAS -->
-          <div class="flex items-center gap-2">
-            <div class="flex flex-col text-right">
-              <span class="text-[10px] sm:text-[11px] font-black uppercase text-blue-300 tracking-wider">RONDAS</span>
-              <span class="text-[9px] text-blue-400/80 font-mono font-bold">Serie 1 de 3</span>
-            </div>
-
+          <!-- ESQUINA INFERIOR DERECHA: RONDAS (LATERAL) -->
+          <div class="flex flex-col items-end gap-1 shrink-0">
+            <span class="text-[9px] sm:text-[10px] font-black uppercase text-blue-300 tracking-wider pr-1 drop-shadow">RONDA 1 DE 3</span>
             <!-- RECUADRO TITANIO AZUL -->
-            <div class="w-[88px] sm:w-[96px] h-[66px] sm:h-[72px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
-              <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[34px] sm:text-[38px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
-                <span class="text-xs sm:text-sm font-black font-mono text-blue-300 self-end mb-2">/3</span>
+            <div class="w-[84px] sm:w-[92px] h-[62px] sm:h-[68px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
+              <div class="flex items-center justify-center gap-0.5 pb-1">
+                <span class="font-exercise text-[32px] sm:text-[36px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
+                <span class="text-xs font-black font-mono text-blue-300 self-end mb-1.5">/3</span>
               </div>
               <!-- Puntos LED -->
               <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1.5">
@@ -462,7 +454,7 @@
           <span>Novedades del Modelo 1 Refinado (Pantalla Llena sin Espacios):</span>
         </span>
         <p class="text-[11px] text-slate-400 leading-relaxed">
-          1. <strong>Título, Ejercicio (1/6) y Rondas (1/3) SIEMPRE VISIBLES:</strong> Nunca se ocultan para mantener el contexto total del entrenamiento.<br>
+          1. <strong>Título, Tiempo Total, Ejercicio (1/6) y Rondas (1/3) SIEMPRE VISIBLES:</strong> Ni el título, ni el total de tiempo acumulado, ni los ejercicios ni las rondas se ocultan nunca.<br>
           2. <strong>Dibujo de la técnica a la izquierda (siempre visible):</strong> Guía visual permanente sin interrupciones.<br>
           3. <strong>Números Colosales (320px por defecto):</strong> Llenan prácticamente toda la pantalla vertical y horizontalmente, eliminando espacios muertos.<br>
           4. <strong>Auto-ocultación inteligente a los 3.5s:</strong> Únicamente el botón de Play/Pause se desvanece suavemente para dar foco inmersivo absoluto. Un toque restaura el control de inmediato.
