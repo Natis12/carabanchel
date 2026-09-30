@@ -760,18 +760,9 @@
         filter: drop-shadow(0 2px 12px rgba(0,0,0,0.95)) !important;
       }
 
-      /* 6. ARRIBA IZQUIERDA: MATERIAL BADGE (SE AUTO-OCULTA EN INACTIVIDAD) */
+      /* 6. OCULTAR CHAPA DE MATERIAL / TIPO EN HORIZONTAL DENTRO DEL NOMBRE */
       #m1Material {
-        position: absolute !important;
-        left: max(env(safe-area-inset-left, 0px) + 1.25rem, 2.25rem) !important;
-        top: max(env(safe-area-inset-top, 0px) + 0.45rem, 0.75rem) !important;
-        margin: 0 !important;
-        z-index: 30 !important;
-        font-size: 10px !important;
-        padding: 0.25rem 0.75rem !important;
-        border-radius: 9999px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
-        white-space: nowrap !important;
+        display: none !important;
       }
 
       /* 7. ARRIBA DERECHA: TIEMPO TOTAL (SIEMPRE VISIBLE) + CONTROLES (AUTO-OCULTABLES) */
@@ -838,6 +829,59 @@
       }
       #m1CenterTimeFocus {
         display: none !important;
+      }
+
+      /* 7.1. POPOVER DE SONIDO EN HORIZONTAL: TOTALMENTE LEGIBLE, OPACO Y SIN CORTES */
+      #timerVolumePopover {
+        position: fixed !important;
+        top: max(env(safe-area-inset-top, 0px) + 3.25rem, 3.5rem) !important;
+        right: max(env(safe-area-inset-right, 0px) + 1rem, 1.75rem) !important;
+        left: auto !important;
+        width: 310px !important;
+        max-width: calc(100vw - 2rem) !important;
+        max-height: calc(100dvh - 4.25rem) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        background: #090d16 !important;
+        border: 2px solid rgba(255, 255, 255, 0.25) !important;
+        border-radius: 1.25rem !important;
+        padding: 0.85rem !important;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.98), 0 0 40px rgba(0, 0, 0, 0.9) !important;
+        z-index: 100 !important;
+        transform: none !important;
+        color: #ffffff !important;
+      }
+      #timerVolumePopover.hidden {
+        display: none !important;
+      }
+      #timerVolumePopover:not(.hidden) {
+        display: block !important;
+      }
+      #timerVolumePopover * {
+        text-shadow: none !important;
+      }
+      #timerVolumePopover .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.55rem !important;
+      }
+      #timerVolumePopover .pt-1\.5 {
+        padding-top: 0.45rem !important;
+      }
+      #timerVolumePopover .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.35rem !important;
+      }
+      #timerVolumePopover button[onclick="activateMasterAudio()"] {
+        padding: 0.45rem 0.65rem !important;
+        font-size: 11px !important;
+        min-height: 36px !important;
+      }
+      #timerVolumePopover input[type="range"] {
+        height: 6px !important;
+      }
+      #timerVolumePopover #timerMuteBtn,
+      #timerVolumePopover button[onclick*="playBeep"],
+      #timerVolumePopover button[onclick*="playBoxingBell"] {
+        min-height: 34px !important;
+        font-size: 11px !important;
       }
 
       /* 8. DOCK INFERIOR DESGLOSADO */
@@ -4780,6 +4824,21 @@
       });
     }
 
+    // Limpieza de títulos en modo apaisado (elimina menciones de fuerza/aeróbico/cardio)
+    function cleanTitleForLandscape(rawName, fallbackIdx) {
+      if (!rawName) return `EJERCICIO ${fallbackIdx + 1}`;
+      let n = rawName;
+      // Eliminar etiquetas entre paréntesis como (FUERZA), (AERÓBICO), (CARDIO), etc.
+      n = n.replace(/\s*\((?:fuerza|aer[oó]bico|cardio|tonificaci[oó]n)\)/gi, '');
+      // Eliminar etiquetas con guion como - FUERZA, - AERÓBICO
+      n = n.replace(/\s*-\s*(?:fuerza|aer[oó]bico|cardio|tonificaci[oó]n)/gi, '');
+      // Si el nombre completo es "AERÓBICO 1", "FUERZA 2", etc. (modo libre), reemplazar por "EJERCICIO 1", "EJERCICIO 2"
+      n = n.replace(/^(?:aer[oó]bico|fuerza|cardio)\s*(\d+)$/i, (_, num) => `EJERCICIO ${num}`);
+      // Si es solo "AERÓBICO", "FUERZA" o "CARDIO"
+      n = n.replace(/^(?:aer[oó]bico|fuerza|cardio)$/i, () => `EJERCICIO ${fallbackIdx + 1}`);
+      return n.trim().toUpperCase();
+    }
+
     // =========================================================================
     // 8. CÁLCULO PRECISO DEL TIEMPO TOTAL RESTANTE
     // =========================================================================
@@ -5021,8 +5080,16 @@
       laserRect.style.strokeDashoffset = laserPerimeterLength * fraction;
     }
 
-    window.addEventListener('resize', updatePerimeterMetrics);
-    window.addEventListener('orientationchange', () => setTimeout(updatePerimeterMetrics, 150));
+    window.addEventListener('resize', () => {
+      updatePerimeterMetrics();
+      if (typeof renderActiveUI === 'function') renderActiveUI();
+    });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => {
+        updatePerimeterMetrics();
+        if (typeof renderActiveUI === 'function') renderActiveUI();
+      }, 150);
+    });
 
     // Reactivar controles ante cualquier interacción en el timer (toque, clic, movimiento)
     let lastUserActivityTime = 0;
@@ -5334,7 +5401,8 @@
             + (isHiddenNow ? " idle-hidden" : "");
         }
         if (m1Name) {
-          m1Name.innerText = nextEx.name.toUpperCase();
+          const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+          m1Name.innerText = isLandscape ? cleanTitleForLandscape(nextEx.name, nextIdx) : nextEx.name.toUpperCase();
           m1Name.className = "font-exercise text-lg sm:text-xl text-slate-200 leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all";
         }
       } else {
@@ -5374,7 +5442,8 @@
             + (isHiddenNow ? " idle-hidden" : "");
         }
         if (m1Name) {
-          m1Name.innerText = cur.name.toUpperCase();
+          const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+          m1Name.innerText = isLandscape ? cleanTitleForLandscape(cur.name, currentStationIdx) : cur.name.toUpperCase();
           m1Name.className = "font-exercise text-xl sm:text-2xl text-white leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all";
         }
       }
