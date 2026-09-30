@@ -182,14 +182,23 @@
       pointer-events: none;
     }
 
-    /* Transición suave para auto-ocultación de elementos */
+    /* Transición suave para auto-ocultación del botón play */
     .idle-fade {
       transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .idle-hidden {
       opacity: 0 !important;
       pointer-events: none !important;
-      transform: scale(0.96);
+      transform: scale(0.92);
+    }
+
+    /* DÍGITOS GIGANTESCOS SIN ESPACIOS VACÍOS */
+    .digits-huge {
+      line-height: 0.74 !important;
+      letter-spacing: -0.04em !important;
+      font-variant-numeric: tabular-nums;
+      display: inline-block;
+      user-select: none;
     }
 
     /* Animación de 2 pasos SVG para ejercicios */
@@ -225,17 +234,20 @@
       </div>
     </div>
 
-    <!-- SELECTOR DE TAMAÑO DE NÚMEROS -->
+    <!-- SELECTOR DE TAMAÑO DE NÚMEROS (SIN ESPACIOS MUERTOS) -->
     <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800 shadow-inner">
       <span class="text-[10px] font-bold text-slate-400 px-2">Dígitos:</span>
-      <button onclick="setDigitsSize('190')" id="btnSize190" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
-        190px
+      <button onclick="setDigitsSize('270')" id="btnSize270" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Tamaño grande">
+        270px
       </button>
-      <button onclick="setDigitsSize('225')" id="btnSize225" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md">
-        225px (Recomendado)
+      <button onclick="setDigitsSize('320')" id="btnSize320" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md" title="Recomendado: ocupa casi toda la pantalla sin espacios muertos">
+        320px (Recomendado)
       </button>
-      <button onclick="setDigitsSize('265')" id="btnSize265" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
-        265px (Ultra)
+      <button onclick="setDigitsSize('360')" id="btnSize360" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Mega: llena al límite horizontal y vertical">
+        360px (Mega)
+      </button>
+      <button onclick="setDigitsSize('400')" id="btnSize400" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Máximo extremo">
+        400px (Máx)
       </button>
     </div>
 
@@ -277,7 +289,7 @@
       <!-- ==========================================================
            CONTENEDOR DE LA PANTALLA COMPLETA CON EL FONDO ORIGINAL
            ========================================================== -->
-      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden flex flex-col justify-between p-3.5 pl-10 pr-7 transition-all duration-500">
+      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden flex flex-col justify-between pt-2 pb-2 pl-9 pr-6 transition-all duration-500">
         
         <!-- ========================================================
              BORDE DEL TEMPORIZADOR EXACTO POR LOS BORDES DEL TELÉFONO
@@ -303,11 +315,11 @@
         <div class="absolute -inset-10 pointer-events-none opacity-45 transition-all duration-500" 
              style="background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%);"></div>
 
-        <!-- 1. BARRA SUPERIOR (AUTO-OCULTABLE EN MODO FOCO) -->
-        <div id="topBarControls" class="idle-fade flex items-center justify-between z-20 w-full pt-0.5">
+        <!-- 1. BARRA SUPERIOR (SIEMPRE VISIBLE - NUNCA SE OCULTA) -->
+        <div id="topBarControls" class="flex items-center justify-between z-20 w-full pt-0.5 px-1 shrink-0">
           
           <!-- Izquierda: Material Badge y Tipo -->
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1.5 shrink-0">
             <span id="matBadge" class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-600 text-white shadow-md border border-white/20">
               🏋️ MANCUERNAS
             </span>
@@ -316,20 +328,20 @@
             </span>
           </div>
 
-          <!-- Centro: TÍTULO DEL EJERCICIO + FASE ACTUAL -->
-          <div class="text-center flex flex-col items-center">
-            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3.5 py-0.5 rounded-full shadow-md transition-all font-mono mb-0.5" style="background-color: var(--phase-ring); color: #022c22;">
+          <!-- Centro: FASE ACTUAL + TÍTULO DEL EJERCICIO (SIEMPRE VISIBLE) -->
+          <div class="flex items-center justify-center gap-2 px-2 overflow-hidden">
+            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full shadow-md font-mono shrink-0" style="background-color: var(--phase-ring); color: #022c22;">
               TRABAJO
             </span>
-            <h3 id="topExerciseTitle" class="font-exercise text-base sm:text-lg text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[420px]">
+            <h3 id="topExerciseTitle" class="font-exercise text-sm sm:text-base text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[340px] sm:max-w-[420px]">
               ELEVACIONES FRONTALES
             </h3>
           </div>
 
           <!-- Derecha: Tiempo Total + Salto de Ejercicios -->
-          <div class="flex items-center gap-1.5">
-            <div class="flex items-center px-3 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md shadow-lg">
-              <span class="text-[10px] text-slate-400 mr-1 font-bold">TOTAL:</span>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <div class="flex items-center px-2.5 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md shadow-lg">
+              <span class="text-[9px] text-slate-400 mr-1 font-bold">TOTAL:</span>
               <span class="text-xs font-mono font-black text-emerald-400" id="totalClockText">14:25</span>
             </div>
             <button onclick="skipExercise(-1)" class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-white transition active:scale-90" title="Anterior">⏮</button>
@@ -338,27 +350,27 @@
         </div>
 
         <!-- 2. ZONA CENTRAL:
-             - IZQUIERDA: DIBUJO DEL EJERCICIO ANIMADO
-             - CENTRO: NÚMEROS AÚN MÁS GRANDES (SIN NADA DEBAJO)
-             - DERECHA: BOTÓN PLAY/PAUSE COMPACTO -->
-        <div class="flex-1 flex items-center justify-between relative my-auto z-20 w-full px-2">
+             - IZQUIERDA: DIBUJO DEL EJERCICIO ANIMADO (SIEMPRE VISIBLE)
+             - CENTRO: NÚMEROS AÚN MÁS GRANDES QUE APENAS DEJAN ESPACIOS (SIN 'SEGUNDOS')
+             - DERECHA: BOTÓN PLAY/PAUSE COMPACTO (ÚNICO ELEMENTO QUE SE AUTO-OCULTA A LOS 3.5s) -->
+        <div class="flex-1 flex items-center justify-between relative my-auto z-20 w-full px-1 overflow-visible">
           
-          <!-- COLUMNA IZQUIERDA: DIBUJO DEL EJERCICIO (AUTO-OCULTABLE EN FOCO) -->
-          <div id="exerciseDrawingBox" class="idle-fade w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-900/60 border border-white/15 backdrop-blur-md p-1.5 flex items-center justify-center shadow-2xl shrink-0 transition-transform">
+          <!-- COLUMNA IZQUIERDA: DIBUJO DEL EJERCICIO (SIEMPRE VISIBLE) -->
+          <div id="exerciseDrawingBox" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-900/60 border border-white/15 backdrop-blur-md p-1 flex items-center justify-center shadow-2xl shrink-0 transition-transform">
             <div id="svgStageContainer" class="w-full h-full flex items-center justify-center">
               <!-- SVG animado de 2 pasos -->
             </div>
           </div>
 
-          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES LIMPIOS (SIN 'SEGUNDOS' NI DISTRACCIONES) -->
-          <div class="flex-1 flex items-center justify-center leading-none text-center px-1 my-auto">
-            <span id="giantDigits" class="text-[225px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-200">
+          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES QUE OCUPAN CASI TODO EL ESPACIO -->
+          <div class="flex-1 flex items-center justify-center text-center px-1 my-auto overflow-visible">
+            <span id="giantDigits" class="text-[320px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_24px_70px_rgba(0,0,0,0.95)] transition-all duration-200 select-none">
               30
             </span>
           </div>
 
-          <!-- COLUMNA DERECHA: PLAY/PAUSE COMPACTO DE TITANIO (AUTO-OCULTABLE EN FOCO) -->
-          <div id="playControlBox" class="idle-fade w-24 sm:w-28 flex flex-col items-center justify-center shrink-0">
+          <!-- COLUMNA DERECHA: PLAY/PAUSE COMPACTO DE TITANIO (SE AUTO-OCULTA A LOS 3.5s) -->
+          <div id="playControlBox" class="idle-fade w-20 sm:w-24 flex flex-col items-center justify-center shrink-0">
             <button onclick="toggleTimer(event)" id="btnPlayCompact" class="titanium-play-compact w-14 h-14 sm:w-16 sm:h-16 rounded-full p-1.5 flex items-center justify-center cursor-pointer active:scale-90 transition shadow-2xl" title="Iniciar / Pausar">
               <div class="titanium-play-compact-inner w-full h-full rounded-full flex items-center justify-center">
                 <!-- Icono Play -->
@@ -380,15 +392,15 @@
         <!-- 3. ESQUINAS INFERIORES:
              - ABAJO IZQUIERDA: EJERCICIO CON SU NÚMERO Y BARRA SEGMENTADA (TITANIO ORO)
              - ABAJO DERECHA: RONDAS CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL)
-             - AUTO-OCULTABLES TRAS 3.5 SEGUNDOS DE INACTIVIDAD -->
-        <div id="bottomDockControls" class="idle-fade w-full flex items-end justify-between z-20 pb-0.5">
+             - SIEMPRE VISIBLES (NUNCA SE OCULTAN) -->
+        <div id="bottomDockControls" class="w-full flex items-end justify-between z-20 pb-0.5 px-1 shrink-0">
           
           <!-- ESQUINA INFERIOR IZQUIERDA: RECUADRO EJERCICIO -->
-          <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2">
             <!-- RECUADRO TITANIO ORO -->
-            <div class="w-[94px] sm:w-[100px] h-[72px] sm:h-[76px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
+            <div class="w-[88px] sm:w-[96px] h-[66px] sm:h-[72px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
               <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[38px] sm:text-[40px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
+                <span class="font-exercise text-[34px] sm:text-[38px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
                 <span class="text-xs sm:text-sm font-black font-mono text-yellow-300 self-end mb-2">/6</span>
               </div>
               <!-- Micro-barra segmentada -->
@@ -405,30 +417,21 @@
             <!-- Textos descriptivos -->
             <div class="flex flex-col text-left">
               <span class="text-[10px] sm:text-[11px] font-black uppercase text-yellow-300 tracking-wider">EJERCICIO</span>
-              <span class="text-xs font-bold text-slate-200 truncate max-w-[150px]" id="bottomExName">Elevaciones Frontales</span>
               <span class="text-[9px] text-yellow-400/80 font-mono font-bold">Estación 1 de 6</span>
             </div>
           </div>
 
-          <!-- AVISO DE TOQUE EN FOCO LIMPIO (APARECE SOLO CUANDO ESTÁ OCULTO) -->
-          <div id="touchWakeHint" class="hidden text-center pb-1">
-            <span class="text-[10px] font-bold text-white/50 bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10 animate-pulse">
-              Toca la pantalla para mostrar controles
-            </span>
-          </div>
-
           <!-- ESQUINA INFERIOR DERECHA: RECUADRO RONDAS -->
-          <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2">
             <div class="flex flex-col text-right">
               <span class="text-[10px] sm:text-[11px] font-black uppercase text-blue-300 tracking-wider">RONDAS</span>
-              <span class="text-xs font-bold text-slate-200">Serie 1 de 3</span>
-              <span class="text-[9px] text-blue-400/80 font-mono font-bold">Ciclo Total</span>
+              <span class="text-[9px] text-blue-400/80 font-mono font-bold">Serie 1 de 3</span>
             </div>
 
             <!-- RECUADRO TITANIO AZUL -->
-            <div class="w-[94px] sm:w-[100px] h-[72px] sm:h-[76px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
+            <div class="w-[88px] sm:w-[96px] h-[66px] sm:h-[72px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
               <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[38px] sm:text-[40px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
+                <span class="font-exercise text-[34px] sm:text-[38px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
                 <span class="text-xs sm:text-sm font-black font-mono text-blue-300 self-end mb-2">/3</span>
               </div>
               <!-- Puntos LED -->
@@ -456,13 +459,13 @@
       <div class="space-y-1 text-center sm:text-left">
         <span class="font-black text-white text-xs uppercase flex items-center gap-1.5 justify-center sm:justify-start">
           <span>🎯</span>
-          <span>Novedades del Modelo 1 Refinado:</span>
+          <span>Novedades del Modelo 1 Refinado (Pantalla Llena sin Espacios):</span>
         </span>
         <p class="text-[11px] text-slate-400 leading-relaxed">
-          1. <strong>Play/Pause más compacto</strong> y situado a la <strong>derecha</strong> del timer.<br>
-          2. <strong>Dibujo del ejercicio</strong> situado a la <strong>izquierda</strong> del timer.<br>
-          3. <strong>Números colosales (hasta 250px)</strong> en el centro sin nada debajo que los tape.<br>
-          4. <strong>Auto-ocultación a los 3.5 segundos:</strong> Los controles, el dibujo y las esquinas se desvanecen suavemente, dejando la pantalla en foco absoluto con los números gigantes y el borde láser perimetral. Cualquier toque restaura la interfaz al instante.
+          1. <strong>Título, Ejercicio (1/6) y Rondas (1/3) SIEMPRE VISIBLES:</strong> Nunca se ocultan para mantener el contexto total del entrenamiento.<br>
+          2. <strong>Dibujo de la técnica a la izquierda (siempre visible):</strong> Guía visual permanente sin interrupciones.<br>
+          3. <strong>Números Colosales (320px por defecto):</strong> Llenan prácticamente toda la pantalla vertical y horizontalmente, eliminando espacios muertos.<br>
+          4. <strong>Auto-ocultación inteligente a los 3.5s:</strong> Únicamente el botón de Play/Pause se desvanece suavemente para dar foco inmersivo absoluto. Un toque restaura el control de inmediato.
         </p>
       </div>
 
@@ -532,32 +535,17 @@
     }
 
     function hideUiElements() {
-      const topBar = document.getElementById('topBarControls');
-      const bottomDock = document.getElementById('bottomDockControls');
-      const leftDrawing = document.getElementById('exerciseDrawingBox');
+      // Regla estricta del usuario: El título, ejercicios y ronda NO se deben ocultar NUNCA.
+      // Tampoco el dibujo de la técnica ni el borde láser perimetral.
+      // ÚNICAMENTE el botón Play/Pause se desvanece tras 3.5s de inactividad.
       const rightPlay = document.getElementById('playControlBox');
-      const touchHint = document.getElementById('touchWakeHint');
-
-      [topBar, bottomDock, leftDrawing, rightPlay].forEach(el => {
-        if (el) el.classList.add('idle-hidden');
-      });
-
-      if (touchHint) touchHint.classList.remove('hidden');
+      if (rightPlay) rightPlay.classList.add('idle-hidden');
       isUiHidden = true;
     }
 
     function showUiElements() {
-      const topBar = document.getElementById('topBarControls');
-      const bottomDock = document.getElementById('bottomDockControls');
-      const leftDrawing = document.getElementById('exerciseDrawingBox');
       const rightPlay = document.getElementById('playControlBox');
-      const touchHint = document.getElementById('touchWakeHint');
-
-      [topBar, bottomDock, leftDrawing, rightPlay].forEach(el => {
-        if (el) el.classList.remove('idle-hidden');
-      });
-
-      if (touchHint) touchHint.classList.add('hidden');
+      if (rightPlay) rightPlay.classList.remove('idle-hidden');
       isUiHidden = false;
     }
 
@@ -604,26 +592,30 @@
       laserRect.style.strokeDashoffset = offset;
     }
 
-    // Cambiar tamaño de los números (sin 'SEGUNDOS' ahora pueden ser descomunales)
+    // Cambiar tamaño de los números (llenando casi toda la pantalla sin espacios muertos)
     function setDigitsSize(sizeKey) {
       const digitsEl = document.getElementById('giantDigits');
-      const b190 = document.getElementById('btnSize190');
-      const b225 = document.getElementById('btnSize225');
-      const b265 = document.getElementById('btnSize265');
+      const b270 = document.getElementById('btnSize270');
+      const b320 = document.getElementById('btnSize320');
+      const b360 = document.getElementById('btnSize360');
+      const b400 = document.getElementById('btnSize400');
 
-      [b190, b225, b265].forEach(b => {
+      [b270, b320, b360, b400].forEach(b => {
         if (b) b.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white";
       });
 
-      if (sizeKey === '190') {
-        digitsEl.className = "text-[190px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)] transition-all duration-200";
-        if (b190) b190.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
-      } else if (sizeKey === '225') {
-        digitsEl.className = "text-[225px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-200";
-        if (b225) b225.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
-      } else if (sizeKey === '265') {
-        digitsEl.className = "text-[265px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_24px_70px_rgba(0,0,0,1)] transition-all duration-200";
-        if (b265) b265.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      if (sizeKey === '270') {
+        digitsEl.className = "text-[270px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-200 select-none";
+        if (b270) b270.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      } else if (sizeKey === '320') {
+        digitsEl.className = "text-[320px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_24px_70px_rgba(0,0,0,0.95)] transition-all duration-200 select-none";
+        if (b320) b320.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      } else if (sizeKey === '360') {
+        digitsEl.className = "text-[360px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_28px_80px_rgba(0,0,0,1)] transition-all duration-200 select-none";
+        if (b360) b360.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      } else if (sizeKey === '400') {
+        digitsEl.className = "text-[400px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_32px_90px_rgba(0,0,0,1)] transition-all duration-200 select-none";
+        if (b400) b400.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
       }
     }
 
