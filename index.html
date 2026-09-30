@@ -458,24 +458,24 @@
         inset 0 -1px 2px rgba(255, 255, 255, 0.2);
     }
 
-    /* Ocultación automática del top bar con foco en tiempo total */
+    /* Ocultación automática del top bar: el total (#m1TotalCapsule) se queda siempre arriba a la derecha */
     #m1LeftControls,
-    #m1RightControls {
+    #m1StationsListBtn,
+    #m1SettingsBtn {
       transition: opacity 0.45s ease-out, transform 0.45s ease-out !important;
     }
     #m1LeftControls.top-controls-hidden,
-    #m1RightControls.top-controls-hidden {
+    #m1StationsListBtn.top-controls-hidden,
+    #m1SettingsBtn.top-controls-hidden,
+    #m1LeftControls.idle-hidden,
+    #m1StationsListBtn.idle-hidden,
+    #m1SettingsBtn.idle-hidden {
       opacity: 0 !important;
       pointer-events: none !important;
       transform: translateY(-14px) !important;
     }
     #m1CenterTimeFocus {
-      transition: opacity 0.45s ease-out, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    #m1CenterTimeFocus.top-focus-visible {
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      transform: translate(-50%, -50%) scale(1) !important;
+      display: none !important;
     }
 
 
@@ -779,7 +779,7 @@
         padding: 0 !important;
         z-index: 30 !important;
         display: flex !important;
-        flex-direction: row-reverse !important;
+        flex-direction: row !important;
         align-items: center !important;
         gap: 0.4rem !important;
         pointer-events: auto !important;
@@ -1470,22 +1470,23 @@
             </div>
           </div>
 
-          <!-- DOCK DERECHO: TIEMPO TOTAL NORMAL + LISTA DE EJERCICIOS + AJUSTES -->
+          <!-- DOCK DERECHO: BOTÓN LISTA + AJUSTES + TIEMPO TOTAL FIJO -->
           <div id="m1RightControls" class="flex items-center justify-end transition-all duration-500 ease-out gap-1.5">
-            <div id="m1TotalCapsule" class="flex items-center px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg transition-all duration-500">
-              <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
-            </div>
-
-            <!-- BOTÓN LISTA DE EJERCICIOS EN VIVO (SE AUTO-OCULTA EN HORIZONTAL) -->
+            <!-- BOTÓN LISTA DE EJERCICIOS EN VIVO (SE AUTO-OCULTA EN INACTIVIDAD) -->
             <button id="m1StationsListBtn" type="button" onclick="openActiveWorkoutListModal()" class="idle-fade h-8 sm:h-9 px-2.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center gap-1 text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Ver y Editar Ejercicios del Circuito">
               <span class="text-xs sm:text-sm">📋</span>
               <span class="text-[10px] sm:text-[11px] font-black uppercase text-emerald-400">Lista</span>
             </button>
 
-            <!-- BOTÓN AJUSTES (SE AUTO-OCULTA EN HORIZONTAL) -->
+            <!-- BOTÓN AJUSTES (SE AUTO-OCULTA EN INACTIVIDAD) -->
             <button id="m1SettingsBtn" onclick="setMainView('config')" class="idle-fade w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Configurar Entrenamiento">
               <span class="text-sm sm:text-base">⚙️</span>
             </button>
+
+            <!-- TIEMPO TOTAL: SIEMPRE VISIBLE Y FIJO ARRIBA A LA DERECHA -->
+            <div id="m1TotalCapsule" class="flex items-center px-3 py-1.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg transition-all duration-500 shrink-0">
+              <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
+            </div>
           </div>
         </div>
 
@@ -4965,78 +4966,64 @@
         return;
       }
 
-      const isLandscape = window.matchMedia('(orientation: landscape)').matches;
-
-      if (isLandscape) {
-        // MODO HORIZONTAL:
-        // Se ocultan tras 3.5s de inactividad:
-        // 1. Botón Play/Pause (#m1PlayCol)
-        // 2. Chapa de material ("mancuernas fuerza") (#m1Material)
-        // 3. Controles de navegación y audio (#m1LeftControls con ⏮, ⏭, ↺, 🔊)
-        // 4. Botones auxiliares (#m1StationsListBtn, #m1SettingsBtn)
-        // NUNCA se ocultan:
-        // - Título del ejercicio (#m1Name)
-        // - Tiempo Total (#m1TotalCapsule / #m1Total)
-        // - Recuadro de Ejercicio
-        // - Recuadro de Rondas
-        // - Dibujo animado (#m1SvgStage)
-        // - Dígitos colosales (#m1Digits)
-        // - Borde láser perimetral
-        const playCol = document.getElementById('m1PlayCol');
-        const mat = document.getElementById('m1Material');
-        const left = document.getElementById('m1LeftControls');
-        const listBtn = document.getElementById('m1StationsListBtn');
-        const setBtn = document.getElementById('m1SettingsBtn');
-
-        [playCol, mat, left, listBtn, setBtn].forEach(el => {
-          if (el) el.classList.add('idle-hidden');
-        });
-      } else {
-        // MODO VERTICAL (RETRATO): Comportamiento original
-        const left = document.getElementById('m1LeftControls');
-        const right = document.getElementById('m1RightControls');
-        const centerFocus = document.getElementById('m1CenterTimeFocus');
-
-        if (left) {
-          left.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
-        }
-        if (right) {
-          right.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
-        }
-        if (centerFocus) {
-          centerFocus.classList.add('top-focus-visible');
-          centerFocus.classList.remove('opacity-0', 'pointer-events-none');
-        }
-      }
-      isTopControlsHidden = true;
-    }
-
-    function showTopControls() {
-      // Restaurar controles ocultos en horizontal
+      // Elementos que se ocultan en inactividad:
+      // - Botón Play/Pause (#m1PlayCol)
+      // - Chapa de material (#m1Material)
+      // - Controles de navegación y audio (#m1LeftControls)
+      // - Botón Lista de ejercicios (#m1StationsListBtn)
+      // - Botón Ajustes (#m1SettingsBtn)
+      // NUNCA se ocultan:
+      // - Tiempo Total (#m1TotalCapsule / #m1Total) -> Se queda siempre arriba a la derecha
+      // - Título del ejercicio (#m1Name)
+      // - Recuadro de Ejercicios y Rondas
+      // - Dibujo animado (#m1SvgStage)
+      // - Dígitos colosales (#m1Digits)
+      // - Láser perimetral
       const playCol = document.getElementById('m1PlayCol');
       const mat = document.getElementById('m1Material');
+      const left = document.getElementById('m1LeftControls');
       const listBtn = document.getElementById('m1StationsListBtn');
       const setBtn = document.getElementById('m1SettingsBtn');
-
-      [playCol, mat, listBtn, setBtn].forEach(el => {
-        if (el) el.classList.remove('idle-hidden');
-      });
-
-      // Restaurar controles estándar
-      const left = document.getElementById('m1LeftControls');
-      const right = document.getElementById('m1RightControls');
       const centerFocus = document.getElementById('m1CenterTimeFocus');
 
-      if (left) {
-        left.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none', 'idle-hidden');
-      }
-      if (right) {
-        right.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none');
-      }
+      [playCol, mat, left, listBtn, setBtn].forEach(el => {
+        if (el) {
+          el.classList.add('idle-hidden', 'top-controls-hidden', 'opacity-0', 'pointer-events-none');
+        }
+      });
+
       if (centerFocus) {
         centerFocus.classList.remove('top-focus-visible');
         centerFocus.classList.add('opacity-0', 'pointer-events-none');
       }
+
+      isTopControlsHidden = true;
+    }
+
+    function showTopControls() {
+      const playCol = document.getElementById('m1PlayCol');
+      const mat = document.getElementById('m1Material');
+      const left = document.getElementById('m1LeftControls');
+      const listBtn = document.getElementById('m1StationsListBtn');
+      const setBtn = document.getElementById('m1SettingsBtn');
+      const right = document.getElementById('m1RightControls');
+      const centerFocus = document.getElementById('m1CenterTimeFocus');
+
+      [playCol, mat, left, listBtn, setBtn].forEach(el => {
+        if (el) {
+          el.classList.remove('idle-hidden', 'top-controls-hidden', 'opacity-0', 'pointer-events-none');
+        }
+      });
+
+      if (right) {
+        right.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none');
+      }
+
+      if (centerFocus) {
+        centerFocus.classList.remove('top-focus-visible');
+        centerFocus.classList.add('opacity-0', 'pointer-events-none');
+      }
+
       isTopControlsHidden = false;
     }
 
