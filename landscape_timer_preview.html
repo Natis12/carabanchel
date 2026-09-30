@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Sergio Fit - Modelo 1 Perfeccionado (Borde de Pantalla Completa + Dígitos Masivos)</title>
+  <title>Sergio Fit - Modelo 1 Perfeccionado (Play a la Derecha, Dibujo a la Izquierda y Auto-Ocultar)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +79,7 @@
     }
 
     .phase-bg-immersion {
-      background: radial-gradient(circle at center 40%, var(--phase-base) 0%, var(--phase-from) 70%, var(--phase-to) 100%);
+      background: radial-gradient(circle at center 42%, var(--phase-base) 0%, var(--phase-from) 70%, var(--phase-to) 100%);
       transition: background 0.5s ease-in-out;
     }
 
@@ -115,37 +115,37 @@
         inset 0 -3px 4px rgba(0, 0, 0, 0.8);
     }
 
-    /* BOTÓN PLAY GIGANTE TITANIUM TACTILE PRECISION */
-    .titanium-play-outer {
+    /* BOTÓN PLAY COMPACTO TACTILE PRECISION (A LA DERECHA) */
+    .titanium-play-compact {
       background: #020617;
-      border: 3.5px solid var(--phase-ring);
+      border: 2.5px solid var(--phase-ring);
       box-shadow: 
-        0 0 38px var(--play-glow),
-        0 16px 36px -6px rgba(0, 0, 0, 0.95),
-        inset 0 0 16px rgba(0, 0, 0, 0.95);
+        0 0 28px var(--play-glow),
+        0 12px 28px -6px rgba(0, 0, 0, 0.95),
+        inset 0 0 12px rgba(0, 0, 0, 0.95);
       transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .titanium-play-inner {
+    .titanium-play-compact-inner {
       background: radial-gradient(circle at 35% 25%, #1e293b 0%, #080c14 100%);
       border: 1.5px solid rgba(255, 255, 255, 0.25);
       box-shadow: 
-        inset 0 2.5px 2px rgba(255, 255, 255, 0.5),
-        inset 0 -4px 6px rgba(0, 0, 0, 0.85),
-        0 8px 22px rgba(0, 0, 0, 0.85);
+        inset 0 2px 1.5px rgba(255, 255, 255, 0.5),
+        inset 0 -3px 5px rgba(0, 0, 0, 0.85),
+        0 6px 18px rgba(0, 0, 0, 0.85);
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .titanium-play-outer:hover {
-      transform: scale(1.05);
+    .titanium-play-compact:hover {
+      transform: scale(1.08);
       box-shadow: 
-        0 0 50px var(--play-glow),
-        0 20px 40px -6px rgba(0, 0, 0, 1),
-        inset 0 0 20px rgba(0, 0, 0, 0.95);
+        0 0 40px var(--play-glow),
+        0 16px 32px -6px rgba(0, 0, 0, 1),
+        inset 0 0 16px rgba(0, 0, 0, 0.95);
     }
 
-    .titanium-play-outer:active {
-      transform: scale(0.92);
+    .titanium-play-compact:active {
+      transform: scale(0.90);
     }
 
     /* Barra perimetral de cuenta atrás por los bordes exactos del teléfono */
@@ -154,7 +154,7 @@
       will-change: stroke-dashoffset;
     }
 
-    /* Simulación de marco iPhone */
+    /* Marco iPhone Horizontal */
     .iphone-landscape-frame {
       width: 932px;
       height: 430px;
@@ -180,6 +180,16 @@
       z-index: 50;
       box-shadow: 0 0 3px rgba(255,255,255,0.15);
       pointer-events: none;
+    }
+
+    /* Transición suave para auto-ocultación de elementos */
+    .idle-fade {
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .idle-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0.96);
     }
 
     /* Animación de 2 pasos SVG para ejercicios */
@@ -208,34 +218,41 @@
       </div>
       <div>
         <h1 class="font-bold text-white text-xs sm:text-sm leading-tight flex items-center gap-1.5">
-          <span>Modelo 1 Perfeccionado</span>
-          <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/40 font-black">BORDE PERIMETRAL EXACTO</span>
+          <span>Modelo 1 Refinado</span>
+          <span class="text-[9px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono border border-emerald-500/40 font-black">NÚMEROS MÁS GRANDES + AUTO-HIDE</span>
         </h1>
-        <p class="text-[10px] text-slate-400">Borde exterior del teléfono como temporizador + Fondos inmersivos originales + Dígitos masivos</p>
+        <p class="text-[10px] text-slate-400">Play a la derecha (compacto) • Dibujo a la izquierda • Borde perimetral • Auto-ocultar tras inactividad</p>
       </div>
     </div>
 
     <!-- SELECTOR DE TAMAÑO DE NÚMEROS -->
     <div class="flex items-center gap-1 bg-slate-950 p-1 rounded-2xl border border-slate-800 shadow-inner">
       <span class="text-[10px] font-bold text-slate-400 px-2">Dígitos:</span>
-      <button onclick="setDigitsSize('normal')" id="btnSizeNormal" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
-        160px
+      <button onclick="setDigitsSize('190')" id="btnSize190" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
+        190px
       </button>
-      <button onclick="setDigitsSize('colosal')" id="btnSizeColosal" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md">
-        190px (Recomendado)
+      <button onclick="setDigitsSize('225')" id="btnSize225" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md">
+        225px (Recomendado)
       </button>
-      <button onclick="setDigitsSize('maximo')" id="btnSizeMaximo" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
-        220px (Extremo)
+      <button onclick="setDigitsSize('265')" id="btnSize265" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white">
+        265px (Ultra)
       </button>
     </div>
 
-    <!-- SELECTOR DE FASES DE COLOR ORIGINALES -->
+    <!-- CONTROLES DE PRUEBA: AUTO-HIDE + FASES + MARCO -->
     <div class="flex items-center gap-2">
+      <!-- Botón para probar el modo ocultación inmediatamente -->
+      <button onclick="triggerImmediateIdleHide()" class="px-2.5 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 font-bold flex items-center gap-1" title="Ocultar controles inmediatamente para ver el modo foco limpio">
+        <span>👁️</span>
+        <span class="hidden sm:inline">Probar Foco Limpio</span>
+      </button>
+
+      <!-- Fases de color originales -->
       <div class="flex items-center gap-1 bg-slate-950/90 p-1 rounded-xl border border-slate-800 text-[11px] font-bold">
-        <button onclick="setPhase('verde', 'TRABAJO', 30)" class="px-2 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/40" title="Verde Original Trabajo">🟢 Verde (30s)</button>
-        <button onclick="setPhase('amarillo', 'DESCANSO', 15)" class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40" title="Amarillo Original Descanso">🟡 Amarillo (15s)</button>
-        <button onclick="setPhase('azul', 'PREPARACIÓN', 10)" class="px-2 py-1 rounded-lg bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 border border-sky-500/40" title="Azul Original Prep">🔵 Azul (10s)</button>
-        <button onclick="setPhase('rojo', 'DESCANSO RONDA', 45)" class="px-2 py-1 rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/40" title="Rojo Original Descanso de Ronda">🔴 Rojo (45s)</button>
+        <button onclick="setPhase('verde', 'TRABAJO', 30)" class="px-2 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-500/40" title="Verde Original Trabajo">🟢 30s</button>
+        <button onclick="setPhase('amarillo', 'DESCANSO', 15)" class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40" title="Amarillo Original Descanso">🟡 15s</button>
+        <button onclick="setPhase('azul', 'PREPARACIÓN', 10)" class="px-2 py-1 rounded-lg bg-sky-500/20 text-sky-300 hover:bg-sky-500/30 border border-sky-500/40" title="Azul Original Prep">🔵 10s</button>
+        <button onclick="setPhase('rojo', 'DESCANSO RONDA', 45)" class="px-2 py-1 rounded-lg bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/40" title="Rojo Original Descanso de Ronda">🔴 45s</button>
       </div>
 
       <!-- Toggle Modo Marco Móvil vs Pantalla Completa -->
@@ -248,11 +265,11 @@
   </header>
 
   <!-- ==============================================================
-       CANVAS HORIZONTAL CON EL BORDE PERIMETRAL DE LA PANTALLA
+       CANVAS HORIZONTAL CON BORDE PERIMETRAL, DIBUJO IZQ, PLAY DER
        ============================================================== -->
-  <main class="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 overflow-hidden relative">
+  <main class="flex-1 flex flex-col items-center justify-center p-2 sm:p-4 overflow-hidden relative" onclick="handleScreenActivity(event)">
 
-    <div id="landscapeContainer" class="iphone-landscape-frame w-full max-w-[932px] h-[430px] transition-all duration-300 flex flex-col relative select-none">
+    <div id="landscapeContainer" class="iphone-landscape-frame w-full max-w-[932px] h-[430px] transition-all duration-300 flex flex-col relative select-none cursor-pointer">
       
       <!-- Dynamic Island en modo marco iPhone -->
       <div id="islandEl" class="dynamic-island-landscape"></div>
@@ -268,7 +285,7 @@
              - Se va desiluminando a medida que avanza el tiempo
              ======================================================== -->
         <svg class="absolute inset-0 w-full h-full pointer-events-none z-30" id="perimeterSvg">
-          <!-- Pista tenue de fondo (camino completo del borde del teléfono) -->
+          <!-- Pista tenue de fondo (contorno de la pantalla) -->
           <rect id="screenTrackRect" x="5" y="5" width="922" height="420" rx="34" 
                 fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="7" />
           
@@ -279,19 +296,19 @@
                 stroke-width="7" 
                 stroke-linecap="round"
                 class="phone-perimeter-laser"
-                style="filter: drop-shadow(0 0 14px var(--phase-glow)) drop-shadow(0 0 4px var(--phase-ring));" />
+                style="filter: drop-shadow(0 0 16px var(--phase-glow)) drop-shadow(0 0 4px var(--phase-ring));" />
         </svg>
 
-        <!-- Resplandor atmosférico de fase que pulsa suavemente -->
-        <div class="absolute -inset-10 pointer-events-none opacity-40 transition-all duration-500" 
+        <!-- Resplandor ambiental inmersivo reactivo -->
+        <div class="absolute -inset-10 pointer-events-none opacity-45 transition-all duration-500" 
              style="background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%);"></div>
 
-        <!-- 1. BARRA SUPERIOR ELEGANTE (MATERIAL + TÍTULO + TIEMPO TOTAL) -->
-        <div class="flex items-center justify-between z-20 w-full pt-1">
+        <!-- 1. BARRA SUPERIOR (AUTO-OCULTABLE EN MODO FOCO) -->
+        <div id="topBarControls" class="idle-fade flex items-center justify-between z-20 w-full pt-0.5">
           
           <!-- Izquierda: Material Badge y Tipo -->
           <div class="flex items-center gap-2">
-            <span id="matBadge" class="text-[10px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-blue-600 text-white shadow-md border border-white/20">
+            <span id="matBadge" class="text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-600 text-white shadow-md border border-white/20">
               🏋️ MANCUERNAS
             </span>
             <span id="exerciseTypeBadge" class="text-xs font-bold text-slate-300 font-mono bg-black/40 px-2 py-0.5 rounded-full border border-white/10">
@@ -301,10 +318,10 @@
 
           <!-- Centro: TÍTULO DEL EJERCICIO + FASE ACTUAL -->
           <div class="text-center flex flex-col items-center">
-            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3 py-0.5 rounded-full shadow-md transition-all font-mono mb-0.5" style="background-color: var(--phase-ring); color: #022c22;">
+            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3.5 py-0.5 rounded-full shadow-md transition-all font-mono mb-0.5" style="background-color: var(--phase-ring); color: #022c22;">
               TRABAJO
             </span>
-            <h3 id="topExerciseTitle" class="font-exercise text-base sm:text-lg text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[360px]">
+            <h3 id="topExerciseTitle" class="font-exercise text-base sm:text-lg text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[420px]">
               ELEVACIONES FRONTALES
             </h3>
           </div>
@@ -320,34 +337,58 @@
           </div>
         </div>
 
-        <!-- 2. ZONA CENTRAL: NÚMEROS MUCHO MÁS GRANDES (SIN MARCOS INTERIORES QUE RESTEN ESPACIO) -->
-        <div class="flex-1 flex flex-col items-center justify-center relative my-auto z-20">
+        <!-- 2. ZONA CENTRAL:
+             - IZQUIERDA: DIBUJO DEL EJERCICIO ANIMADO
+             - CENTRO: NÚMEROS AÚN MÁS GRANDES (SIN NADA DEBAJO)
+             - DERECHA: BOTÓN PLAY/PAUSE COMPACTO -->
+        <div class="flex-1 flex items-center justify-between relative my-auto z-20 w-full px-2">
           
-          <div class="flex flex-col items-center justify-center leading-none">
-            <!-- DÍGITOS HEROICOS MASIVOS (HASTA 220px) -->
-            <span id="giantDigits" class="text-[185px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)] transition-all duration-200">
+          <!-- COLUMNA IZQUIERDA: DIBUJO DEL EJERCICIO (AUTO-OCULTABLE EN FOCO) -->
+          <div id="exerciseDrawingBox" class="idle-fade w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-900/60 border border-white/15 backdrop-blur-md p-1.5 flex items-center justify-center shadow-2xl shrink-0 transition-transform">
+            <div id="svgStageContainer" class="w-full h-full flex items-center justify-center">
+              <!-- SVG animado de 2 pasos -->
+            </div>
+          </div>
+
+          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES LIMPIOS (SIN 'SEGUNDOS' NI DISTRACCIONES) -->
+          <div class="flex-1 flex items-center justify-center leading-none text-center px-1 my-auto">
+            <span id="giantDigits" class="text-[225px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-200">
               30
             </span>
+          </div>
 
-            <span class="text-[11px] sm:text-xs font-black text-slate-300 uppercase tracking-widest -mt-4 drop-shadow-md">
-              SEGUNDOS
-            </span>
+          <!-- COLUMNA DERECHA: PLAY/PAUSE COMPACTO DE TITANIO (AUTO-OCULTABLE EN FOCO) -->
+          <div id="playControlBox" class="idle-fade w-24 sm:w-28 flex flex-col items-center justify-center shrink-0">
+            <button onclick="toggleTimer(event)" id="btnPlayCompact" class="titanium-play-compact w-14 h-14 sm:w-16 sm:h-16 rounded-full p-1.5 flex items-center justify-center cursor-pointer active:scale-90 transition shadow-2xl" title="Iniciar / Pausar">
+              <div class="titanium-play-compact-inner w-full h-full rounded-full flex items-center justify-center">
+                <!-- Icono Play -->
+                <svg id="svgPlay" class="w-6 h-6 sm:w-7 sm:h-7 fill-current ml-0.5 text-emerald-400 transition-transform" viewBox="0 0 24 24">
+                  <path d="M7 4C7 3.1 8 2.5 8.8 3l12 7.2c.8.5.8 1.7 0 2.2l-12 7.2c-.8.5-1.8-.1-1.8-1.1V4z" stroke-linejoin="round" />
+                </svg>
+                <!-- Icono Pause -->
+                <svg id="svgPause" class="w-6 h-6 sm:w-7 sm:h-7 fill-current text-emerald-400 hidden transition-transform" viewBox="0 0 24 24">
+                  <rect x="5" y="3.5" width="4.5" height="17" rx="2.25" />
+                  <rect x="14.5" y="3.5" width="4.5" height="17" rx="2.25" />
+                </svg>
+              </div>
+            </button>
+            <span class="text-[9px] font-mono font-black uppercase text-slate-300 mt-1 tracking-wider">PLAY</span>
           </div>
 
         </div>
 
         <!-- 3. ESQUINAS INFERIORES:
              - ABAJO IZQUIERDA: EJERCICIO CON SU NÚMERO Y BARRA SEGMENTADA (TITANIO ORO)
-             - ABAJO CENTRO: BOTÓN PLAY GIGANTE TITANIO TACTILE PRECISION
-             - ABAJO DERECHA: RONDAS CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL) -->
-        <div class="w-full flex items-end justify-between z-20 pb-1">
+             - ABAJO DERECHA: RONDAS CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL)
+             - AUTO-OCULTABLES TRAS 3.5 SEGUNDOS DE INACTIVIDAD -->
+        <div id="bottomDockControls" class="idle-fade w-full flex items-end justify-between z-20 pb-0.5">
           
           <!-- ESQUINA INFERIOR IZQUIERDA: RECUADRO EJERCICIO -->
           <div class="flex items-center gap-2.5">
             <!-- RECUADRO TITANIO ORO -->
-            <div class="w-[96px] sm:w-[102px] h-[74px] sm:h-[78px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
+            <div class="w-[94px] sm:w-[100px] h-[72px] sm:h-[76px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
               <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[38px] sm:text-[42px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
+                <span class="font-exercise text-[38px] sm:text-[40px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
                 <span class="text-xs sm:text-sm font-black font-mono text-yellow-300 self-end mb-2">/6</span>
               </div>
               <!-- Micro-barra segmentada -->
@@ -364,26 +405,16 @@
             <!-- Textos descriptivos -->
             <div class="flex flex-col text-left">
               <span class="text-[10px] sm:text-[11px] font-black uppercase text-yellow-300 tracking-wider">EJERCICIO</span>
-              <span class="text-xs font-bold text-slate-200 truncate max-w-[140px]" id="bottomExName">Elevaciones Frontales</span>
+              <span class="text-xs font-bold text-slate-200 truncate max-w-[150px]" id="bottomExName">Elevaciones Frontales</span>
               <span class="text-[9px] text-yellow-400/80 font-mono font-bold">Estación 1 de 6</span>
             </div>
           </div>
 
-          <!-- ABAJO CENTRO: BOTÓN PLAY GIGANTE TACTILE PRECISION -->
-          <div class="flex flex-col items-center justify-center -mb-0.5">
-            <button onclick="toggleTimer()" id="btnPlayMaster" class="titanium-play-outer w-[92px] h-[92px] rounded-full p-2 flex items-center justify-center cursor-pointer active:scale-90 transition shadow-2xl" title="Iniciar / Pausar">
-              <div class="titanium-play-inner w-full h-full rounded-full flex items-center justify-center">
-                <!-- Icono Play -->
-                <svg id="svgPlay" class="w-10 h-10 fill-current ml-1 text-emerald-400" viewBox="0 0 24 24">
-                  <path d="M7 4C7 3.1 8 2.5 8.8 3l12 7.2c.8.5.8 1.7 0 2.2l-12 7.2c-.8.5-1.8-.1-1.8-1.1V4z" stroke-linejoin="round" />
-                </svg>
-                <!-- Icono Pause -->
-                <svg id="svgPause" class="w-10 h-10 fill-current text-emerald-400 hidden" viewBox="0 0 24 24">
-                  <rect x="5" y="3.5" width="4.5" height="17" rx="2.25" />
-                  <rect x="14.5" y="3.5" width="4.5" height="17" rx="2.25" />
-                </svg>
-              </div>
-            </button>
+          <!-- AVISO DE TOQUE EN FOCO LIMPIO (APARECE SOLO CUANDO ESTÁ OCULTO) -->
+          <div id="touchWakeHint" class="hidden text-center pb-1">
+            <span class="text-[10px] font-bold text-white/50 bg-black/40 px-3 py-1 rounded-full backdrop-blur-sm border border-white/10 animate-pulse">
+              Toca la pantalla para mostrar controles
+            </span>
           </div>
 
           <!-- ESQUINA INFERIOR DERECHA: RECUADRO RONDAS -->
@@ -395,9 +426,9 @@
             </div>
 
             <!-- RECUADRO TITANIO AZUL -->
-            <div class="w-[96px] sm:w-[102px] h-[74px] sm:h-[78px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
+            <div class="w-[94px] sm:w-[100px] h-[72px] sm:h-[76px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
               <div class="flex items-center justify-center gap-1 pb-1">
-                <span class="font-exercise text-[38px] sm:text-[42px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
+                <span class="font-exercise text-[38px] sm:text-[40px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
                 <span class="text-xs sm:text-sm font-black font-mono text-blue-300 self-end mb-2">/3</span>
               </div>
               <!-- Puntos LED -->
@@ -424,27 +455,27 @@
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-300">
       <div class="space-y-1 text-center sm:text-left">
         <span class="font-black text-white text-xs uppercase flex items-center gap-1.5 justify-center sm:justify-start">
-          <span>✨</span>
-          <span>Características del Modelo 1 Actualizado:</span>
+          <span>🎯</span>
+          <span>Novedades del Modelo 1 Refinado:</span>
         </span>
-        <p class="text-[11px] text-slate-400">
-          • El borde del temporizador son los <strong>bordes exteriores del teléfono</strong> y se va desiluminando con el tiempo.<br>
-          • Se mantiene el <strong>fondo original en verde</strong> (Trabajo), <strong>amarillo</strong> (Descanso), <strong>rojo</strong> (Descanso de ronda) y <strong>azul</strong> (Prep).<br>
-          • Los números ahora son <strong>colosales (185px - 220px)</strong>, legibles a cualquier distancia sin marcos que estorben.<br>
-          • <strong>Abajo Izquierda:</strong> Ejercicio (1/6) • <strong>Abajo Derecha:</strong> Rondas (1/3) • <strong>Abajo Centro:</strong> Botón Play Gigante.
+        <p class="text-[11px] text-slate-400 leading-relaxed">
+          1. <strong>Play/Pause más compacto</strong> y situado a la <strong>derecha</strong> del timer.<br>
+          2. <strong>Dibujo del ejercicio</strong> situado a la <strong>izquierda</strong> del timer.<br>
+          3. <strong>Números colosales (hasta 250px)</strong> en el centro sin nada debajo que los tape.<br>
+          4. <strong>Auto-ocultación a los 3.5 segundos:</strong> Los controles, el dibujo y las esquinas se desvanecen suavemente, dejando la pantalla en foco absoluto con los números gigantes y el borde láser perimetral. Cualquier toque restaura la interfaz al instante.
         </p>
       </div>
 
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="toggleTimer()" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition flex items-center gap-1.5">
-          <span>▶️ Probar Cuenta Atrás</span>
+        <button onclick="toggleTimer()" class="px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg active:scale-95 transition flex items-center gap-1.5">
+          <span>▶️ Probar Play/Pause</span>
         </button>
       </div>
     </div>
   </footer>
 
   <!-- ==============================================================
-       LÓGICA INTERACTIVA DEL TEMPORIZADOR Y CÁLCULO PERIMETRAL EXACTO
+       LÓGICA INTERACTIVA DEL TEMPORIZADOR, AUTO-HIDE Y LÁSER PERIMETRAL
        ============================================================== -->
   <script>
     const EXERCISES = [
@@ -453,28 +484,32 @@
         material: "MANCUERNAS",
         matBadge: "🏋️ MANCUERNAS",
         matColor: "bg-blue-600",
-        type: "FUERZA"
+        type: "FUERZA",
+        svg: `<svg class=\"w-full h-full p-1\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 36 L36 44 M50 36 L50 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M50 58 L42 90 M50 58 L58 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 36 L24 38 M50 36 L76 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M50 36 L50 20\" stroke=\"#f59e0b\" stroke-width=\"2\" stroke-linecap=\"round\"/></g></svg>`
       },
       {
         name: "SENTADILLA A SILLA",
         material: "SILLA",
         matBadge: "🪑 SILLA",
         matColor: "bg-indigo-600",
-        type: "FUERZA"
+        type: "FUERZA",
+        svg: `<svg class=\"w-full h-full p-1\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><rect x=\"62\" y=\"66\" width=\"20\" height=\"24\" rx=\"3\" fill=\"#334155\"/><circle cx=\"46\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M46 28 L46 58\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M46 58 L42 90 M46 58 L50 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 36 L32 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><rect x=\"62\" y=\"66\" width=\"20\" height=\"24\" rx=\"3\" fill=\"#334155\"/><path d=\"M48 64 L62 66\" stroke=\"#f59e0b\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/><circle cx=\"44\" cy=\"34\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M44 40 L48 64\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M48 64 L34 68 L34 90\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/></g></svg>`
       },
       {
         name: "REMO CON BANDA",
         material: "BANDA ELÁSTICA",
         matBadge: "🎗️ BANDA",
         matColor: "bg-emerald-600",
-        type: "FUERZA"
+        type: "FUERZA",
+        svg: `<svg class=\"w-full h-full p-1\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L44 90 M46 56 L48 90\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L66 38\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M66 35 L66 41\" stroke=\"#10b981\" stroke-width=\"3.5\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><circle cx=\"46\" cy=\"20\" r=\"5.5\" fill=\"#f8fafc\"/><path d=\"M46 26 L46 56\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M46 56 L36 90 M46 56 L64 88\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/><path d=\"M46 34 L34 40 L44 44\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M44 42 L72 38\" stroke=\"#10b981\" stroke-width=\"4\" stroke-linecap=\"round\"/><circle cx=\"72\" cy=\"38\" r=\"3\" fill=\"#047857\"/><path d=\"M58 36 L42 36 M45 33 L41 36 L45 39\" stroke=\"#f59e0b\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></g></svg>`
       },
       {
         name: "SWING CON KETTLEBELL",
         material: "KETTLEBELL",
         matBadge: "🔔 KETTLEBELL",
         matColor: "bg-red-600",
-        type: "CARDIO"
+        type: "CARDIO",
+        svg: `<svg class=\"w-full h-full p-1\" viewBox=\"0 0 100 100\" fill=\"none\"><g class=\"gif-step1\"><circle cx=\"42\" cy=\"72\" r=\"7\" fill=\"#ef4444\"/><circle cx=\"36\" cy=\"28\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M38 35 L48 52\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M48 52 L36 78 L34 94 M48 52 L30 78 L26 94\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M44 42 L42 66\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g><g class=\"gif-step2\"><circle cx=\"78\" cy=\"42\" r=\"8\" fill=\"#ef4444\"/><circle cx=\"50\" cy=\"22\" r=\"6\" fill=\"#f8fafc\"/><path d=\"M50 28 L50 56\" stroke=\"#f8fafc\" stroke-width=\"5\" stroke-linecap=\"round\"/><path d=\"M50 56 L44 92 M50 56 L56 92\" stroke=\"#f8fafc\" stroke-width=\"4.5\" stroke-linecap=\"round\"/><path d=\"M50 36 L72 42\" stroke=\"#f8fafc\" stroke-width=\"4.2\" stroke-linecap=\"round\"/></g></svg>`
       }
     ];
 
@@ -486,7 +521,55 @@
     let timerInterval = null;
     let laserPerimeterLength = 0;
 
-    // Inicializar y recalcular el perímetro exacto de los bordes del teléfono
+    // Control de inactividad / auto-ocultar (como en la app original)
+    let idleTimer = null;
+    let isUiHidden = false;
+
+    function resetIdleTimer() {
+      if (idleTimer) clearTimeout(idleTimer);
+      showUiElements();
+      idleTimer = setTimeout(hideUiElements, 3500);
+    }
+
+    function hideUiElements() {
+      const topBar = document.getElementById('topBarControls');
+      const bottomDock = document.getElementById('bottomDockControls');
+      const leftDrawing = document.getElementById('exerciseDrawingBox');
+      const rightPlay = document.getElementById('playControlBox');
+      const touchHint = document.getElementById('touchWakeHint');
+
+      [topBar, bottomDock, leftDrawing, rightPlay].forEach(el => {
+        if (el) el.classList.add('idle-hidden');
+      });
+
+      if (touchHint) touchHint.classList.remove('hidden');
+      isUiHidden = true;
+    }
+
+    function showUiElements() {
+      const topBar = document.getElementById('topBarControls');
+      const bottomDock = document.getElementById('bottomDockControls');
+      const leftDrawing = document.getElementById('exerciseDrawingBox');
+      const rightPlay = document.getElementById('playControlBox');
+      const touchHint = document.getElementById('touchWakeHint');
+
+      [topBar, bottomDock, leftDrawing, rightPlay].forEach(el => {
+        if (el) el.classList.remove('idle-hidden');
+      });
+
+      if (touchHint) touchHint.classList.add('hidden');
+      isUiHidden = false;
+    }
+
+    function triggerImmediateIdleHide() {
+      hideUiElements();
+    }
+
+    function handleScreenActivity(e) {
+      resetIdleTimer();
+    }
+
+    // Inicializar y recalcular el contorno perimetral exacto
     function updatePerimeterMetrics() {
       const container = document.getElementById('phoneScreen');
       const trackRect = document.getElementById('screenTrackRect');
@@ -507,46 +590,44 @@
         el.setAttribute('rx', rx);
       });
 
-      // Calcular longitud geométrica real del perímetro con esquinas redondeadas
-      // Perímetro = 2 * (w + h) - 8 * r + 2 * PI * r
       laserPerimeterLength = Math.ceil((2 * (width + height)) - (8 * rx) + (2 * Math.PI * rx));
       laserRect.style.strokeDasharray = `${laserPerimeterLength} ${laserPerimeterLength}`;
       updateLaserProgress();
     }
 
-    // Actualizar la desiluminación del borde perimetral
     function updateLaserProgress() {
       const laserRect = document.getElementById('screenLaserRect');
       if (!laserRect || laserPerimeterLength <= 0) return;
 
       const fraction = Math.max(0, Math.min(1, secondsLeft / totalSeconds));
-      // Al desiluminarse: offset crece desde 0 hasta el perímetro total
       const offset = laserPerimeterLength * (1 - fraction);
       laserRect.style.strokeDashoffset = offset;
     }
 
-    // Cambiar tamaño de los números
+    // Cambiar tamaño de los números (sin 'SEGUNDOS' ahora pueden ser descomunales)
     function setDigitsSize(sizeKey) {
       const digitsEl = document.getElementById('giantDigits');
-      const bNormal = document.getElementById('btnSizeNormal');
-      const bColosal = document.getElementById('btnSizeColosal');
-      const bMaximo = document.getElementById('btnSizeMaximo');
+      const b190 = document.getElementById('btnSize190');
+      const b225 = document.getElementById('btnSize225');
+      const b265 = document.getElementById('btnSize265');
 
-      [bNormal, bColosal, bMaximo].forEach(b => b.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white");
+      [b190, b225, b265].forEach(b => {
+        if (b) b.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white";
+      });
 
-      if (sizeKey === 'normal') {
-        digitsEl.className = "text-[160px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_12px_40px_rgba(0,0,0,0.95)] transition-all duration-200";
-        bNormal.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
-      } else if (sizeKey === 'colosal') {
-        digitsEl.className = "text-[185px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)] transition-all duration-200";
-        bColosal.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
-      } else if (sizeKey === 'maximo') {
-        digitsEl.className = "text-[220px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_20px_60px_rgba(0,0,0,1)] transition-all duration-200";
-        bMaximo.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      if (sizeKey === '190') {
+        digitsEl.className = "text-[190px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_16px_50px_rgba(0,0,0,0.95)] transition-all duration-200";
+        if (b190) b190.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      } else if (sizeKey === '225') {
+        digitsEl.className = "text-[225px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-all duration-200";
+        if (b225) b225.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
+      } else if (sizeKey === '265') {
+        digitsEl.className = "text-[265px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_24px_70px_rgba(0,0,0,1)] transition-all duration-200";
+        if (b265) b265.className = "px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md";
       }
     }
 
-    // Cambiar de fase manteniendo los fondos de color originales
+    // Cambiar de fase
     function setPhase(phaseColor, phaseName, durSeconds) {
       document.body.className = `bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-500 phase-${phaseColor} select-none`;
       secondsLeft = durSeconds;
@@ -556,16 +637,20 @@
       if (p1) p1.innerText = phaseName;
 
       updateUI();
+      resetIdleTimer();
     }
 
     // Pasar de ejercicio
     function skipExercise(delta) {
       currentExIdx = (currentExIdx + delta + EXERCISES.length) % EXERCISES.length;
       updateUI();
+      resetIdleTimer();
     }
 
-    // Alternar Play / Pause
-    function toggleTimer() {
+    // Play / Pause
+    function toggleTimer(e) {
+      if (e) e.stopPropagation();
+      resetIdleTimer();
       isRunning = !isRunning;
       const playSvg = document.getElementById('svgPlay');
       const pauseSvg = document.getElementById('svgPause');
@@ -579,7 +664,6 @@
             secondsLeft--;
             updateUI();
           } else {
-            // Cambio de fase simulado al agotarse el tiempo
             if (totalSeconds === 30) {
               setPhase('amarillo', 'DESCANSO', 15);
             } else {
@@ -595,7 +679,7 @@
       }
     }
 
-    // Alternar entre modo marco iPhone y pantalla completa
+    // Alternar marco iPhone
     function togglePhoneFrame() {
       const container = document.getElementById('landscapeContainer');
       const island = document.getElementById('islandEl');
@@ -614,24 +698,22 @@
       }
 
       setTimeout(updatePerimeterMetrics, 100);
+      resetIdleTimer();
     }
 
-    // Actualizar elementos de la interfaz
+    // Actualizar UI
     function updateUI() {
       const ex = EXERCISES[currentExIdx];
       const digitsStr = secondsLeft < 10 ? `0${secondsLeft}` : `${secondsLeft}`;
 
-      // Dígitos masivos
       const digitsEl = document.getElementById('giantDigits');
       if (digitsEl) digitsEl.innerText = digitsStr;
 
-      // Nombres
       const topTitle = document.getElementById('topExerciseTitle');
       const bottomName = document.getElementById('bottomExName');
       if (topTitle) topTitle.innerText = ex.name;
       if (bottomName) bottomName.innerText = ex.name;
 
-      // Material
       const badge = document.getElementById('matBadge');
       if (badge) {
         badge.innerText = ex.matBadge;
@@ -640,13 +722,16 @@
       const typeBadge = document.getElementById('exerciseTypeBadge');
       if (typeBadge) typeBadge.innerText = ex.type;
 
+      // Dibujo del ejercicio a la izquierda
+      const svgContainer = document.getElementById('svgStageContainer');
+      if (svgContainer) svgContainer.innerHTML = ex.svg;
+
       // Esquinas
       const curEx = document.getElementById('curExNumber');
       if (curEx) curEx.innerText = currentExIdx + 1;
       const curRound = document.getElementById('curRoundNumber');
       if (curRound) curRound.innerText = currentRound;
 
-      // Actualizar desiluminación del borde exterior
       updateLaserProgress();
     }
 
@@ -654,10 +739,13 @@
     window.addEventListener('DOMContentLoaded', () => {
       updatePerimeterMetrics();
       updateUI();
+      resetIdleTimer();
     });
 
-    // Arranque inicial inmediato
-    setTimeout(updatePerimeterMetrics, 50);
+    setTimeout(() => {
+      updatePerimeterMetrics();
+      resetIdleTimer();
+    }, 50);
   </script>
 </body>
 </html>
