@@ -199,7 +199,7 @@
       font-variant-numeric: tabular-nums;
       display: inline-block;
       user-select: none;
-      transform: translateY(20px);
+      transform: translateY(14px);
     }
 
     /* Animación de 2 pasos SVG para ejercicios */
@@ -241,10 +241,10 @@
       <button onclick="setDigitsSize('270')" id="btnSize270" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Tamaño grande">
         270px
       </button>
-      <button onclick="setDigitsSize('320')" id="btnSize320" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md" title="Recomendado: ocupa casi toda la pantalla sin espacios muertos">
-        320px (Recomendado)
+      <button onclick="setDigitsSize('320')" id="btnSize320" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="320px">
+        320px
       </button>
-      <button onclick="setDigitsSize('360')" id="btnSize360" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Mega: llena al límite horizontal y vertical">
+      <button onclick="setDigitsSize('360')" id="btnSize360" class="px-2.5 py-1 rounded-xl font-bold transition text-xs bg-emerald-500 text-slate-950 shadow-md" title="Mega (Favorito): llena al límite con perfecta armonía">
         360px (Mega)
       </button>
       <button onclick="setDigitsSize('400')" id="btnSize400" class="px-2.5 py-1 rounded-xl font-bold transition text-xs text-slate-400 hover:text-white" title="Máximo extremo">
@@ -290,7 +290,7 @@
       <!-- ==========================================================
            CONTENEDOR DE LA PANTALLA COMPLETA CON EL FONDO ORIGINAL
            ========================================================== -->
-      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden flex flex-col justify-between pt-4 pb-4 pl-12 pr-8 sm:pt-5 sm:pb-5 sm:pl-14 sm:pr-9 transition-all duration-500">
+      <div id="phoneScreen" class="w-full h-full phase-bg-immersion relative overflow-hidden transition-all duration-500">
         
         <!-- ========================================================
              BORDE DEL TEMPORIZADOR EXACTO POR LOS BORDES DEL TELÉFONO
@@ -316,8 +316,8 @@
         <div class="absolute -inset-10 pointer-events-none opacity-45 transition-all duration-500" 
              style="background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%);"></div>
 
-        <!-- 1. BARRA SUPERIOR (SIEMPRE VISIBLE - CON MARGEN CUIDADO AL BORDE) -->
-        <div id="topBarControls" class="flex items-center justify-between z-20 w-full pt-1 px-1 shrink-0">
+        <!-- 1. BARRA SUPERIOR (SIEMPRE VISIBLE - LIMPIA SIN TEXTO 'TRABAJO') -->
+        <div id="topBarControls" class="absolute top-4 sm:top-5 inset-x-0 px-9 sm:px-11 flex items-center justify-between z-20">
           
           <!-- Izquierda: Material Badge y Tipo -->
           <div class="flex items-center gap-1.5 shrink-0">
@@ -329,12 +329,9 @@
             </span>
           </div>
 
-          <!-- Centro: FASE ACTUAL + TÍTULO DEL EJERCICIO (SIEMPRE VISIBLE) -->
-          <div class="flex items-center justify-center gap-2 px-2 overflow-hidden">
-            <span id="topPhaseBadge" class="text-[10px] sm:text-[11px] font-black uppercase tracking-widest px-3.5 py-0.5 rounded-full shadow-md font-mono shrink-0" style="background-color: var(--phase-ring); color: #022c22;">
-              TRABAJO
-            </span>
-            <h3 id="topExerciseTitle" class="font-exercise text-sm sm:text-base text-white tracking-wider leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] truncate max-w-[340px] sm:max-w-[420px]">
+          <!-- Centro: TÍTULO DEL EJERCICIO (LIMPIO, SIN TEXTO 'TRABAJO') -->
+          <div class="flex items-center justify-center px-2 overflow-hidden">
+            <h3 id="topExerciseTitle" class="font-exercise text-base sm:text-lg text-white tracking-wider leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)] truncate max-w-[360px] sm:max-w-[460px]">
               ELEVACIONES FRONTALES
             </h3>
           </div>
@@ -350,91 +347,76 @@
           </div>
         </div>
 
-        <!-- 2. ZONA CENTRAL:
-             - IZQUIERDA: DIBUJO DEL EJERCICIO ANIMADO (SIEMPRE VISIBLE)
-             - CENTRO: NÚMEROS AÚN MÁS GRANDES DESPLAZADOS MÁS ABAJO
-             - DERECHA: BOTÓN PLAY/PAUSE COMPACTO (ÚNICO ELEMENTO QUE SE AUTO-OCULTA A LOS 3.5s) -->
-        <div class="flex-1 flex items-center justify-between relative my-auto z-20 w-full px-1 overflow-visible">
-          
-          <!-- COLUMNA IZQUIERDA: DIBUJO DEL EJERCICIO (SIEMPRE VISIBLE) -->
-          <div id="exerciseDrawingBox" class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-900/60 border border-white/15 backdrop-blur-md p-1 flex items-center justify-center shadow-2xl shrink-0 transition-transform">
-            <div id="svgStageContainer" class="w-full h-full flex items-center justify-center">
-              <!-- SVG animado de 2 pasos -->
-            </div>
+        <!-- 2. LATERAL IZQUIERDO: DIBUJO DEL EJERCICIO (ESPACIADO Y DISTRIBUIDO ARRIBA) -->
+        <div id="exerciseDrawingBox" class="absolute left-9 sm:left-11 top-[118px] sm:top-[124px] w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-slate-900/60 border border-white/15 backdrop-blur-md p-1 flex items-center justify-center shadow-2xl z-20 transition-transform">
+          <div id="svgStageContainer" class="w-full h-full flex items-center justify-center">
+            <!-- SVG animado de 2 pasos -->
           </div>
-
-          <!-- COLUMNA CENTRAL: DÍGITOS DESCOMUNALES QUE OCUPAN CASI TODO EL ESPACIO (DESPLAZADOS UN POCO MÁS ABAJO) -->
-          <div class="flex-1 flex items-center justify-center text-center px-1 my-auto overflow-visible">
-            <span id="giantDigits" class="text-[320px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_24px_70px_rgba(0,0,0,0.95)] transition-all duration-200 select-none">
-              30
-            </span>
-          </div>
-
-          <!-- COLUMNA DERECHA: PLAY/PAUSE COMPACTO DE TITANIO (SE AUTO-OCULTA A LOS 3.5s) -->
-          <div id="playControlBox" class="idle-fade w-20 sm:w-24 flex flex-col items-center justify-center shrink-0">
-            <button onclick="toggleTimer(event)" id="btnPlayCompact" class="titanium-play-compact w-14 h-14 sm:w-16 sm:h-16 rounded-full p-1.5 flex items-center justify-center cursor-pointer active:scale-90 transition shadow-2xl" title="Iniciar / Pausar">
-              <div class="titanium-play-compact-inner w-full h-full rounded-full flex items-center justify-center">
-                <!-- Icono Play -->
-                <svg id="svgPlay" class="w-6 h-6 sm:w-7 sm:h-7 fill-current ml-0.5 text-emerald-400 transition-transform" viewBox="0 0 24 24">
-                  <path d="M7 4C7 3.1 8 2.5 8.8 3l12 7.2c.8.5.8 1.7 0 2.2l-12 7.2c-.8.5-1.8-.1-1.8-1.1V4z" stroke-linejoin="round" />
-                </svg>
-                <!-- Icono Pause -->
-                <svg id="svgPause" class="w-6 h-6 sm:w-7 sm:h-7 fill-current text-emerald-400 hidden transition-transform" viewBox="0 0 24 24">
-                  <rect x="5" y="3.5" width="4.5" height="17" rx="2.25" />
-                  <rect x="14.5" y="3.5" width="4.5" height="17" rx="2.25" />
-                </svg>
-              </div>
-            </button>
-            <span class="text-[9px] font-mono font-black uppercase text-slate-300 mt-1 tracking-wider">PLAY</span>
-          </div>
-
         </div>
 
-        <!-- 3. ESQUINAS INFERIORES:
-             - ABAJO IZQUIERDA: EJERCICIO LATERAL CON SU NÚMERO Y BARRA SEGMENTADA (TITANIO ORO)
-             - ABAJO DERECHA: RONDAS LATERAL CON SU NÚMERO Y PUNTOS LED (TITANIO AZUL)
-             - DESPEJAN COMPLETAMENTE EL CENTRO PARA QUE EL NÚMERO TENGA TOTAL ESPACIO -->
-        <div id="bottomDockControls" class="w-full flex items-end justify-between z-20 pb-0.5 px-1 shrink-0">
-          
-          <!-- ESQUINA INFERIOR IZQUIERDA: EJERCICIO (LATERAL) -->
-          <div class="flex flex-col items-start gap-1 shrink-0">
-            <span class="text-[9px] sm:text-[10px] font-black uppercase text-amber-300 tracking-wider pl-1 drop-shadow">EJERCICIO 1 DE 6</span>
-            <!-- RECUADRO TITANIO ORO -->
-            <div class="w-[84px] sm:w-[92px] h-[62px] sm:h-[68px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
-              <div class="flex items-center justify-center gap-0.5 pb-1">
-                <span class="font-exercise text-[32px] sm:text-[36px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
-                <span class="text-xs font-black font-mono text-yellow-300 self-end mb-1.5">/6</span>
-              </div>
-              <!-- Micro-barra segmentada -->
-              <div class="absolute bottom-1 inset-x-0 flex items-center justify-center gap-1 px-1">
-                <span class="w-2 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
-                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
-              </div>
+        <!-- 3. LATERAL DERECHO: BOTÓN PLAY/PAUSE COMPACTO (SE AUTO-OCULTA TRAS 3.5s) -->
+        <div id="playControlBox" class="idle-fade absolute right-8 sm:right-10 top-[124px] sm:top-[130px] w-20 flex flex-col items-center justify-center z-20">
+          <button onclick="toggleTimer(event)" id="btnPlayCompact" class="titanium-play-compact w-14 h-14 sm:w-15 sm:h-15 rounded-full p-1.5 flex items-center justify-center cursor-pointer active:scale-90 transition shadow-2xl" title="Iniciar / Pausar">
+            <div class="titanium-play-compact-inner w-full h-full rounded-full flex items-center justify-center">
+              <!-- Icono Play -->
+              <svg id="svgPlay" class="w-6 h-6 sm:w-7 sm:h-7 fill-current ml-0.5 text-emerald-400 transition-transform" viewBox="0 0 24 24">
+                <path d="M7 4C7 3.1 8 2.5 8.8 3l12 7.2c.8.5.8 1.7 0 2.2l-12 7.2c-.8.5-1.8-.1-1.8-1.1V4z" stroke-linejoin="round" />
+              </svg>
+              <!-- Icono Pause -->
+              <svg id="svgPause" class="w-6 h-6 sm:w-7 sm:h-7 fill-current text-emerald-400 hidden transition-transform" viewBox="0 0 24 24">
+                <rect x="5" y="3.5" width="4.5" height="17" rx="2.25" />
+                <rect x="14.5" y="3.5" width="4.5" height="17" rx="2.25" />
+              </svg>
+            </div>
+          </button>
+          <span class="text-[9px] font-mono font-black uppercase text-slate-300 mt-1 tracking-wider">PLAY</span>
+        </div>
+
+        <!-- 4. CENTRO DE LA PANTALLA: DÍGITOS FORMATO MEGA (360px) DESPEJADOS -->
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden">
+          <span id="giantDigits" class="text-[360px] font-black font-mono tracking-tighter text-white digits-huge drop-shadow-[0_28px_80px_rgba(0,0,0,1)] transition-all duration-200 select-none">
+            30
+          </span>
+        </div>
+
+        <!-- 5. ESQUINAS INFERIORES: EJERCICIOS Y RONDAS
+             - Con espacio de sobra más arriba, NUNCA se salen por debajo (bottom: 24px)
+             - Pegadas a los laterales dejando el centro 100% libre al número MEGA -->
+        <!-- Abajo Izquierda: Ejercicio Lateral -->
+        <div id="bottomExWidget" class="absolute bottom-6 sm:bottom-7 left-9 sm:left-11 flex flex-col items-start gap-1 z-20">
+          <span class="text-[9px] sm:text-[10px] font-black uppercase text-amber-300 tracking-wider pl-1 drop-shadow" id="bottomStationLabel">EJERCICIO 1 DE 6</span>
+          <div class="w-[84px] sm:w-[90px] h-[58px] sm:h-[64px] rounded-2xl recuadro-titanium-ciclos relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Lista de ejercicios">
+            <div class="flex items-center justify-center gap-0.5 pb-1">
+              <span class="font-exercise text-[30px] sm:text-[34px] text-yellow-100 leading-none drop-shadow-[0_0_15px_rgba(245,158,11,0.85)]" id="curExNumber">1</span>
+              <span class="text-xs font-black font-mono text-yellow-300 self-end mb-1">/6</span>
+            </div>
+            <!-- Micro-barra segmentada -->
+            <div class="absolute bottom-1 inset-x-0 flex items-center justify-center gap-1 px-1">
+              <span class="w-2 h-1 rounded-full bg-amber-400 shadow-[0_0_6px_#f59e0b]"></span>
+              <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
+              <span class="w-2 h-1 rounded-full bg-slate-800 border border-white/10"></span>
             </div>
           </div>
+        </div>
 
-          <!-- ESQUINA INFERIOR DERECHA: RONDAS (LATERAL) -->
-          <div class="flex flex-col items-end gap-1 shrink-0">
-            <span class="text-[9px] sm:text-[10px] font-black uppercase text-blue-300 tracking-wider pr-1 drop-shadow">RONDA 1 DE 3</span>
-            <!-- RECUADRO TITANIO AZUL -->
-            <div class="w-[84px] sm:w-[92px] h-[62px] sm:h-[68px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
-              <div class="flex items-center justify-center gap-0.5 pb-1">
-                <span class="font-exercise text-[32px] sm:text-[36px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
-                <span class="text-xs font-black font-mono text-blue-300 self-end mb-1.5">/3</span>
-              </div>
-              <!-- Puntos LED -->
-              <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]"></span>
-                <span class="w-2 h-2 rounded-full bg-slate-800 border border-white/10"></span>
-                <span class="w-2 h-2 rounded-full bg-slate-800 border border-white/10"></span>
-              </div>
+        <!-- Abajo Derecha: Rondas Lateral -->
+        <div id="bottomRoundsWidget" class="absolute bottom-6 sm:bottom-7 right-8 sm:right-10 flex flex-col items-end gap-1 z-20">
+          <span class="text-[9px] sm:text-[10px] font-black uppercase text-blue-300 tracking-wider pr-1 drop-shadow" id="bottomRoundLabel">RONDA 1 DE 3</span>
+          <div class="w-[84px] sm:w-[90px] h-[58px] sm:h-[64px] rounded-2xl recuadro-titanium-rondas relative shadow-2xl overflow-hidden flex flex-col items-center justify-center cursor-pointer active:scale-95 transition" title="Ajustar rondas">
+            <div class="flex items-center justify-center gap-0.5 pb-1">
+              <span class="font-exercise text-[30px] sm:text-[34px] text-white leading-none drop-shadow-[0_0_15px_rgba(96,165,250,0.85)]" id="curRoundNumber">1</span>
+              <span class="text-xs font-black font-mono text-blue-300 self-end mb-1">/3</span>
+            </div>
+            <!-- Puntos LED -->
+            <div class="absolute bottom-1.5 inset-x-0 flex items-center justify-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_#60a5fa]"></span>
+              <span class="w-2 h-2 rounded-full bg-slate-800 border border-white/10"></span>
+              <span class="w-2 h-2 rounded-full bg-slate-800 border border-white/10"></span>
             </div>
           </div>
-
         </div>
 
       </div>
@@ -451,13 +433,13 @@
       <div class="space-y-1 text-center sm:text-left">
         <span class="font-black text-white text-xs uppercase flex items-center gap-1.5 justify-center sm:justify-start">
           <span>🎯</span>
-          <span>Novedades del Modelo 1 Refinado (Pantalla Llena sin Espacios):</span>
+          <span>Novedades del Modelo 1 Refinado (Formato MEGA sin Desbordes):</span>
         </span>
         <p class="text-[11px] text-slate-400 leading-relaxed">
-          1. <strong>Título, Tiempo Total, Ejercicio (1/6) y Rondas (1/3) SIEMPRE VISIBLES:</strong> Ni el título, ni el total de tiempo acumulado, ni los ejercicios ni las rondas se ocultan nunca.<br>
-          2. <strong>Dibujo de la técnica a la izquierda (siempre visible):</strong> Guía visual permanente sin interrupciones.<br>
-          3. <strong>Números Colosales (320px por defecto):</strong> Llenan prácticamente toda la pantalla vertical y horizontalmente, eliminando espacios muertos.<br>
-          4. <strong>Auto-ocultación inteligente a los 3.5s:</strong> Únicamente el botón de Play/Pause se desvanece suavemente para dar foco inmersivo absoluto. Un toque restaura el control de inmediato.
+          1. <strong>Formato MEGA (360px) por defecto:</strong> Dígitos colosales que llenan la pantalla con total impacto atlético.<br>
+          2. <strong>Sin texto "TRABAJO":</strong> La barra superior queda limpia y minimalista, con el título del ejercicio centrado.<br>
+          3. <strong>Ejercicios y Rondas reordenados en los laterales:</strong> Tienen espacio de sobra arriba y NUNCA se salen por debajo (margen seguro de +24px del borde inferior).<br>
+          4. <strong>Título y Tiempo Total SIEMPRE VISIBLES:</strong> Únicamente el botón Play/Pause se auto-oculta tras 3.5s.
         </p>
       </div>
 
@@ -713,8 +695,13 @@
       // Esquinas
       const curEx = document.getElementById('curExNumber');
       if (curEx) curEx.innerText = currentExIdx + 1;
+      const stLabel = document.getElementById('bottomStationLabel');
+      if (stLabel) stLabel.innerText = `EJERCICIO ${currentExIdx + 1} DE ${EXERCISES.length}`;
+
       const curRound = document.getElementById('curRoundNumber');
       if (curRound) curRound.innerText = currentRound;
+      const rndLabel = document.getElementById('bottomRoundLabel');
+      if (rndLabel) rndLabel.innerText = `RONDA ${currentRound} DE 3`;
 
       updateLaserProgress();
     }
