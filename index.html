@@ -520,10 +520,59 @@
       margin-right: auto !important;
     }
 
+    /* Borde láser perimetral horizontal (oculto en vertical) */
+    .phone-perimeter-svg {
+      display: none;
+    }
+    .phone-perimeter-laser {
+      transition: stroke-dashoffset 0.1s linear, stroke 0.4s ease;
+      will-change: stroke-dashoffset;
+    }
+
+    /* Transición suave para auto-ocultación de controles en inactividad */
+    .idle-fade {
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .idle-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transform: scale(0.92) !important;
+    }
+
+    /* Animaciones continuas de zoom y shockwave en dígitos horizontal */
+    @keyframes continuousFluidZoomDigits {
+      0% {
+        transform: translateY(14px) scale(1);
+        filter: drop-shadow(0 28px 80px rgba(0, 0, 0, 1)) drop-shadow(0 0 20px var(--phase-glow));
+      }
+      50% {
+        transform: translateY(14px) scale(1.08);
+        filter: drop-shadow(0 28px 80px rgba(0, 0, 0, 1)) drop-shadow(0 0 45px var(--phase-glow));
+      }
+      100% {
+        transform: translateY(14px) scale(1);
+        filter: drop-shadow(0 28px 80px rgba(0, 0, 0, 1)) drop-shadow(0 0 20px var(--phase-glow));
+      }
+    }
+
+    @keyframes shockwaveDigits {
+      0% { transform: translateY(14px) scale(1); }
+      24% { transform: translateY(14px) scale(0.92); filter: brightness(0.8); }
+      50% { transform: translateY(14px) scale(1.12); filter: brightness(1.6) drop-shadow(0 0 50px var(--phase-ring)); }
+      74% { transform: translateY(14px) scale(0.98); }
+      100% { transform: translateY(14px) scale(1); filter: brightness(1); }
+    }
+
     /* =========================================================================
-       MODO HORIZONTAL (LANDSCAPE) EN IPHONE PARA LA PESTAÑA DEL TIMER
+       MODO HORIZONTAL (LANDSCAPE) PARA LA PESTAÑA DEL TIMER Y MODALES
+       - Formato MEGA sin marcos circulares: reloj ocupa casi la totalidad del espacio
+       - Borde láser perimetral exacto por los bordes exteriores de la pantalla
+       - Fondo radial reactivo de inmersión (verde, amarillo o rojo)
+       - Play/Pause compacto en el lateral derecho (auto-oculta tras 3.5s)
+       - Título, Tiempo Total, Dibujo técnica, Ejercicios y Rondas SIEMPRE VISIBLES
+       - Recuadros de Ejercicio y Ronda MÁS GRANDES (124x86px, dígitos 52px)
        ========================================================================= */
-    @media (orientation: landscape) and (max-height: 550px) {
+    @media (orientation: landscape) and (max-height: 600px) {
       html, body, main, #deviceCard {
         height: 100dvh !important;
         max-height: 100dvh !important;
@@ -537,177 +586,372 @@
         display: none !important;
       }
 
+      /* 1. CONTENEDOR MAESTRO DE LA PANTALLA EN HORIZONTAL */
       #viewTimer:not(.hidden) {
-        display: grid !important;
-        grid-template-columns: minmax(300px, 340px) 1fr !important;
-        grid-template-rows: 36px 1fr auto !important;
-        grid-template-areas:
-          "top top"
-          "circle info"
-          "circle dock" !important;
+        display: block !important;
+        position: relative !important;
         width: 100% !important;
         max-width: 100% !important;
         height: 100dvh !important;
         min-height: 100dvh !important;
         max-height: 100dvh !important;
-        padding-top: max(env(safe-area-inset-top, 0px), 0.2rem) !important;
-        padding-bottom: max(env(safe-area-inset-bottom, 0px), 0.25rem) !important;
-        padding-left: max(env(safe-area-inset-left, 0px) + 0.5rem, 1rem) !important;
-        padding-right: max(env(safe-area-inset-right, 0px) + 0.5rem, 1rem) !important;
-        gap: 0 1.25rem !important;
-        overflow: hidden !important;
-        align-items: center !important;
-        justify-content: stretch !important;
-      }
-
-      /* 1. Top bar compacto horizontal */
-      #m1TopBar {
-        grid-area: top !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-height: 32px !important;
-        height: 32px !important;
+        padding: 0 !important;
         margin: 0 !important;
-        padding: 0 0.5rem !important;
-      }
-      #m1LeftControls,
-      #m1RightControls {
-        padding: 0.15rem 0.4rem !important;
-        gap: 0.35rem !important;
-      }
-      #m1LeftControls button,
-      #m1RightControls button {
-        width: 28px !important;
-        height: 28px !important;
-        font-size: 11px !important;
-      }
-      #m1TotalCapsule {
-        padding: 0.2rem 0.6rem !important;
-      }
-      #m1Total {
-        font-size: 12px !important;
+        overflow: hidden !important;
+        background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%) !important;
       }
 
-      /* 2. Contenedor central se desglosa en el grid */
+      /* 2. LÁSER PERIMETRAL EN BORDES EXACTOS DEL TELÉFONO */
+      .phone-perimeter-svg {
+        display: block !important;
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        pointer-events: none !important;
+        z-index: 35 !important;
+      }
+
+      /* 3. CENTRO: DÍGITOS GIGANTES FORMATO MEGA (360px) */
       #m1CenterStage {
         display: contents !important;
       }
 
-      /* 3. Columna izquierda: Círculo Temporizador MÁS GRANDE */
       #m1CircleWrapper {
-        grid-area: circle !important;
-        grid-row: 2 / 4 !important;
-        width: min(285px, calc(100dvh - 44px)) !important;
-        height: min(285px, calc(100dvh - 44px)) !important;
-        margin: auto !important;
-        align-self: center !important;
-        justify-self: center !important;
-      }
-      #m1InnerDisc {
-        width: calc(100% - 24px) !important;
-        height: calc(100% - 24px) !important;
-      }
-      #m1Digits {
-        font-size: clamp(74px, 21vh, 100px) !important;
-        line-height: 1 !important;
-      }
-      #m1PhaseBadge {
-        font-size: 11px !important;
-        padding: 0.15rem 0.85rem !important;
-        margin-bottom: 0.25rem !important;
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        pointer-events: none !important;
+        z-index: 10 !important;
+        overflow: hidden !important;
+        transform: none !important;
       }
 
-      /* 4. Columna derecha - Arriba: Estadio del Ejercicio (Título arriba, Dibujo debajo) */
-      #m1ExerciseInfoBlock {
-        grid-area: info !important;
+      /* Ocultar círculo redondo, pista y anillos de choque en horizontal */
+      #m1CircleWrapper > svg,
+      #m1Radial,
+      .radial-track,
+      .circular-glow,
+      #phaseShockwaveRing {
+        display: none !important;
+      }
+
+      #m1AuraGlow {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        background: radial-gradient(circle at center 45%, var(--phase-glow) 0%, rgba(0,0,0,0) 72%) !important;
+        opacity: 0.45 !important;
+      }
+
+      #m1InnerDisc {
+        width: 100% !important;
+        height: 100% !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        align-self: center !important;
-        justify-self: center !important;
-        margin: 0 !important;
-        padding: 0.1rem 0 !important;
-        width: 100% !important;
-        max-width: 500px !important;
-        gap: 0.35rem !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
       }
-      /* Contenedor de Material y Título: orden 1 (ARRIBA) */
-      #m1ExerciseInfoBlock > div:last-child {
-        order: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        margin-top: 0 !important;
-        padding: 0 0.5rem !important;
+
+      /* Ocultar badge "TRABAJO" y texto "SEGUNDOS" */
+      #m1PhaseBadge,
+      #m1InnerDisc > span:last-child {
+        display: none !important;
       }
-      #m1Material {
-        font-size: 10px !important;
-        padding: 0.15rem 0.65rem !important;
-        margin-bottom: 0.2rem !important;
+
+      #m1Digits {
+        font-size: clamp(180px, 78vh, 360px) !important;
+        line-height: 0.74 !important;
+        font-variant-numeric: tabular-nums !important;
+        letter-spacing: -0.04em !important;
+        color: #ffffff !important;
+        filter: drop-shadow(0 28px 80px rgba(0, 0, 0, 1)) drop-shadow(0 0 24px var(--phase-glow)) !important;
+        transform: translateY(14px) !important;
+        user-select: none !important;
+        display: inline-block !important;
+        transition: all 0.2s ease !important;
       }
-      #m1Name {
-        font-size: clamp(1.05rem, 3.2vw, 1.35rem) !important;
-        line-height: 1.2 !important;
-        max-width: 440px !important;
-        text-align: center !important;
+
+      /* Zoom continuo fluido sobre los dígitos en horizontal */
+      #m1CircleWrapper.animate-fluid-zoom {
+        animation: none !important;
       }
-      /* Dibujo SVG animado: orden 2 (DEBAJO DEL TÍTULO) */
+      #m1CircleWrapper.animate-fluid-zoom #m1Digits {
+        animation: continuousFluidZoomDigits 3.5s ease-in-out infinite !important;
+      }
+      #m1CircleWrapper.anim-shockwave-phase #m1Digits {
+        animation: shockwaveDigits 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards !important;
+      }
+
+      /* 4. LATERAL IZQUIERDO: DIBUJO ANIMADO DE LA TÉCNICA (SIEMPRE VISIBLE) */
+      #m1ExerciseInfoBlock {
+        display: contents !important;
+      }
+
       #m1SvgStage {
-        order: 2 !important;
-        width: 80px !important;
-        height: 80px !important;
+        position: absolute !important;
+        left: max(env(safe-area-inset-left, 0px) + 1.25rem, 2.25rem) !important;
+        top: calc(50% - 30px) !important;
+        transform: translateY(-50%) !important;
+        width: min(88px, 22vh) !important;
+        height: min(88px, 22vh) !important;
+        border-radius: 1.15rem !important;
+        background: rgba(15, 23, 42, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        padding: 0.25rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7) !important;
+        z-index: 25 !important;
+        pointer-events: auto !important;
         margin: 0 !important;
       }
       #m1SvgStage.hidden {
         display: none !important;
       }
 
-      /* 5. Columna derecha - Abajo: Dock de Telemetría (Ejercicio y Rondas un pelín más pequeños y más abajo, Play MÁS GRANDE) */
-      #m1BottomDock {
-        grid-area: dock !important;
+      /* 5. ARRIBA CENTRO: TÍTULO DEL EJERCICIO (SIEMPRE VISIBLE) */
+      #m1ExerciseInfoBlock > div:last-child {
+        position: absolute !important;
+        top: max(env(safe-area-inset-top, 0px) + 0.45rem, 0.75rem) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
         width: auto !important;
-        max-width: 100% !important;
-        margin: 0 auto !important;
-        padding: 0 0 0.15rem 0 !important;
-        align-self: end !important;
-        justify-self: center !important;
+        max-width: min(460px, 48vw) !important;
+        margin: 0 !important;
+        padding: 0 0.5rem !important;
         display: flex !important;
-        align-items: flex-end !important; /* Alineados hacia abajo junto a la base del play */
+        flex-direction: column !important;
+        align-items: center !important;
         justify-content: center !important;
-        gap: 0.75rem !important; /* Cercanos y armoniosos con el play */
+        z-index: 30 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
       }
-      /* Columnas laterales de Ejercicio y Rondas desplazadas un poco más abajo */
-      #m1BottomDock > div:first-child,
-      #m1BottomDock > div:last-child {
-        align-self: flex-end !important;
-        margin-bottom: 2px !important;
-        transform: translateY(4px) !important;
+      #m1Name {
+        font-size: clamp(14px, 2.5vw, 19px) !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        color: #ffffff !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+        overflow: hidden !important;
+        max-width: 100% !important;
+        letter-spacing: 0.05em !important;
+        filter: drop-shadow(0 2px 12px rgba(0,0,0,0.95)) !important;
       }
-      /* Recuadros de Ejercicio y Rondas un pelín más pequeños */
-      .recuadro-titanium-ciclos,
-      .recuadro-titanium-rondas {
-        width: 90px !important;
-        height: 70px !important;
-        border-radius: 0.95rem !important;
+
+      /* 6. ARRIBA IZQUIERDA: MATERIAL BADGE (SE AUTO-OCULTA EN INACTIVIDAD) */
+      #m1Material {
+        position: absolute !important;
+        left: max(env(safe-area-inset-left, 0px) + 1.25rem, 2.25rem) !important;
+        top: max(env(safe-area-inset-top, 0px) + 0.45rem, 0.75rem) !important;
+        margin: 0 !important;
+        z-index: 30 !important;
+        font-size: 10px !important;
+        padding: 0.25rem 0.75rem !important;
+        border-radius: 9999px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+        white-space: nowrap !important;
       }
-      .recuadro-titanium-ciclos span.font-exercise,
-      .recuadro-titanium-rondas span.font-exercise {
-        font-size: 35px !important;
+
+      /* 7. ARRIBA DERECHA: TIEMPO TOTAL (SIEMPRE VISIBLE) + CONTROLES (AUTO-OCULTABLES) */
+      #m1TopBar {
+        position: absolute !important;
+        top: max(env(safe-area-inset-top, 0px) + 0.45rem, 0.75rem) !important;
+        right: max(env(safe-area-inset-right, 0px) + 1.25rem, 2.25rem) !important;
+        left: auto !important;
+        width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        z-index: 30 !important;
+        display: flex !important;
+        flex-direction: row-reverse !important;
+        align-items: center !important;
+        gap: 0.4rem !important;
+        pointer-events: auto !important;
       }
-      #m1BottomDock span.uppercase {
-        font-size: 9.5px !important;
+      #m1RightControls {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.35rem !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: none !important;
+      }
+      #m1TotalCapsule {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0.25rem 0.75rem !important;
+        border-radius: 9999px !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.6) !important;
+      }
+      #m1Total {
+        font-size: 13px !important;
+        color: #34d399 !important;
+        font-weight: 900 !important;
         letter-spacing: 0.05em !important;
       }
-      /* Botón Play MÁS GRANDE */
+      #m1LeftControls {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.25rem !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        padding: 0.15rem 0.35rem !important;
+        border-radius: 9999px !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.6) !important;
+      }
+      #m1LeftControls button,
+      #m1RightControls button {
+        width: 30px !important;
+        height: 30px !important;
+        font-size: 11px !important;
+      }
+      #m1CenterTimeFocus {
+        display: none !important;
+      }
+
+      /* 8. DOCK INFERIOR DESGLOSADO */
+      #m1BottomDock {
+        display: contents !important;
+      }
+
+      /* Abajo Izquierda: Ejercicio Pod MÁS GRANDE (SIEMPRE VISIBLE) */
+      #m1BottomDock > div:first-child {
+        position: absolute !important;
+        left: max(env(safe-area-inset-left, 0px) + 1.25rem, 2.25rem) !important;
+        bottom: max(env(safe-area-inset-bottom, 0px) + 0.65rem, 1.35rem) !important;
+        margin: 0 !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.25rem !important;
+        z-index: 25 !important;
+        pointer-events: auto !important;
+      }
+      #m1BottomDock > div:first-child .recuadro-titanium-ciclos {
+        width: 124px !important;
+        height: 86px !important;
+        border-radius: 1.15rem !important;
+      }
+      #m1BottomDock > div:first-child .recuadro-titanium-ciclos span.font-exercise {
+        font-size: 52px !important;
+        line-height: 1 !important;
+      }
+      #m1BottomDock > div:first-child .recuadro-titanium-ciclos #m1TotalCycles {
+        font-size: 15px !important;
+        margin-bottom: 0.5rem !important;
+      }
+      #m1BottomDock > div:first-child #m1ExerciseSegments {
+        bottom: 0.5rem !important;
+        gap: 0.25rem !important;
+      }
+      #m1BottomDock > div:first-child #m1ExerciseSegments span {
+        width: 12px !important;
+        height: 5px !important;
+      }
+      #m1BottomDock > div:first-child > button {
+        font-size: 11px !important;
+        letter-spacing: 0.08em !important;
+        padding-left: 0.25rem !important;
+      }
+
+      /* Abajo Derecha: Rondas Pod MÁS GRANDE (SIEMPRE VISIBLE) */
+      #m1BottomDock > div:last-child {
+        position: absolute !important;
+        right: max(env(safe-area-inset-right, 0px) + 1.25rem, 2.25rem) !important;
+        bottom: max(env(safe-area-inset-bottom, 0px) + 0.65rem, 1.35rem) !important;
+        margin: 0 !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        gap: 0.25rem !important;
+        z-index: 25 !important;
+        pointer-events: auto !important;
+      }
+      #m1BottomDock > div:last-child .recuadro-titanium-rondas {
+        width: 124px !important;
+        height: 86px !important;
+        border-radius: 1.15rem !important;
+      }
+      #m1BottomDock > div:last-child .recuadro-titanium-rondas span.font-exercise {
+        font-size: 52px !important;
+        line-height: 1 !important;
+      }
+      #m1BottomDock > div:last-child .recuadro-titanium-rondas #m1TotalRounds {
+        font-size: 15px !important;
+        margin-bottom: 0.5rem !important;
+      }
+      #m1BottomDock > div:last-child #m1RoundLeds {
+        bottom: 0.5rem !important;
+        gap: 0.5rem !important;
+      }
+      #m1BottomDock > div:last-child #m1RoundLeds span {
+        width: 11px !important;
+        height: 11px !important;
+      }
+      #m1BottomDock > div:last-child > button {
+        font-size: 11px !important;
+        letter-spacing: 0.08em !important;
+        padding-right: 0.25rem !important;
+      }
+
+      /* Lateral Derecho: Botón Play Compacto Táctil (SE AUTO-OCULTA EN INACTIVIDAD) */
+      #m1BottomDock > div:nth-child(2) {
+        position: absolute !important;
+        right: max(env(safe-area-inset-right, 0px) + 1.25rem, 2.25rem) !important;
+        top: calc(50% - 30px) !important;
+        transform: translateY(-50%) !important;
+        margin: 0 !important;
+        z-index: 25 !important;
+        pointer-events: auto !important;
+      }
       #m1PlayBtn.titanium-play-outer {
-        width: 108px !important;
-        height: 108px !important;
-        padding: 0.55rem !important;
+        width: 62px !important;
+        height: 62px !important;
+        padding: 0.25rem !important;
+        border-width: 2px !important;
+        box-shadow: 0 0 24px var(--play-glow), 0 10px 24px -4px rgba(0, 0, 0, 0.95) !important;
       }
       #m1PlayBtn svg {
-        width: 48px !important;
-        height: 48px !important;
+        width: 28px !important;
+        height: 28px !important;
+      }
+
+      /* Ocultar branding Sergio Fit en horizontal para máxima limpieza */
+      #viewTimer > div.pointer-events-none.select-none {
+        display: none !important;
       }
 
       /* =========================================================================
@@ -1086,12 +1330,25 @@
       <section id="viewTimer" class="flex-1 flex flex-col px-3 sm:px-5 justify-between items-center relative overflow-hidden z-10 w-full max-w-xl mx-auto h-full min-h-[100dvh]" style="padding-top: max(env(safe-area-inset-top, 0px) + 0.75rem, 3.5rem); padding-bottom: max(env(safe-area-inset-bottom, 0px) + 0.5rem, 1.25rem);">
         <!-- CAPA VISUAL DE FUNDIDO GLASS PARA CAMBIO DE FASE -->
         <div id="phaseGlassOverlay" class="absolute inset-0 pointer-events-none z-40 opacity-0"></div>
+
+        <!-- LÁSER PERIMETRAL EN MODO HORIZONTAL (BORDES EXTERIORES DEL TELÉFONO) -->
+        <svg class="phone-perimeter-svg pointer-events-none z-30" id="perimeterSvg">
+          <rect id="screenTrackRect" x="5" y="5" width="100%" height="100%" rx="34" 
+                fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="7" />
+          <rect id="screenLaserRect" x="5" y="5" width="100%" height="100%" rx="34" 
+                fill="none" 
+                stroke="var(--phase-ring)" 
+                stroke-width="7" 
+                stroke-linecap="round"
+                class="phone-perimeter-laser"
+                style="filter: drop-shadow(0 0 16px var(--phase-glow)) drop-shadow(0 0 4px var(--phase-ring));" />
+        </svg>
         
         <!-- 1. TOP BAR AUTOHIDE & FOCUS MODE -->
         <div id="m1TopBar" class="w-full max-w-sm sm:max-w-md mx-auto flex items-center justify-between z-30 shrink-0 px-2 pt-0.5 mb-1 relative min-h-[44px]">
           
-          <!-- DOCK IZQUIERDO: CONTROLES DE AUDIO / NAVEGACIÓN -->
-          <div id="m1LeftControls" class="relative flex items-center gap-1 bg-black/50 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg transition-all duration-500 ease-out">
+          <!-- DOCK IZQUIERDO: CONTROLES DE AUDIO / NAVEGACIÓN (SE AUTO-OCULTAN EN HORIZONTAL) -->
+          <div id="m1LeftControls" class="idle-fade relative flex items-center gap-1 bg-black/50 border border-white/15 backdrop-blur-md p-1 rounded-full shadow-lg transition-all duration-500 ease-out">
             <button type="button" onclick="toggleVolumePopover(event)" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xs text-slate-200 hover:text-white transition-all active:scale-90" title="Ajustar Volumen y Silenciar">
               <span id="m1SoundIcon">🔊</span>
             </button>
@@ -1175,14 +1432,14 @@
               <span id="m1Total" class="font-mono font-black text-xs sm:text-sm text-white tracking-tight leading-none">14:25</span>
             </div>
 
-            <!-- BOTÓN LISTA DE EJERCICIOS EN VIVO -->
-            <button id="m1StationsListBtn" type="button" onclick="openActiveWorkoutListModal()" class="h-8 sm:h-9 px-2.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center gap-1 text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Ver y Editar Ejercicios del Circuito">
+            <!-- BOTÓN LISTA DE EJERCICIOS EN VIVO (SE AUTO-OCULTA EN HORIZONTAL) -->
+            <button id="m1StationsListBtn" type="button" onclick="openActiveWorkoutListModal()" class="idle-fade h-8 sm:h-9 px-2.5 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center gap-1 text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Ver y Editar Ejercicios del Circuito">
               <span class="text-xs sm:text-sm">📋</span>
               <span class="text-[10px] sm:text-[11px] font-black uppercase text-emerald-400">Lista</span>
             </button>
 
-            <!-- BOTÓN AJUSTES -->
-            <button id="m1SettingsBtn" onclick="setMainView('config')" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Configurar Entrenamiento">
+            <!-- BOTÓN AJUSTES (SE AUTO-OCULTA EN HORIZONTAL) -->
+            <button id="m1SettingsBtn" onclick="setMainView('config')" class="idle-fade w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/50 border border-white/15 backdrop-blur-md shadow-lg flex items-center justify-center text-slate-200 hover:text-white hover:border-emerald-500/50 hover:bg-emerald-500/10 transition-all duration-500 active:scale-90 shrink-0" title="Configurar Entrenamiento">
               <span class="text-sm sm:text-base">⚙️</span>
             </button>
           </div>
@@ -1233,7 +1490,7 @@
             </div>
 
             <div class="text-center px-2 shrink-0 -mt-1 sm:-mt-1.5">
-              <span id="m1Material" class="inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all">
+              <span id="m1Material" class="idle-fade inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all">
                 MANCUERNAS
               </span>
               <h3 id="m1Name" class="font-exercise text-lg sm:text-xl text-white tracking-wider leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)] transition-all max-w-[320px] mx-auto break-words">
@@ -1289,8 +1546,8 @@
 
           </div>
 
-          <!-- CENTRO: BOTÓN PLAY AÚN MÁS GRANDE (112px - 120px) TITANIUM TACTILE PRECISION -->
-          <div class="flex flex-col items-center justify-center shrink-0">
+          <!-- CENTRO: BOTÓN PLAY COMPACTO TÁCTIL (SE AUTO-OCULTA EN HORIZONTAL) -->
+          <div id="m1PlayCol" class="idle-fade flex flex-col items-center justify-center shrink-0">
             <button onclick="togglePlayPause()" id="m1PlayBtn" class="titanium-play-outer w-[112px] h-[112px] sm:w-[120px] sm:h-[120px] rounded-full p-2.5 flex items-center justify-center relative cursor-pointer outline-none focus:outline-none" title="Iniciar / Pausar Entrenamiento">
               
               <!-- Plato interior CNC con textura táctil y muescas de precisión -->
@@ -4645,34 +4902,74 @@
       if (popover && !popover.classList.contains('hidden')) {
         // No ocultar si el popover de volumen está abierto por el usuario
         if (topControlsTimer) clearTimeout(topControlsTimer);
-        topControlsTimer = setTimeout(hideTopControls, 4000);
+        topControlsTimer = setTimeout(hideTopControls, 3500);
         return;
       }
 
-      const left = document.getElementById('m1LeftControls');
-      const right = document.getElementById('m1RightControls');
-      const centerFocus = document.getElementById('m1CenterTimeFocus');
+      const isLandscape = window.matchMedia('(orientation: landscape)').matches;
 
-      if (left) {
-        left.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
-      }
-      if (right) {
-        right.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
-      }
-      if (centerFocus) {
-        centerFocus.classList.add('top-focus-visible');
-        centerFocus.classList.remove('opacity-0', 'pointer-events-none');
+      if (isLandscape) {
+        // MODO HORIZONTAL:
+        // Se ocultan tras 3.5s de inactividad:
+        // 1. Botón Play/Pause (#m1PlayCol)
+        // 2. Chapa de material ("mancuernas fuerza") (#m1Material)
+        // 3. Controles de navegación y audio (#m1LeftControls con ⏮, ⏭, ↺, 🔊)
+        // 4. Botones auxiliares (#m1StationsListBtn, #m1SettingsBtn)
+        // NUNCA se ocultan:
+        // - Título del ejercicio (#m1Name)
+        // - Tiempo Total (#m1TotalCapsule / #m1Total)
+        // - Recuadro de Ejercicio
+        // - Recuadro de Rondas
+        // - Dibujo animado (#m1SvgStage)
+        // - Dígitos colosales (#m1Digits)
+        // - Borde láser perimetral
+        const playCol = document.getElementById('m1PlayCol');
+        const mat = document.getElementById('m1Material');
+        const left = document.getElementById('m1LeftControls');
+        const listBtn = document.getElementById('m1StationsListBtn');
+        const setBtn = document.getElementById('m1SettingsBtn');
+
+        [playCol, mat, left, listBtn, setBtn].forEach(el => {
+          if (el) el.classList.add('idle-hidden');
+        });
+      } else {
+        // MODO VERTICAL (RETRATO): Comportamiento original
+        const left = document.getElementById('m1LeftControls');
+        const right = document.getElementById('m1RightControls');
+        const centerFocus = document.getElementById('m1CenterTimeFocus');
+
+        if (left) {
+          left.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
+        }
+        if (right) {
+          right.classList.add('top-controls-hidden', 'opacity-0', 'pointer-events-none');
+        }
+        if (centerFocus) {
+          centerFocus.classList.add('top-focus-visible');
+          centerFocus.classList.remove('opacity-0', 'pointer-events-none');
+        }
       }
       isTopControlsHidden = true;
     }
 
     function showTopControls() {
+      // Restaurar controles ocultos en horizontal
+      const playCol = document.getElementById('m1PlayCol');
+      const mat = document.getElementById('m1Material');
+      const listBtn = document.getElementById('m1StationsListBtn');
+      const setBtn = document.getElementById('m1SettingsBtn');
+
+      [playCol, mat, listBtn, setBtn].forEach(el => {
+        if (el) el.classList.remove('idle-hidden');
+      });
+
+      // Restaurar controles estándar
       const left = document.getElementById('m1LeftControls');
       const right = document.getElementById('m1RightControls');
       const centerFocus = document.getElementById('m1CenterTimeFocus');
 
       if (left) {
-        left.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none');
+        left.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none', 'idle-hidden');
       }
       if (right) {
         right.classList.remove('top-controls-hidden', 'opacity-0', 'pointer-events-none');
@@ -4683,6 +4980,49 @@
       }
       isTopControlsHidden = false;
     }
+
+    // =========================================================================
+    // LÁSER PERIMETRAL EN MODO HORIZONTAL (MEDIDAS Y AVANCE 60 FPS)
+    // =========================================================================
+    let laserPerimeterLength = 0;
+
+    function updatePerimeterMetrics() {
+      const container = document.getElementById('viewTimer');
+      const trackRect = document.getElementById('screenTrackRect');
+      const laserRect = document.getElementById('screenLaserRect');
+      if (!container || !laserRect || !trackRect) return;
+
+      const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+      if (!isLandscape) return;
+
+      const rect = container.getBoundingClientRect();
+      const strokeInset = 5;
+      const width = Math.max(100, Math.round(rect.width) - (strokeInset * 2));
+      const height = Math.max(100, Math.round(rect.height) - (strokeInset * 2));
+      const rx = Math.min(38, Math.round(height * 0.09));
+
+      [trackRect, laserRect].forEach(el => {
+        el.setAttribute('x', strokeInset);
+        el.setAttribute('y', strokeInset);
+        el.setAttribute('width', width);
+        el.setAttribute('height', height);
+        el.setAttribute('rx', rx);
+      });
+
+      laserPerimeterLength = Math.ceil((2 * (width + height)) - (8 * rx) + (2 * Math.PI * rx));
+      laserRect.style.strokeDasharray = `${laserPerimeterLength} ${laserPerimeterLength}`;
+      updateLaserProgress();
+    }
+
+    function updateLaserProgress() {
+      const laserRect = document.getElementById('screenLaserRect');
+      if (!laserRect || laserPerimeterLength <= 0 || phaseTotalTime <= 0) return;
+      const fraction = Math.max(0, Math.min(1, (phaseTotalTime - timeLeft) / phaseTotalTime));
+      laserRect.style.strokeDashoffset = laserPerimeterLength * fraction;
+    }
+
+    window.addEventListener('resize', updatePerimeterMetrics);
+    window.addEventListener('orientationchange', () => setTimeout(updatePerimeterMetrics, 150));
 
     // Reactivar controles ante cualquier interacción en el timer (toque, clic, movimiento)
     let lastUserActivityTime = 0;
@@ -4937,6 +5277,7 @@
       if (radialEl) {
         radialEl.style.strokeDashoffset = offset;
       }
+      updateLaserProgress();
 
       // 5. Tiempo total restante en la barra superior
       const totalSecRemaining = computeTotalRemainingSeconds();
@@ -4967,8 +5308,16 @@
         if (digitsEl) digitsEl.className = "text-[104px] sm:text-[126px] font-black font-mono tracking-tight text-white leading-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.95)] transition-all duration-200";
         if (m1InfoBlock) m1InfoBlock.className = "flex flex-col items-center justify-center shrink-0 mt-8 sm:mt-10 mb-0.5 transition-all duration-300";
         if (m1SvgStage) {
-          m1SvgStage.className = "hidden";
-          m1SvgStage.innerHTML = "";
+          const isLandscape = window.matchMedia('(orientation: landscape)').matches;
+          if (isLandscape) {
+            m1SvgStage.className = "w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center shrink-0 transition-all duration-300 ease-out";
+            m1SvgStage.innerHTML = nextEx.customPhoto
+              ? `<img src="${nextEx.customPhoto}" class="w-full h-full object-cover rounded-xl">`
+              : cleanExerciseSvg(getExerciseSVG(nextEx.id, nextEx.name, nextEx.materialKey));
+          } else {
+            m1SvgStage.className = "hidden";
+            m1SvgStage.innerHTML = "";
+          }
         }
         if (m1Material) {
           const isNextAero = (nextEx.type === 'AERÓBICO');
@@ -4978,9 +5327,11 @@
           } else {
             m1Material.innerText = `SIGUIENTE: ${nextMatTheme.emoji ? nextMatTheme.emoji + ' ' : ''}${nextEx.material.toUpperCase()}`;
           }
-          m1Material.className = isNextAero
+          const isHiddenNow = isTopControlsHidden && window.matchMedia('(orientation: landscape)').matches;
+          m1Material.className = "idle-fade " + (isNextAero
             ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-orange-500/30 border border-orange-400/50 text-orange-200 shadow mb-2 sm:mb-2.5 transition-all"
-            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600/30 border border-purple-400/50 text-purple-200 shadow mb-2 sm:mb-2.5 transition-all";
+            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600/30 border border-purple-400/50 text-purple-200 shadow mb-2 sm:mb-2.5 transition-all")
+            + (isHiddenNow ? " idle-hidden" : "");
         }
         if (m1Name) {
           m1Name.innerText = nextEx.name.toUpperCase();
@@ -5016,9 +5367,11 @@
           } else {
             m1Material.innerText = `${matTheme.emoji ? matTheme.emoji + ' ' : ''}${cur.material.toUpperCase()}`;
           }
-          m1Material.className = isCurAero
+          const isHiddenNow = isTopControlsHidden && window.matchMedia('(orientation: landscape)').matches;
+          m1Material.className = "idle-fade " + (isCurAero
             ? "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-orange-500 text-white shadow-md border border-orange-300/40 mb-2 sm:mb-2.5 transition-all"
-            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all";
+            : "inline-block text-[10px] sm:text-[11px] font-black uppercase tracking-wider px-3.5 py-1 rounded-full bg-purple-600 text-white shadow-md border border-purple-300/40 mb-2 sm:mb-2.5 transition-all")
+            + (isHiddenNow ? " idle-hidden" : "");
         }
         if (m1Name) {
           m1Name.innerText = cur.name.toUpperCase();
@@ -5108,6 +5461,12 @@
       const radialEl = document.getElementById('m1Radial');
       if (radialEl) {
         radialEl.style.strokeDashoffset = offset;
+      }
+
+      // Progreso láser perimetral 60 FPS en modo horizontal
+      const laserRect = document.getElementById('screenLaserRect');
+      if (laserRect && laserPerimeterLength > 0) {
+        laserRect.style.strokeDashoffset = laserPerimeterLength * fraction;
       }
 
       // Conteo de segundos y efectos por segundo
@@ -6413,6 +6772,7 @@
         }
         renderActiveUI();
         resetTopControlsTimer();
+        setTimeout(updatePerimeterMetrics, 50);
       } else if (v === 'stations') {
         if (viewT) viewT.classList.add('hidden');
         if (viewC) viewC.classList.add('hidden');
@@ -6629,6 +6989,7 @@
     generateRandomWorkout(false);
     applyTheme();
     resetTopControlsTimer();
+    updatePerimeterMetrics();
     requestWakeLock();
     setAudioSessionAmbient();
     changeVolume(appStore.volume !== undefined ? appStore.volume : 100);
